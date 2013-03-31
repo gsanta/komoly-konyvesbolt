@@ -59,7 +59,7 @@ public class TestActionBean extends BaseActionBean implements ActionBean {
 
 	@DefaultHandler
 	public Resolution addition() {
-		logger.info("log4j is működik");
+		logger.info("log4j is mukodik");
 		result = getNumberOne() + getNumberTwo();
 		return new ForwardResolution("index.jsp");
 	}
