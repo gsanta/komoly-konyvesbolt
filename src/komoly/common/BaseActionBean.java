@@ -4,7 +4,7 @@ import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 
 public abstract class BaseActionBean implements ActionBean {
-	private ActionBeanContext actionBeanContext;
+	private BaseActionBeanContext actionBeanContext;
 
 	public BaseActionBean() {
 		//		String homeDir = getContext().getServletContext().getRealPath("/");
@@ -13,11 +13,13 @@ public abstract class BaseActionBean implements ActionBean {
 		//		PropertyConfigurator.configure(propertiesFile.toString());
 	}
 
-	public ActionBeanContext getContext() {
+	@Override
+	public BaseActionBeanContext getContext() {
 		return actionBeanContext;
 	}
 
+	@Override
 	public void setContext(ActionBeanContext actionBeanContext) {
-		this.actionBeanContext = actionBeanContext;
+		this.actionBeanContext = (BaseActionBeanContext) actionBeanContext;
 	}
 }

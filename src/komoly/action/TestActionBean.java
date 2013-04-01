@@ -2,7 +2,6 @@ package komoly.action;
 
 import komoly.common.BaseActionBean;
 import net.sourceforge.stripes.action.ActionBean;
-import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
@@ -15,23 +14,19 @@ import org.apache.log4j.Logger;
  * @author Tim Fennell
  */
 public class TestActionBean extends BaseActionBean implements ActionBean {
-	private ActionBeanContext context;
 	private double numberOne;
 	private double numberTwo;
 	private double result;
 
 	/**
+	 * Main view
+	 */
+	private static final String VIEW = "/WEB-INF/web/test.jsp";
+
+	/**
 	 * LOGGER.
 	 */
 	private final Logger logger = Logger.getLogger(TestActionBean.class);
-
-	public ActionBeanContext getContext() {
-		return context;
-	}
-
-	public void setContext(ActionBeanContext context) {
-		this.context = context;
-	}
 
 	public double getNumberOne() {
 		return numberOne;
@@ -61,6 +56,6 @@ public class TestActionBean extends BaseActionBean implements ActionBean {
 	public Resolution addition() {
 		logger.info("log4j is mukodik");
 		result = getNumberOne() + getNumberTwo();
-		return new ForwardResolution("index.jsp");
+		return new ForwardResolution(VIEW);
 	}
 }
