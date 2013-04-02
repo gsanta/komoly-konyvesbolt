@@ -70,11 +70,7 @@ public class LoginInterceptor implements Interceptor {
 
 		final BaseActionBeanContext ctx = (BaseActionBeanContext) execContext
 				.getActionBeanContext();
-		System.out.println("nulljélkjélkjké: "
-				+ (ctx.getUser() == null)
-				+ "  "
-				+ !ALLOWED_ACTION_CLASSES_MAP.get(Role.VISITOR).contains(
-						execContext.getActionBean().getClass()));
+
 		if (ctx.getUser() == null
 				&& !ALLOWED_ACTION_CLASSES_MAP.get(Role.VISITOR).contains(
 						execContext.getActionBean().getClass())) {

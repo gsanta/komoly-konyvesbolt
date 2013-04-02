@@ -1,6 +1,9 @@
 package komoly.action;
 
+import komoly.bean.UserData;
 import komoly.common.BaseActionBean;
+import komoly.dao.UserDao;
+import komoly.dao.impl.UserDaoImpl;
 import komoly.utils.Role;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
@@ -19,10 +22,10 @@ public class LoginActionBean extends BaseActionBean {
 	private static final String VIEW = "/WEB-INF/web/login.jsp";
 
 	/**
-	 * The username.
+	 * The email.
 	 */
 	@Validate(required = true)
-	private String username;
+	private String email;
 
 	/**
 	 * The password.
@@ -30,19 +33,14 @@ public class LoginActionBean extends BaseActionBean {
 	@Validate(required = true)
 	private String password;
 
-	/**
-	 * @return the username
-	 */
-	public String getUsername() {
-		return username;
+	private UserDao userDao = new UserDaoImpl();
+
+	public String getEmail() {
+		return email;
 	}
 
-	/**
-	 * @param username
-	 *            the username to set
-	 */
-	public void setUsername(final String username) {
-		this.username = username;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	/**
@@ -81,8 +79,8 @@ public class LoginActionBean extends BaseActionBean {
 	 * @return to the main page.
 	 */
 	public Resolution login() {
-		getContext().setUser(username);
-		getContext().setRole(Role.LOGGED_IN_USER);
+		//		getContext().setUser(email);
+		//		getContext().setRole(Role.LOGGED_IN_USER);
 		return new RedirectResolution(TestActionBean.class);
 	}
 
@@ -91,15 +89,15 @@ public class LoginActionBean extends BaseActionBean {
 	 * 
 	 * @param errors
 	 *            validation errors.
-	 * @throws InstanceException
-	 *             InstanceException
-	 * @throws ModelException
-	 *             ModelException
 	 */
 	@ValidationMethod
 	public void validateUser(final ValidationErrors errors) {
+		Role role = userDao.authenticate(email, password);
+		if (role != null) {
+			UserData userData = userDao.getUserData(email, role);
 
-		getContext().setUser(username);
-		getContext().setRole(Role.LOGGED_IN_USER);
+			getContext().setUser(userData);
+			//getContext().setRole(Role.LOGGED_IN_USER);
+		}
 	}
 }

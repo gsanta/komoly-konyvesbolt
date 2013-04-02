@@ -2,6 +2,7 @@ package komoly.common;
 
 import javax.servlet.http.HttpSession;
 
+import komoly.bean.UserData;
 import komoly.utils.Constants;
 import komoly.utils.Role;
 import net.sourceforge.stripes.action.ActionBeanContext;
@@ -85,8 +86,8 @@ public class BaseActionBeanContext extends ActionBeanContext {
 	 * @param userName
 	 *            userName
 	 */
-	public void setUser(final String userName) {
-		addToSession(Constants.USER_NAME, userName);
+	public void setUser(final UserData user) {
+		addToSession(Constants.USER_NAME, user);
 	}
 
 	/**
@@ -94,8 +95,8 @@ public class BaseActionBeanContext extends ActionBeanContext {
 	 * 
 	 * @return the user.
 	 */
-	public String getUser() {
-		return readFromSession(Constants.USER_NAME);
+	public UserData getUser() {
+		return (UserData) readFromSession(Constants.USER_NAME);
 	}
 
 	/**

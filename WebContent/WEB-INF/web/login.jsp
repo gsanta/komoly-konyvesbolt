@@ -14,10 +14,10 @@
 			<table>
 				<tr>
 					<td>
-						<s:label name="label.username" for="username" />
+						<s:label name="label.email" for="email" />
 					</td>
 					<td>
-						<s:text id="username" name="username" />
+						<s:text id="email" name="email" />
 					</td>
 				</tr>
 				<tr>

@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 /**
  * A very simple calculator action.
  * 
- * @author Tim Fennell
+ * 
  */
 public class TestActionBean extends BaseActionBean implements ActionBean {
 	private double numberOne;
