@@ -12,8 +12,5 @@
 		<body>
 			<s:layout-component name="body"></s:layout-component>
 		</body>
-		<footer>
-
-		</footer>
 	</html>
 </s:layout-definition>

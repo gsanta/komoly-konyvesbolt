@@ -8,6 +8,7 @@ import java.util.Set;
 import komoly.action.LoginActionBean;
 import komoly.common.BaseActionBean;
 import komoly.common.BaseActionBeanContext;
+import komoly.utils.Constants;
 import komoly.utils.Role;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
@@ -74,6 +75,8 @@ public class LoginInterceptor implements Interceptor {
 		if (ctx.getUser() == null
 				&& !ALLOWED_ACTION_CLASSES_MAP.get(Role.VISITOR).contains(
 						execContext.getActionBean().getClass())) {
+			ctx.addToSession(Constants.INTERCEPTED_ACTION_BEAN, execContext
+					.getActionBean().getClass());
 			return new RedirectResolution(LoginActionBean.class);
 		}
 		//		else if (ctx.getRole() != null

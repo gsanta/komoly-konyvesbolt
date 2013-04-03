@@ -12,9 +12,9 @@ public interface UserDao {
 	 * @param password
 	 * @return
 	 */
-	Role authenticate(String email, String password);
+	UserData authenticate(String email, String password);
 
-	UserData getUserData(String email, Role role);
+	UserData getUserData(int id, Role role);
 
 	boolean changeUserData(UserData userData, Role role);
 }

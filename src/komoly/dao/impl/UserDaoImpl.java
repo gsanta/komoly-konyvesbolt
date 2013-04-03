@@ -22,7 +22,7 @@ public class UserDaoImpl implements UserDao {
 	private final Logger LOGGER = Logger.getLogger(UserDaoImpl.class);
 
 	@Override
-	public Role authenticate(String email, String password) {
+	public UserData authenticate(String email, String password) {
 
 		MessageDigest md = null;
 
@@ -44,15 +44,16 @@ public class UserDaoImpl implements UserDao {
 		}
 
 		LOGGER.info("Digest(in hex format):: " + sb.toString());
+		LOGGER.info("Email: " + email);
 
 		Connection conn = DatabaseHelper.getConnection();
 
-		String queryAdmin = "select count(*) as c from admin where email like ? and password like ?";
-		String queryUser = "select count(*) as c from user where email like ? and password like ?";
+		String queryAdmin = "select * from admin where email like ? and password like ?";
+		String queryUser = "select * from users where email like ? and password like ?";
 		PreparedStatement stm = null;
 		ResultSet rs = null;
 
-		Role role = null;
+		UserData userData = null;
 
 		try {
 
@@ -62,9 +63,13 @@ public class UserDaoImpl implements UserDao {
 
 			rs = stm.executeQuery();
 
-			if (rs.next() && rs.getInt("c") == 1) {
-				role = Role.ADMIN;
-				return role;
+			if (rs.next()) {
+				userData = new UserData();
+				userData.setEmail(rs.getString("EMAIL"));
+				userData.setId(rs.getInt(1));
+				userData.setName(rs.getString("NEV"));
+				userData.setRole(Role.ADMIN);
+				return userData;
 			}
 
 			DatabaseHelper.close(rs);
@@ -76,9 +81,36 @@ public class UserDaoImpl implements UserDao {
 
 			rs = stm.executeQuery();
 
-			if (rs.next() && rs.getInt("c") == 1) {
-				role = Role.LOGGED_IN_USER;
-				return role;
+			if (rs.next()) {
+				LOGGER.info("jo helyen vagyok");
+				userData = new UserData();
+				userData.setEmail(rs.getString("EMAIL"));
+				userData.setId(rs.getInt(1));
+				userData.setName(rs.getString("NEV"));
+
+				if (rs.getInt("ISTORZSVASARLO") == 0) {
+					userData.setTorzsvasarlo(false);
+				} else {
+					userData.setTorzsvasarlo(true);
+				}
+
+				DatabaseHelper.close(rs);
+				DatabaseHelper.close(stm);
+
+				String query = "select * from CIMEK where USER_ID = ?";
+				stm = conn.prepareStatement(query);
+				stm.setInt(1, userData.getId());
+
+				rs = stm.executeQuery();
+
+				if (rs.next()) {
+					userData.setIrsz(rs.getInt("IRSZ"));
+					userData.setHazSzam(rs.getInt("HAZSZAM"));
+					userData.setUtca(rs.getString("UTCA"));
+				}
+
+				userData.setRole(Role.LOGGED_IN_USER);
+				return userData;
 			}
 
 		} catch (SQLException e) {
@@ -94,16 +126,15 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public UserData getUserData(String email, Role role) {
+	public UserData getUserData(int id, Role role) {
 		Connection conn = DatabaseHelper.getConnection();
 
-		String table = "user";
+		String query = "select * from users where user_id = ?";
 
 		if (role == Role.ADMIN) {
-			table = "admin";
+			query = "select * from admin where admin_id = ?";
 		}
 
-		String query = "select * from " + table + " where email like ?";
 		PreparedStatement stm = null;
 		ResultSet rs = null;
 
@@ -112,7 +143,7 @@ public class UserDaoImpl implements UserDao {
 		try {
 
 			stm = conn.prepareStatement(query);
-			stm.setString(1, email);
+			stm.setInt(1, id);
 
 			rs = stm.executeQuery();
 
@@ -128,6 +159,22 @@ public class UserDaoImpl implements UserDao {
 					} else {
 						userData.setTorzsvasarlo(true);
 					}
+
+					DatabaseHelper.close(rs);
+					DatabaseHelper.close(stm);
+
+					query = "select * from CIMEK where USER_ID = ?";
+					stm = conn.prepareStatement(query);
+					stm.setInt(1, userData.getId());
+
+					rs = stm.executeQuery();
+
+					if (rs.next()) {
+						userData.setIrsz(rs.getInt("IRSZ"));
+						userData.setHazSzam(rs.getInt("HAZSZAM"));
+						userData.setUtca(rs.getString("UTCA"));
+					}
+
 				}
 
 				userData.setRole(role);
@@ -187,7 +234,7 @@ public class UserDaoImpl implements UserDao {
 				}
 
 			} else if (role == Role.LOGGED_IN_USER) {
-				String queryEmail = "select count(*) from USER where USER_ID != ? and EMAIL = ?";
+				String queryEmail = "select count(*) from USERS where USER_ID != ? and EMAIL = ?";
 
 				stm = conn.prepareStatement(queryEmail);
 				stm.setInt(1, userData.getId());
@@ -195,7 +242,7 @@ public class UserDaoImpl implements UserDao {
 
 				rs = stm.executeQuery();
 
-				if (rs.next()) {
+				if (rs.next() && rs.getInt(1) > 0) {
 					LOGGER.info("Mar van ilyen email cim!");
 					return false;
 				}
@@ -203,7 +250,7 @@ public class UserDaoImpl implements UserDao {
 				DatabaseHelper.close(rs);
 				DatabaseHelper.close(stm);
 
-				String update = "update USER set NEV = ? EMAIL = ? where USER_ID = ?";
+				String update = "update USERS set NEV = ?, EMAIL = ? where USER_ID = ?";
 
 				stm = conn.prepareStatement(update);
 				stm.setString(1, userData.getName());
@@ -215,12 +262,13 @@ public class UserDaoImpl implements UserDao {
 				DatabaseHelper.close(rs);
 				DatabaseHelper.close(stm);
 
-				update = "update CIMEK set IRSZ = ? UTCA = ? HAZSZAM = ?";
+				update = "update CIMEK set IRSZ = ?, UTCA = ?, HAZSZAM = ? where USER_ID = ?";
 
 				stm = conn.prepareStatement(update);
 				stm.setInt(1, userData.getIrsz());
 				stm.setString(2, userData.getUtca());
 				stm.setInt(3, userData.getHazSzam());
+				stm.setInt(4, userData.getId());
 
 				rows += stm.executeUpdate();
 

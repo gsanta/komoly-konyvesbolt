@@ -4,7 +4,8 @@ import komoly.bean.UserData;
 import komoly.common.BaseActionBean;
 import komoly.dao.UserDao;
 import komoly.dao.impl.UserDaoImpl;
-import komoly.utils.Role;
+import komoly.utils.Constants;
+import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -14,12 +15,19 @@ import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidationErrors;
 import net.sourceforge.stripes.validation.ValidationMethod;
 
+import org.apache.log4j.Logger;
+
 public class LoginActionBean extends BaseActionBean {
 
 	/**
 	 * Main view
 	 */
 	private static final String VIEW = "/WEB-INF/web/login.jsp";
+
+	/**
+	 * LOGGER.
+	 */
+	private final Logger LOGGER = Logger.getLogger(LoginActionBean.class);
 
 	/**
 	 * The email.
@@ -78,9 +86,17 @@ public class LoginActionBean extends BaseActionBean {
 	 * 
 	 * @return to the main page.
 	 */
+	@SuppressWarnings({ "unchecked" })
 	public Resolution login() {
 		//		getContext().setUser(email);
 		//		getContext().setRole(Role.LOGGED_IN_USER);
+
+		Class<ActionBean> actionClass = (Class<ActionBean>) getContext()
+				.readFromSession(Constants.INTERCEPTED_ACTION_BEAN);
+
+		if (actionClass != null) {
+			return new RedirectResolution(actionClass);
+		}
 		return new RedirectResolution(TestActionBean.class);
 	}
 
@@ -92,10 +108,9 @@ public class LoginActionBean extends BaseActionBean {
 	 */
 	@ValidationMethod
 	public void validateUser(final ValidationErrors errors) {
-		Role role = userDao.authenticate(email, password);
-		if (role != null) {
-			UserData userData = userDao.getUserData(email, role);
-
+		UserData userData = userDao.authenticate(email, password);
+		if (userData != null) {
+			LOGGER.info("name: " + userData.getName());
 			getContext().setUser(userData);
 			//getContext().setRole(Role.LOGGED_IN_USER);
 		}
