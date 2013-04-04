@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import komoly.action.HomeActionBean;
 import komoly.action.LoginActionBean;
 import komoly.common.BaseActionBean;
 import komoly.common.BaseActionBeanContext;
@@ -28,11 +29,9 @@ public class LoginInterceptor implements Interceptor {
 	/**
 	 * Actions that are allowed to visit without logging in
 	 */
-	private static Set<Class<? extends BaseActionBean>> ALLOWED_ACTION_CLASSES;
 	private static Map<Role, Set<Class<? extends BaseActionBean>>> ALLOWED_ACTION_CLASSES_MAP;
 
 	static {
-		ALLOWED_ACTION_CLASSES = new HashSet<Class<? extends BaseActionBean>>();
 
 		ALLOWED_ACTION_CLASSES_MAP = new HashMap<Role, Set<Class<? extends BaseActionBean>>>();
 
@@ -60,6 +59,7 @@ public class LoginInterceptor implements Interceptor {
 				new HashSet<Class<? extends BaseActionBean>>());
 
 		ALLOWED_ACTION_CLASSES_MAP.get(Role.VISITOR).add(LoginActionBean.class);
+		ALLOWED_ACTION_CLASSES_MAP.get(Role.VISITOR).add(HomeActionBean.class);
 	}
 
 	/**

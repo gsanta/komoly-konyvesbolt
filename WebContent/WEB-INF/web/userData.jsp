@@ -52,6 +52,14 @@
 					</td>
 				</tr>
 				<tr>
+					<td>
+						<s:label name="label.varos" for="varos"/>
+					</td>
+					<td>
+						<s:text id="varos" name="userData.varos" />
+					</td>
+				</tr>
+				<tr>
 					<td colspan="2">
 						<s:submit name="change" value="Elfogad"/>
 					</td>

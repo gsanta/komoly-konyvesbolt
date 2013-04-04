@@ -82,7 +82,6 @@ public class UserDaoImpl implements UserDao {
 			rs = stm.executeQuery();
 
 			if (rs.next()) {
-				LOGGER.info("jo helyen vagyok");
 				userData = new UserData();
 				userData.setEmail(rs.getString("EMAIL"));
 				userData.setId(rs.getInt(1));
@@ -97,7 +96,7 @@ public class UserDaoImpl implements UserDao {
 				DatabaseHelper.close(rs);
 				DatabaseHelper.close(stm);
 
-				String query = "select * from CIMEK where USER_ID = ?";
+				String query = "select * from CIMEK, IRANYITOSZAM where IRANYITOSZAM.IRSZ = CIMEK.IRSZ and USER_ID = ?";
 				stm = conn.prepareStatement(query);
 				stm.setInt(1, userData.getId());
 
@@ -107,6 +106,7 @@ public class UserDaoImpl implements UserDao {
 					userData.setIrsz(rs.getInt("IRSZ"));
 					userData.setHazSzam(rs.getInt("HAZSZAM"));
 					userData.setUtca(rs.getString("UTCA"));
+					userData.setVaros(rs.getString("TELEPULES"));
 				}
 
 				userData.setRole(Role.LOGGED_IN_USER);
@@ -163,7 +163,7 @@ public class UserDaoImpl implements UserDao {
 					DatabaseHelper.close(rs);
 					DatabaseHelper.close(stm);
 
-					query = "select * from CIMEK where USER_ID = ?";
+					query = "select * from CIMEK, IRANYITOSZAM where IRANYITOSZAM.IRSZ = CIMEK.IRSZ and USER_ID = ?";
 					stm = conn.prepareStatement(query);
 					stm.setInt(1, userData.getId());
 
@@ -173,6 +173,7 @@ public class UserDaoImpl implements UserDao {
 						userData.setIrsz(rs.getInt("IRSZ"));
 						userData.setHazSzam(rs.getInt("HAZSZAM"));
 						userData.setUtca(rs.getString("UTCA"));
+						userData.setVaros(rs.getString("TELEPULES"));
 					}
 
 				}

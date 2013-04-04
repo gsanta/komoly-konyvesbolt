@@ -16,7 +16,7 @@ public class UserDataActionBean extends BaseActionBean {
 
 	private static final String VIEW_ADMIN = "/WEB-INF/web/adminData.jsp";
 
-	private UserData userData = new UserData();
+	private UserData userData;
 
 	@DefaultHandler
 	@DontValidate
@@ -33,7 +33,7 @@ public class UserDataActionBean extends BaseActionBean {
 
 		UserDao userDao = new UserDaoImpl();
 
-		System.out.println(userData.getName());
+		System.out.println("nééééév: " + userData.getUtca());
 		userData.setId(getContext().getUser().getId());
 		userDao.changeUserData(userData, getContext().getUser().getRole());
 
@@ -50,7 +50,11 @@ public class UserDataActionBean extends BaseActionBean {
 	}
 
 	public UserData getUserData() {
-		return getContext().getUser();
+		if (userData == null) {
+			userData = getContext().getUser();
+		}
+
+		return userData;
 	}
 
 	public void setUserData(UserData userData) {
