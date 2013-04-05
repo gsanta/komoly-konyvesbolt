@@ -8,6 +8,8 @@
 		<head>
 			<link href='http://fonts.googleapis.com/css?family=Noto+Sans&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
 			<link href='css/style.css' rel='stylesheet' type='text/css'>			
+			
+			<script type="text/javascript" src="${contextPath}/js/jquery-1.7.1.js"></script>
   		</head>
 		
 		<body>

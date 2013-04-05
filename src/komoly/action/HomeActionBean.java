@@ -22,7 +22,7 @@ public class HomeActionBean extends BaseActionBean {
 
 		List<SelectData> selectDataList = new ArrayList<SelectData>();
 
-		selectDataList.add(new SelectData(SelectData.RelationOperator.EQUAL,
+		selectDataList.add(new SelectData(SelectData.RelationOperator.EQUALS,
 				SelectData.ConcatenationOperator.AND,
 				SelectData.Column.ISEBOOK, "1"));
 

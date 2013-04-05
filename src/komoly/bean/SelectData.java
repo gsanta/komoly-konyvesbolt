@@ -4,7 +4,7 @@ public class SelectData {
 
 	public enum RelationOperator {
 		LESS_THAN("<"), GREATER_THAN(">"), LESS_THAN_EQUAL("<="), GREATER_THAN_EQUAL(
-				">="), EQUAL("=");
+				">="), EQUALS("="), LIKE("like");
 
 		String name;
 
@@ -19,7 +19,9 @@ public class SelectData {
 
 	public enum Column {
 		PRICE("PRICE", COLUMN_TYPE.INT), OLDALSZAM("OLDALSZAM", COLUMN_TYPE.INT), ISEBOOK(
-				"ISEBOOK", COLUMN_TYPE.INT);
+				"ISEBOOK", COLUMN_TYPE.INT), CIM("KONYV.CIM",
+				COLUMN_TYPE.STRING), MUFAJ_ID("KONYV.MUFAJ_ID", COLUMN_TYPE.INT), KIADO_ID(
+				"KONYV.KIADO_ID", COLUMN_TYPE.INT);
 
 		String name;
 		COLUMN_TYPE columnType;
@@ -43,7 +45,17 @@ public class SelectData {
 	};
 
 	public enum ConcatenationOperator {
-		AND, OR
+		AND("and"), OR("or");
+
+		String name;
+
+		private ConcatenationOperator(String name) {
+			this.name = name;
+		}
+
+		public String toString() {
+			return name;
+		}
 	}
 
 	/**
