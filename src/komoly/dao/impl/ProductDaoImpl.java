@@ -4,10 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import komoly.bean.BookData;
 import komoly.bean.SelectData;
 import komoly.dao.ProductDao;
 import komoly.utils.DatabaseHelper;
@@ -21,10 +23,12 @@ public class ProductDaoImpl implements ProductDao {
 	 */
 	private final Logger LOGGER = Logger.getLogger(ProductDaoImpl.class);
 
-	public void select(List<SelectData> selectDataList, int selectCount,
-			int lastId) {
+	public List<BookData> select(List<SelectData> selectDataList,
+			int selectCount, int lastId) {
 
-		String query = "select * from KONYV ";
+		List<BookData> bookList = new ArrayList<BookData>();
+
+		String query = "select * from KONYV, KIADO, MUFAJOK ";
 
 		Collections.sort(selectDataList, new Comparator<SelectData>() {
 
@@ -80,6 +84,8 @@ public class ProductDaoImpl implements ProductDao {
 			i++;
 		}
 
+		query += " and KONYV.KIADO_ID = KIADO.KIADO_ID and KONYV.MUFAJ_ID = MUFAJOK.MUFAJ_ID";
+
 		Connection conn = DatabaseHelper.getConnection();
 
 		PreparedStatement stm = null;
@@ -101,8 +107,18 @@ public class ProductDaoImpl implements ProductDao {
 			LOGGER.info(query);
 			rs = stm.executeQuery();
 
-			if (rs.next()) {
-				LOGGER.info(rs.getString("CIM"));
+			while (rs.next()) {
+				BookData book = new BookData();
+				book.setId(rs.getInt("KONYV_ID"));
+				book.setTitle(rs.getString("CIM"));
+				book.setPrice(rs.getInt("PRICE"));
+				book.setPageNum(rs.getInt("OLDALSZAM"));
+				book.setEbook(rs.getBoolean("ISEBOOK"));
+				book.setKotes(rs.getString("KOTES"));
+				book.setMeret(rs.getString("MERET"));
+				book.setMufaj(rs.getString("MUFAJNEV"));
+				book.setKiado(rs.getString("NEV"));
+				bookList.add(book);
 			}
 
 		} catch (SQLException e) {
@@ -114,5 +130,6 @@ public class ProductDaoImpl implements ProductDao {
 			DatabaseHelper.close(conn);
 		}
 
+		return bookList;
 	}
 }

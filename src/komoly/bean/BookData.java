@@ -1,0 +1,100 @@
+package komoly.bean;
+
+public class BookData {
+
+	private int id;
+
+	private String title;
+
+	private int price;
+
+	private int pageNum;
+
+	private boolean ebook;
+
+	private String kotes;
+
+	private String meret;
+
+	private String mufaj;
+
+	private String kiado;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+	public int getPageNum() {
+		return pageNum;
+	}
+
+	public void setPageNum(int pageNum) {
+		this.pageNum = pageNum;
+	}
+
+	public boolean isEbook() {
+		return ebook;
+	}
+
+	public void setEbook(boolean ebook) {
+		this.ebook = ebook;
+	}
+
+	public String getKotes() {
+		return kotes;
+	}
+
+	public void setKotes(String kotes) {
+		this.kotes = kotes;
+	}
+
+	public String getMeret() {
+		return meret;
+	}
+
+	public void setMeret(String meret) {
+		this.meret = meret;
+	}
+
+	public String getMufaj() {
+		return mufaj;
+	}
+
+	public void setMufaj(String mufaj) {
+		this.mufaj = mufaj;
+	}
+
+	public String getKiado() {
+		return kiado;
+	}
+
+	public void setKiado(String kiado) {
+		this.kiado = kiado;
+	}
+
+	@Override
+	public String toString() {
+		return "BookData [id=" + id + ", title=" + title + ", price=" + price
+				+ ", pageNum=" + pageNum + ", ebook=" + ebook + "]";
+	}
+}

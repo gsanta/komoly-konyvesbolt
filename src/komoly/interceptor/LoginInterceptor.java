@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import komoly.action.BooksActionBean;
 import komoly.action.HomeActionBean;
 import komoly.action.LoginActionBean;
 import komoly.common.BaseActionBean;
@@ -60,6 +61,7 @@ public class LoginInterceptor implements Interceptor {
 
 		ALLOWED_ACTION_CLASSES_MAP.get(Role.VISITOR).add(LoginActionBean.class);
 		ALLOWED_ACTION_CLASSES_MAP.get(Role.VISITOR).add(HomeActionBean.class);
+		ALLOWED_ACTION_CLASSES_MAP.get(Role.VISITOR).add(BooksActionBean.class);
 	}
 
 	/**

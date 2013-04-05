@@ -2,9 +2,11 @@ package komoly.dao;
 
 import java.util.List;
 
+import komoly.bean.BookData;
 import komoly.bean.SelectData;
 
 public interface ProductDao {
 
-	void select(List<SelectData> selectDataList, int selectCount, int lastId);
+	List<BookData> select(List<SelectData> selectDataList, int selectCount,
+			int lastId);
 }
