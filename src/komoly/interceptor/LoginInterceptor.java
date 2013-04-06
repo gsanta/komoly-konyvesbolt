@@ -19,8 +19,15 @@ import net.sourceforge.stripes.controller.Interceptor;
 import net.sourceforge.stripes.controller.Intercepts;
 import net.sourceforge.stripes.controller.LifecycleStage;
 
+import org.apache.log4j.Logger;
+
 @Intercepts(LifecycleStage.HandlerResolution)
 public class LoginInterceptor implements Interceptor {
+
+	/**
+	 * LOGGER.
+	 */
+	private final Logger LOGGER = Logger.getLogger(LoginActionBean.class);
 
 	/**
 	 * Action class to redirect.
@@ -74,11 +81,17 @@ public class LoginInterceptor implements Interceptor {
 		final BaseActionBeanContext ctx = (BaseActionBeanContext) execContext
 				.getActionBeanContext();
 
+		if (execContext.getActionBean().getClass() != LoginActionBean.class) {
+			ctx.addToSession(Constants.INTERCEPTED_ACTION_BEAN, execContext
+					.getActionBean().getClass());
+		}
+
+		LOGGER.info("here in logininterceptor");
+
 		if (ctx.getUser() == null
 				&& !ALLOWED_ACTION_CLASSES_MAP.get(Role.VISITOR).contains(
 						execContext.getActionBean().getClass())) {
-			ctx.addToSession(Constants.INTERCEPTED_ACTION_BEAN, execContext
-					.getActionBean().getClass());
+
 			return new RedirectResolution(LoginActionBean.class);
 		}
 		//		else if (ctx.getRole() != null

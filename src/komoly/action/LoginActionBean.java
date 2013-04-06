@@ -97,7 +97,24 @@ public class LoginActionBean extends BaseActionBean {
 		if (actionClass != null) {
 			return new RedirectResolution(actionClass);
 		}
-		return new RedirectResolution(TestActionBean.class);
+		return new RedirectResolution(HomeActionBean.class);
+	}
+
+	@DontValidate
+	@SuppressWarnings({ "unchecked" })
+	public Resolution logout() {
+		//		getContext().setUser(email);
+		//		getContext().setRole(Role.LOGGED_IN_USER);
+
+		Class<ActionBean> actionClass = (Class<ActionBean>) getContext()
+				.readFromSession(Constants.INTERCEPTED_ACTION_BEAN);
+
+		getContext().logout();
+
+		if (actionClass != null) {
+			return new RedirectResolution(actionClass);
+		}
+		return new RedirectResolution(HomeActionBean.class);
 	}
 
 	/**

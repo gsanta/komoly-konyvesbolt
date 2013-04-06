@@ -19,7 +19,18 @@ body {
 #fenticsik{
 	width:100%;
 	background-color: #000000;
-	height: 20px;	
+	
+	height: 30px;	
+}
+
+#login {
+	float:right;
+	margin-right: 100px;
+}
+
+#fenticsik span {
+	font-size: 0.8em;
+	color: white;
 }
 
 #header {

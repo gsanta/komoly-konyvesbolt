@@ -1,7 +1,11 @@
 package komoly.common;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
+import komoly.bean.BasketData;
 import komoly.bean.UserData;
 import komoly.utils.Constants;
 import komoly.utils.Role;
@@ -97,6 +101,44 @@ public class BaseActionBeanContext extends ActionBeanContext {
 	 */
 	public UserData getUser() {
 		return (UserData) readFromSession(Constants.USER_NAME);
+	}
+
+	@SuppressWarnings("unchecked")
+	public void addToBasket(BasketData bd) {
+		List<BasketData> basketDataList = null;
+		if (readFromSession(Constants.BASKET_LIST) != null) {
+			basketDataList = (List<BasketData>) readFromSession(Constants.BASKET_LIST);
+		} else {
+			basketDataList = new ArrayList<BasketData>();
+		}
+
+		boolean newItem = true;
+
+		for (BasketData data : basketDataList) {
+			if (data.getId() == bd.getId()) {
+				newItem = false;
+
+				data.setCount(data.getCount() + bd.getCount());
+			}
+		}
+
+		if (newItem) {
+			basketDataList.add(bd);
+		}
+
+		addToSession(Constants.BASKET_LIST, basketDataList);
+	}
+
+	public List<BasketData> getBasket() {
+		if (readFromSession(Constants.BASKET_LIST) != null) {
+			return (List<BasketData>) readFromSession(Constants.BASKET_LIST);
+		} else {
+			return new ArrayList<BasketData>();
+		}
+	}
+
+	public void clearBasket() {
+		removeFromSession(Constants.BASKET_LIST);
 	}
 
 	/**

@@ -3,6 +3,7 @@ package komoly.action;
 import java.util.ArrayList;
 import java.util.List;
 
+import komoly.bean.BasketData;
 import komoly.bean.BookData;
 import komoly.bean.MufajData;
 import komoly.bean.PublisherData;
@@ -25,6 +26,11 @@ public class BooksActionBean extends BaseActionBean {
 	private static final String VIEW = "/WEB-INF/web/books.jsp";
 
 	/**
+	 * Logged in Main View
+	 */
+	private static final String VIEW_LOGGED_IN = "/WEB-INF/web/logged_in/books_logged_in.jsp";
+
+	/**
 	 * LOGGER.
 	 */
 	private final Logger LOGGER = Logger.getLogger(BooksActionBean.class);
@@ -36,6 +42,8 @@ public class BooksActionBean extends BaseActionBean {
 	private List<MufajData> mufajs;
 
 	private SearchData searchData = new SearchData();
+
+	private BasketData basketData = new BasketData();
 
 	private ProductDao productDao = new ProductDaoImpl();
 
@@ -68,6 +76,13 @@ public class BooksActionBean extends BaseActionBean {
 		books = productDao.select(selectDataList, 0, 0);
 
 		LOGGER.info(books);
+
+		/**
+		 * logged in
+		 */
+		if (getContext().getUser() != null) {
+			return new ForwardResolution(VIEW_LOGGED_IN);
+		}
 
 		return new ForwardResolution(VIEW);
 	}
@@ -128,6 +143,45 @@ public class BooksActionBean extends BaseActionBean {
 
 		LOGGER.info(books);
 
+		/**
+		 * logged in
+		 */
+		if (getContext().getUser() != null) {
+			return new ForwardResolution(VIEW_LOGGED_IN);
+		}
+
+		return new ForwardResolution(VIEW);
+	}
+
+	public Resolution toBasket() {
+
+		List<SelectData> selectDataList = new ArrayList<SelectData>();
+
+		selectDataList.add(new SelectData(SelectData.RelationOperator.EQUALS,
+				SelectData.ConcatenationOperator.AND,
+				SelectData.Column.ISEBOOK, "0"));
+
+		selectDataList.add(new SelectData(
+				SelectData.RelationOperator.GREATER_THAN,
+				SelectData.ConcatenationOperator.OR, SelectData.Column.PRICE,
+				"100"));
+
+		selectDataList.add(new SelectData(
+				SelectData.RelationOperator.GREATER_THAN,
+				SelectData.ConcatenationOperator.OR,
+				SelectData.Column.OLDALSZAM, "600"));
+
+		books = productDao.select(selectDataList, 0, 0);
+
+		LOGGER.info("basket info: " + basketData.getId() + "  "
+				+ basketData.getTitle() + "  " + basketData.getCount());
+		/**
+		 * logged in
+		 */
+		if (getContext().getUser() != null) {
+			return new ForwardResolution(VIEW_LOGGED_IN);
+		}
+
 		return new ForwardResolution(VIEW);
 	}
 
@@ -168,6 +222,14 @@ public class BooksActionBean extends BaseActionBean {
 
 	public void setSearchData(SearchData searchData) {
 		this.searchData = searchData;
+	}
+
+	public BasketData getBasketData() {
+		return basketData;
+	}
+
+	public void setBasketData(BasketData basketData) {
+		this.basketData = basketData;
 	}
 
 	public SelectData.RelationOperator getDummyEquals() {

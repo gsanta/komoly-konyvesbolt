@@ -17,6 +17,8 @@ public final class Constants {
 
 	public static final String INTERCEPTED_ACTION_BEAN = "INTERCEPTED_ACTION_BEAN";
 
+	public static final String BASKET_LIST = "BASKET_LIST";
+
 	/**
 	 * Constructor.
 	 */

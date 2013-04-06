@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <%@ include file="/WEB-INF/web/common/taglibs.jsp"%>
+<c:set var="prefix" value="${actionBean.getClass().name}"/>
 
 <script>
 	$(function() {
@@ -15,16 +16,12 @@
 <s:layout-render name="/WEB-INF/web/common/books_layout.jsp">
 	<s:layout-component name="login">
 		<div id="login">
-			<s:form beanclass="komoly.action.LoginActionBean">
-				<span><s:label name="label.email" for="email" /></span>
-				<s:text id="email" name="email" />
-				<span><s:label name="label.password" for="password"/></span>
-				<s:password id="password" name="password" />
-				<s:submit name="login" />
+			<span>${actionBean.context.user.name }</span>
+			<s:form style="display:inline" beanclass="komoly.action.LoginActionBean">
+				<s:submit name="logout" value="Kijelentkezés"/>
 			</s:form>
 		</div>
 	</s:layout-component>
-	
 	<s:layout-component name="bookList">
 		<c:forEach var="book" items="${actionBean.books}">
 			Cím: ${book.title }<br>
@@ -35,8 +32,13 @@
 			Kötés: ${book.kotes }<br>
 			Méret: ${book.meret }<br>
 			
-			
-			
+			<s:form beanclass="komoly.action.BooksActionBean">
+				<s:hidden name="basketData.id" value="${book.id }"></s:hidden>
+				<s:hidden name="basketData.title" value="${book.title }"></s:hidden>
+				Kosárba<s:text name="basketData.count" size="2">1</s:text>
+				<s:submit name="toBasket" value="+" />
+			</s:form>
+			<br>	
 			
 			----------------------------<br><br>
 		</c:forEach>

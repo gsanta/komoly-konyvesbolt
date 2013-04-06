@@ -13,7 +13,11 @@
   		</head>
 		
 		<body>
-		<div id="fenticsik"> </div>
+		<div id="fenticsik">
+			<s:layout-component name="login">
+				
+			</s:layout-component>
+		</div>
 		  <div id="container">
 		  	<div id="header"> 
 		  	<img src="images/logo.png" alt="logo" />
