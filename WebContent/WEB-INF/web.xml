@@ -30,7 +30,7 @@
 	    </init-param>
 	    <init-param>
 	      	<param-name>PopulationStrategy.Class</param-name>
-	    	<param-value>net.sourceforge.stripes.tag.BeanFirstPopulationStrategy</param-value>
+	    	<param-value>komoly.utils.MyPopulationStrategy</param-value>
 	    </init-param>
  	</filter>
 	

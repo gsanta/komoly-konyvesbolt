@@ -129,6 +129,24 @@ public class BaseActionBeanContext extends ActionBeanContext {
 		addToSession(Constants.BASKET_LIST, basketDataList);
 	}
 
+	@SuppressWarnings("unchecked")
+	public void deleteFromBasket(int id) {
+		List<BasketData> basketDataList = null;
+		if (readFromSession(Constants.BASKET_LIST) != null) {
+			basketDataList = (List<BasketData>) readFromSession(Constants.BASKET_LIST);
+		} else {
+			basketDataList = new ArrayList<BasketData>();
+		}
+
+		for (int i = 0; i < basketDataList.size(); i++) {
+			if (basketDataList.get(i).getId() == id) {
+				basketDataList.remove(i);
+			}
+		}
+
+		addToSession(Constants.BASKET_LIST, basketDataList);
+	}
+
 	public List<BasketData> getBasket() {
 		if (readFromSession(Constants.BASKET_LIST) != null) {
 			return (List<BasketData>) readFromSession(Constants.BASKET_LIST);

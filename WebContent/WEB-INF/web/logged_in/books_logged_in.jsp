@@ -33,8 +33,8 @@
 			Méret: ${book.meret }<br>
 			
 			<s:form beanclass="komoly.action.BooksActionBean">
-				<s:hidden name="basketData.id" value="${book.id }"></s:hidden>
-				<s:hidden name="basketData.title" value="${book.title }"></s:hidden>
+				<s:hidden name="basketData.id" value="${book.id }"/>
+				<s:hidden name="basketData.title" value="${book.title }"/>
 				Kosárba<s:text name="basketData.count" size="2">1</s:text>
 				<s:submit name="toBasket" value="+" />
 			</s:form>

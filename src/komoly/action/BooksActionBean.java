@@ -173,6 +173,8 @@ public class BooksActionBean extends BaseActionBean {
 
 		books = productDao.select(selectDataList, 0, 0);
 
+		getContext().addToBasket(basketData);
+
 		LOGGER.info("basket info: " + basketData.getId() + "  "
 				+ basketData.getTitle() + "  " + basketData.getCount());
 		/**
