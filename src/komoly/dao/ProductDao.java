@@ -20,4 +20,6 @@ public interface ProductDao {
 	List<PublisherData> getAllPublisher();
 
 	List<MufajData> getAllMufaj();
+
+	void addBook(BookData bookData);
 }

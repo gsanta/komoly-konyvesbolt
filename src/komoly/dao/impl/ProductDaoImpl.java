@@ -218,4 +218,34 @@ public class ProductDaoImpl implements ProductDao {
 		}
 		return mufajList;
 	}
+
+	public void addBook(BookData bookData) {
+		Connection conn = DatabaseHelper.getConnection();
+
+		PreparedStatement stm = null;
+
+		try {
+			stm = conn
+					.prepareStatement("insert into KONYV (CIM,ADDED,PRICE,KIADO_ID,MUFAJ_ID,OLDALSZAM,KOTES,MERET,ISEBOOK,KONYV_ID) values(?,'2013-01-01',?,?,?,?,?,?,?,?)");
+
+			stm.setString(1, bookData.getTitle());
+			stm.setInt(2, bookData.getPrice());
+			stm.setInt(3, bookData.getKiadoId());
+			stm.setInt(4, bookData.getMufajId());
+			stm.setInt(5, bookData.getPageNum());
+			stm.setString(6, bookData.getKotes());
+			stm.setString(7, bookData.getMeret());
+			stm.setBoolean(8, bookData.isEbook());
+			stm.setInt(9, 5);
+
+			stm.executeUpdate();
+
+		} catch (SQLException e) {
+			LOGGER.error(e);
+			e.printStackTrace();
+		} finally {
+			DatabaseHelper.close(stm);
+			DatabaseHelper.close(conn);
+		}
+	}
 }

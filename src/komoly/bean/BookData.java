@@ -18,7 +18,11 @@ public class BookData {
 
 	private String mufaj;
 
+	private int mufajId;
+
 	private String kiado;
+
+	private int kiadoId;
 
 	public int getId() {
 		return id;
@@ -90,6 +94,22 @@ public class BookData {
 
 	public void setKiado(String kiado) {
 		this.kiado = kiado;
+	}
+
+	public int getMufajId() {
+		return mufajId;
+	}
+
+	public void setMufajId(int mufajId) {
+		this.mufajId = mufajId;
+	}
+
+	public int getKiadoId() {
+		return kiadoId;
+	}
+
+	public void setKiadoId(int kiadoId) {
+		this.kiadoId = kiadoId;
 	}
 
 	@Override
