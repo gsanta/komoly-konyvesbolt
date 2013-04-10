@@ -5,14 +5,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <%@ include file="/WEB-INF/web/common/taglibs.jsp"%>
+<c:set var="prefix" value="${actionBean.getClass().name}"/>
 
-<script>
-	$(function() {
-		alert("ok")
-	})
-</script>
-
-<s:layout-render name="/WEB-INF/web/common/books_layout.jsp">
+<s:layout-render name="/WEB-INF/web/common/common_layout.jsp">
 	<s:layout-component name="login">
 		<div id="login">
 			<s:form beanclass="komoly.action.LoginActionBean">
@@ -25,21 +20,12 @@
 		</div>
 	</s:layout-component>
 	
-	<s:layout-component name="bookList">
-		<c:forEach var="book" items="${actionBean.books}">
-			Cím: ${book.title }<br>
-			Ár: ${book.price }<br>
-			Kiado: ${book.kiado }<br>
-			Műfaj: ${book.mufaj }<br>
-			Oldalszám: ${book.pageNum }<br>
-			Kötés: ${book.kotes }<br>
-			Méret: ${book.meret }<br>
-			<img src="book_pics/${book.fileName}"/><br>
-			
-			
-			
-			----------------------------<br><br>
-		</c:forEach>
+	<s:layout-component name="body">
+		<s:form beanclass="komoly.action.OwnBookUploadActionBean">
+			<s:text id="title" name="book.title" />
+			<s:text id="pageNum" name="book.pageNum" />
+			<s:text id="price" name="book.price" />
+			<s:submit name="upload"/>
+		</s:form>
 	</s:layout-component>
-	
 </s:layout-render>

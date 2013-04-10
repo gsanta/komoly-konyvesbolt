@@ -31,6 +31,7 @@
 			Oldalszám: ${book.pageNum }<br>
 			Kötés: ${book.kotes }<br>
 			Méret: ${book.meret }<br>
+			<img src="book_pics/${book.fileName}"/><br>
 			
 			<s:form beanclass="komoly.action.BooksActionBean">
 				<s:hidden name="basketData.id" value="${book.id }"/>

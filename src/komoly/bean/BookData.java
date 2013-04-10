@@ -1,5 +1,7 @@
 package komoly.bean;
 
+import net.sourceforge.stripes.action.FileBean;
+
 public class BookData {
 
 	private int id;
@@ -23,6 +25,10 @@ public class BookData {
 	private String kiado;
 
 	private int kiadoId;
+
+	private FileBean image;
+
+	private String fileName = "placeholder.jpg";
 
 	public int getId() {
 		return id;
@@ -110,6 +116,22 @@ public class BookData {
 
 	public void setKiadoId(int kiadoId) {
 		this.kiadoId = kiadoId;
+	}
+
+	public FileBean getImage() {
+		return image;
+	}
+
+	public void setImage(FileBean image) {
+		this.image = image;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
 	@Override

@@ -47,6 +47,8 @@ public class BooksActionBean extends BaseActionBean {
 
 	private ProductDao productDao = new ProductDaoImpl();
 
+	private String bookPath = null;
+
 	private SelectData.RelationOperator dummyEquals = SelectData.RelationOperator.EQUALS;
 
 	/**
@@ -232,6 +234,14 @@ public class BooksActionBean extends BaseActionBean {
 
 	public void setBasketData(BasketData basketData) {
 		this.basketData = basketData;
+	}
+
+	public String getBookPath() {
+		return getContext().getRequest().getRealPath("/") + "book_pics";
+	}
+
+	public void setBookPath(String bookPath) {
+		this.bookPath = bookPath;
 	}
 
 	public SelectData.RelationOperator getDummyEquals() {

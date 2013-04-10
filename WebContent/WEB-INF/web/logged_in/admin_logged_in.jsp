@@ -32,5 +32,7 @@ Könyv hozzáadása:
 		<s:options-collection collection="${actionBean.mufajs}" value="id" label="name" />
 	</s:select>
 	<br>
+	Fájl feltöltés: <s:file name="book.image"/>
+	<br>
 	<s:submit name="addBook" value="Hozzáad"/>
 </s:form>

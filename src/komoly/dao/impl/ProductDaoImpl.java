@@ -1,5 +1,7 @@
 package komoly.dao.impl;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -139,6 +141,7 @@ public class ProductDaoImpl implements ProductDao {
 				book.setMeret(rs.getString("MERET"));
 				book.setMufaj(rs.getString("MUFAJNEV"));
 				book.setKiado(rs.getString("NEV"));
+				book.setFileName(rs.getString("IMAGE_URL"));
 				bookList.add(book);
 			}
 
@@ -219,14 +222,41 @@ public class ProductDaoImpl implements ProductDao {
 		return mufajList;
 	}
 
-	public void addBook(BookData bookData) {
+	public void addBook(BookData bookData, String basePath) {
 		Connection conn = DatabaseHelper.getConnection();
 
 		PreparedStatement stm = null;
+		ResultSet rs = null;
 
 		try {
+
+			stm = conn.prepareStatement("select max(KONYV_ID) from KONYV");
+			rs = stm.executeQuery();
+
+			System.out.println("saaavePath: " + basePath + "file.jpg");
+
+			System.out.println(bookData.getImage().getContentType());
+			System.out.println(bookData.getImage().getFileName());
+
+			int newId = 0;
+
+			if (rs.next()) {
+				newId = rs.getInt(1) + 1;
+			}
+
+			DatabaseHelper.close(stm);
+
+			String ext = null;
+
+			if (bookData.getImage().getContentType().equals("image/jpeg")) {
+				ext = ".jpg";
+			}
+
+			bookData.getImage().save(
+					new File(basePath + "/book_pics/" + newId + ext));
+
 			stm = conn
-					.prepareStatement("insert into KONYV (CIM,ADDED,PRICE,KIADO_ID,MUFAJ_ID,OLDALSZAM,KOTES,MERET,ISEBOOK,KONYV_ID) values(?,'2013-01-01',?,?,?,?,?,?,?,?)");
+					.prepareStatement("insert into KONYV (CIM,ADDED,PRICE,KIADO_ID,MUFAJ_ID,OLDALSZAM,KOTES,MERET,ISEBOOK,KONYV_ID,IMAGE_URL) values(?,to_date('04-SZEPT.-29','RR-MON-DD'),?,?,?,?,?,?,?,?,?)");
 
 			stm.setString(1, bookData.getTitle());
 			stm.setInt(2, bookData.getPrice());
@@ -236,14 +266,22 @@ public class ProductDaoImpl implements ProductDao {
 			stm.setString(6, bookData.getKotes());
 			stm.setString(7, bookData.getMeret());
 			stm.setBoolean(8, bookData.isEbook());
-			stm.setInt(9, 5);
+			stm.setInt(9, newId);
+
+			if (ext != null) {
+				stm.setString(10, newId + ext);
+			}
 
 			stm.executeUpdate();
 
 		} catch (SQLException e) {
 			LOGGER.error(e);
 			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} finally {
+			DatabaseHelper.close(rs);
 			DatabaseHelper.close(stm);
 			DatabaseHelper.close(conn);
 		}

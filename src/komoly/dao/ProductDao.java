@@ -21,5 +21,5 @@ public interface ProductDao {
 
 	List<MufajData> getAllMufaj();
 
-	void addBook(BookData bookData);
+	void addBook(BookData bookData, String basePath);
 }

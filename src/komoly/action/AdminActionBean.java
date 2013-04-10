@@ -35,7 +35,7 @@ public class AdminActionBean extends BaseActionBean {
 
 	public Resolution addBook() {
 		System.out.println("adddddddddddddddbbook");
-		productDao.addBook(book);
+		productDao.addBook(book, getContext().getRequest().getRealPath("/"));
 		return new ForwardResolution(VIEW);
 	}
 
