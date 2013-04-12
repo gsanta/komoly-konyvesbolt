@@ -11,6 +11,8 @@ import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.validation.EmailTypeConverter;
+import net.sourceforge.stripes.validation.SimpleError;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidationErrors;
 import net.sourceforge.stripes.validation.ValidationMethod;
@@ -32,7 +34,7 @@ public class LoginActionBean extends BaseActionBean {
 	/**
 	 * The email.
 	 */
-	@Validate(required = true)
+	@Validate(required = true, converter = EmailTypeConverter.class)
 	private String email;
 
 	/**
@@ -76,7 +78,7 @@ public class LoginActionBean extends BaseActionBean {
 	@DontValidate
 	public Resolution view() {
 		if (getContext().getUser() != null) {
-			return new RedirectResolution(TestActionBean.class);
+			return new RedirectResolution(HomeActionBean.class);
 		}
 		return new ForwardResolution(VIEW);
 	}
@@ -130,6 +132,10 @@ public class LoginActionBean extends BaseActionBean {
 			LOGGER.info("name: " + userData.getName());
 			getContext().setUser(userData);
 			//getContext().setRole(Role.LOGGED_IN_USER);
+		} else {
+
+			errors.add("contact.email", new SimpleError(
+					"Hibás felhasználónév vagy jelszó."));
 		}
 	}
 }

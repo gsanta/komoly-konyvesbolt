@@ -1,5 +1,16 @@
+CREATE ROLE fogyaszto;
+GRANT latogato TO fogyaszto;
+
+GRANT INSERT, UPDATE ON hosszaszolasok TO fogyaszto;
+GRANT SELECT, INSERT ON megrendeles;
+
+GRANT SELECT ON konyvek TO latogato;
+GRANT SELECT ON hozzaszolasok TO latogato;
+
+GRANT latogato TO nevtelen;
+
 --------------------------------------------------------
---  File created - hétfõ-április-01-2013   
+--  File created - hï¿½tfï¿½-ï¿½prilis-01-2013   
 --------------------------------------------------------
 --------------------------------------------------------
 --  DDL for Table ADMIN
@@ -218,28 +229,28 @@ SET DEFINE OFF;
 Insert into ROOT.ADMIN (ADMIN_ID,NEV,PASSWORD,BOLT_ID) values ('1','admin','aadmin1','1');
 REM INSERTING into ROOT.BOLT
 SET DEFINE OFF;
-Insert into ROOT.BOLT (BOLT_ID,NEV,CIM,TELSZAM,KAPCSOLAT) values ('1','KoMoly Budaörs','1221 Budapest, Frenk utca 10','0612345678','www.komolybp.hu');
-Insert into ROOT.BOLT (BOLT_ID,NEV,CIM,TELSZAM,KAPCSOLAT) values ('2','KoMoly Telephely','5600 Békéscsaba Frenk utca 2','0666555222','www.komoly.hu');
+Insert into ROOT.BOLT (BOLT_ID,NEV,CIM,TELSZAM,KAPCSOLAT) values ('1','KoMoly Budaï¿½rs','1221 Budapest, Frenk utca 10','0612345678','www.komolybp.hu');
+Insert into ROOT.BOLT (BOLT_ID,NEV,CIM,TELSZAM,KAPCSOLAT) values ('2','KoMoly Telephely','5600 Bï¿½kï¿½scsaba Frenk utca 2','0666555222','www.komoly.hu');
 REM INSERTING into ROOT.CIMEK
 SET DEFINE OFF;
-Insert into ROOT.CIMEK (CIM_ID,IRSZ,UTCA,HAZSZAM,USER_ID) values ('1','5600','Deák Ferenc','2','1');
-Insert into ROOT.CIMEK (CIM_ID,IRSZ,UTCA,HAZSZAM,USER_ID) values ('2','5600','Haán Lajos','4','2');
+Insert into ROOT.CIMEK (CIM_ID,IRSZ,UTCA,HAZSZAM,USER_ID) values ('1','5600','Deï¿½k Ferenc','2','1');
+Insert into ROOT.CIMEK (CIM_ID,IRSZ,UTCA,HAZSZAM,USER_ID) values ('2','5600','Haï¿½n Lajos','4','2');
 REM INSERTING into ROOT.FILM
 SET DEFINE OFF;
 Insert into ROOT.FILM (FILM_ID,CIM,RENDEZO,HOSSZ,KIADO_ID,MUFAJ_ID,ADATHORDOZO,MEGJELENES) values ('1','vdsksg','Fos Imre','223','1','2','3',to_date('10-JAN.  -01','RR-MON-DD'));
 REM INSERTING into ROOT.IRANYITOSZAM
 SET DEFINE OFF;
-Insert into ROOT.IRANYITOSZAM (IRSZ,TELEPULES) values ('5600','Békéscsaba');
+Insert into ROOT.IRANYITOSZAM (IRSZ,TELEPULES) values ('5600','Bï¿½kï¿½scsaba');
 Insert into ROOT.IRANYITOSZAM (IRSZ,TELEPULES) values ('1122','Budapest');
-Insert into ROOT.IRANYITOSZAM (IRSZ,TELEPULES) values ('3698','Kutyaröcsöge');
+Insert into ROOT.IRANYITOSZAM (IRSZ,TELEPULES) values ('3698','Kutyarï¿½csï¿½ge');
 REM INSERTING into ROOT.KIADO
 SET DEFINE OFF;
 Insert into ROOT.KIADO (KIADO_ID,NEV,CIM,TELSZAM,KAPCSOLAT) values ('1','KoMoly','1111 Budapest, Kis utca 5','0615558889','www.komoly.hu');
 Insert into ROOT.KIADO (KIADO_ID,NEV,CIM,TELSZAM,KAPCSOLAT) values ('2','KoRom','valami cim','232','www.fos.hu');
 REM INSERTING into ROOT.KONYV
 SET DEFINE OFF;
-Insert into ROOT.KONYV (KONYV_ID,CIM,ADDED,PRICE,KIADO_ID,MUFAJ_ID,OLDALSZAM,KOTES,MERET,ISEBOOK) values ('1','Pál utcai gyilkosok',to_date('04-SZEPT.-29','RR-MON-DD'),'500','1','3','2500','levél','10x50x90','0');
-Insert into ROOT.KONYV (KONYV_ID,CIM,ADDED,PRICE,KIADO_ID,MUFAJ_ID,OLDALSZAM,KOTES,MERET,ISEBOOK) values ('2','Makiriasztók',to_date('13-ÁPR.  -01','RR-MON-DD'),'2500','2','1','225','rossz','30x30x2','0');
+Insert into ROOT.KONYV (KONYV_ID,CIM,ADDED,PRICE,KIADO_ID,MUFAJ_ID,OLDALSZAM,KOTES,MERET,ISEBOOK) values ('1','Pï¿½l utcai gyilkosok',to_date('04-SZEPT.-29','RR-MON-DD'),'500','1','3','2500','levï¿½l','10x50x90','0');
+Insert into ROOT.KONYV (KONYV_ID,CIM,ADDED,PRICE,KIADO_ID,MUFAJ_ID,OLDALSZAM,KOTES,MERET,ISEBOOK) values ('2','Makiriasztï¿½k',to_date('13-ï¿½PR.  -01','RR-MON-DD'),'2500','2','1','225','rossz','30x30x2','0');
 REM INSERTING into ROOT.KONYV_HOL
 SET DEFINE OFF;
 Insert into ROOT.KONYV_HOL (KONYV_ID,BOLT_ID,DARAB) values ('1','1','2');
@@ -248,31 +259,31 @@ Insert into ROOT.KONYV_HOL (KONYV_ID,BOLT_ID,DARAB) values ('2','1','3');
 Insert into ROOT.KONYV_HOL (KONYV_ID,BOLT_ID,DARAB) values ('2','2','10');
 REM INSERTING into ROOT.MUFAJOK
 SET DEFINE OFF;
-Insert into ROOT.MUFAJOK (MUFAJ_ID,MUFAJNEV,SZULO) values ('1','Dráma','0');
-Insert into ROOT.MUFAJOK (MUFAJ_ID,MUFAJNEV,SZULO) values ('2','Melodráma','1');
-Insert into ROOT.MUFAJOK (MUFAJ_ID,MUFAJNEV,SZULO) values ('3','Vígjáték','0');
-Insert into ROOT.MUFAJOK (MUFAJ_ID,MUFAJNEV,SZULO) values ('4','Tragédia','1');
-Insert into ROOT.MUFAJOK (MUFAJ_ID,MUFAJNEV,SZULO) values ('5','Kutyás','3');
+Insert into ROOT.MUFAJOK (MUFAJ_ID,MUFAJNEV,SZULO) values ('1','Drï¿½ma','0');
+Insert into ROOT.MUFAJOK (MUFAJ_ID,MUFAJNEV,SZULO) values ('2','Melodrï¿½ma','1');
+Insert into ROOT.MUFAJOK (MUFAJ_ID,MUFAJNEV,SZULO) values ('3','Vï¿½gjï¿½tï¿½k','0');
+Insert into ROOT.MUFAJOK (MUFAJ_ID,MUFAJNEV,SZULO) values ('4','Tragï¿½dia','1');
+Insert into ROOT.MUFAJOK (MUFAJ_ID,MUFAJNEV,SZULO) values ('5','Kutyï¿½s','3');
 REM INSERTING into ROOT.REVIEW
 SET DEFINE OFF;
-Insert into ROOT.REVIEW (USER_ID,KONYV_ID,REVIEW) values ('1','1','nagon jóóó');
-Insert into ROOT.REVIEW (USER_ID,KONYV_ID,REVIEW) values ('2','2','ultragázz');
+Insert into ROOT.REVIEW (USER_ID,KONYV_ID,REVIEW) values ('1','1','nagon jï¿½ï¿½ï¿½');
+Insert into ROOT.REVIEW (USER_ID,KONYV_ID,REVIEW) values ('2','2','ultragï¿½zz');
 REM INSERTING into ROOT.SZERZOK
 SET DEFINE OFF;
-Insert into ROOT.SZERZOK (KONYV_ID,SZERZO) values ('1','Kovács Ferenc');
+Insert into ROOT.SZERZOK (KONYV_ID,SZERZO) values ('1','Kovï¿½cs Ferenc');
 Insert into ROOT.SZERZOK (KONYV_ID,SZERZO) values ('2','Hans Truman');
 Insert into ROOT.SZERZOK (KONYV_ID,SZERZO) values ('2','Johny Depp');
 REM INSERTING into ROOT.USERS
 SET DEFINE OFF;
-Insert into ROOT.USERS (USER_ID,NEV,EMAIL,PASSWORD,ORDERED_NUM,ISTORZSVASARLO) values ('1','Péter Ferenc','peti@feri.hu','11223','0','0');
-Insert into ROOT.USERS (USER_ID,NEV,EMAIL,PASSWORD,ORDERED_NUM,ISTORZSVASARLO) values ('2','Kis József','kjozsi@gmail.com','123456','100','1');
+Insert into ROOT.USERS (USER_ID,NEV,EMAIL,PASSWORD,ORDERED_NUM,ISTORZSVASARLO) values ('1','Pï¿½ter Ferenc','peti@feri.hu','11223','0','0');
+Insert into ROOT.USERS (USER_ID,NEV,EMAIL,PASSWORD,ORDERED_NUM,ISTORZSVASARLO) values ('2','Kis Jï¿½zsef','kjozsi@gmail.com','123456','100','1');
 REM INSERTING into ROOT.VASARLASOK
 SET DEFINE OFF;
-Insert into ROOT.VASARLASOK (VASARLAS_ID,USER_ID,KONYV_ID,IRSZ,HAZSZAM,BOLT_ID,MEGJEGYZES,DB,DATUM,AR) values ('1','1','2','5600','fos utca 4','1','mindenzsir','1',to_date('13-ÁPR.  -01','RR-MON-DD'),'1000');
-Insert into ROOT.VASARLASOK (VASARLAS_ID,USER_ID,KONYV_ID,IRSZ,HAZSZAM,BOLT_ID,MEGJEGYZES,DB,DATUM,AR) values ('2','1','1','5600','Deákt 4','2','jjoo','2',to_date('13-ÁPR.  -02','RR-MON-DD'),'2000');
+Insert into ROOT.VASARLASOK (VASARLAS_ID,USER_ID,KONYV_ID,IRSZ,HAZSZAM,BOLT_ID,MEGJEGYZES,DB,DATUM,AR) values ('1','1','2','5600','fos utca 4','1','mindenzsir','1',to_date('13-ï¿½PR.  -01','RR-MON-DD'),'1000');
+Insert into ROOT.VASARLASOK (VASARLAS_ID,USER_ID,KONYV_ID,IRSZ,HAZSZAM,BOLT_ID,MEGJEGYZES,DB,DATUM,AR) values ('2','1','1','5600','Deï¿½kt 4','2','jjoo','2',to_date('13-ï¿½PR.  -02','RR-MON-DD'),'2000');
 REM INSERTING into ROOT.ZENE
 SET DEFINE OFF;
-Insert into ROOT.ZENE (ZENE_ID,CIM,ELOADO,HOSSZ,KIADO_ID,MEGJELENES) values ('1','Living Things','Linkin Park','85','1',to_date('13-ÁPR.  -01','RR-MON-DD'));
+Insert into ROOT.ZENE (ZENE_ID,CIM,ELOADO,HOSSZ,KIADO_ID,MEGJELENES) values ('1','Living Things','Linkin Park','85','1',to_date('13-ï¿½PR.  -01','RR-MON-DD'));
 Insert into ROOT.ZENE (ZENE_ID,CIM,ELOADO,HOSSZ,KIADO_ID,MEGJELENES) values ('2','Nemesis','Stratovarius','120','2',to_date('13-FEBR. -01','RR-MON-DD'));
 --------------------------------------------------------
 --  DDL for Index ADMIN_PK

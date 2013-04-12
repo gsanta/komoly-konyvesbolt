@@ -6,7 +6,7 @@
 
 <%@ include file="/WEB-INF/web/common/taglibs.jsp"%>
 
-<s:layout-render name="/WEB-INF/web/common/common_layout.jsp">
+<s:layout-render name="/WEB-INF/web/common/${actionBean.context.baseLayout}">
 	<s:layout-component name="body">
 		<s:form beanclass="komoly.action.UserDataActionBean" >
 			<s:errors />

@@ -7,18 +7,7 @@
 <%@ include file="/WEB-INF/web/common/taglibs.jsp"%>
 <c:set var="prefix" value="${actionBean.getClass().name}"/>
 
-<s:layout-render name="/WEB-INF/web/common/common_layout.jsp">
-	<s:layout-component name="login">
-		<div id="login">
-			<s:form beanclass="komoly.action.LoginActionBean">
-				<span><s:label name="label.email" for="email" /></span>
-				<s:text id="email" name="email" />
-				<span><s:label name="label.password" for="password"/></span>
-				<s:password id="password" name="password" />
-				<s:submit name="login" />
-			</s:form>
-		</div>
-	</s:layout-component>
+<s:layout-render name="/WEB-INF/web/common/${actionBean.context.baseLayout}">
 	
 	<s:layout-component name="body">
 		Főoldal

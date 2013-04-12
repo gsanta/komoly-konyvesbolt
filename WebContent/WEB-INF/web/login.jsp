@@ -9,8 +9,9 @@
 <s:layout-render name="/WEB-INF/web/common/common_layout.jsp">
 	<s:layout-component name="body">
 		<s:form beanclass="komoly.action.LoginActionBean" >
-			<s:errors />
-			
+			<div class="errorDiv">
+				<s:errors />
+			</div>
 			<table>
 				<tr>
 					<td>

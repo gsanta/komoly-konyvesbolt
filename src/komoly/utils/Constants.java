@@ -19,6 +19,12 @@ public final class Constants {
 
 	public static final String BASKET_LIST = "BASKET_LIST";
 
+	public static final String COMMON_LAYOUT = "common_layout.jsp";
+
+	public static final String LOGGED_IN_LAYOUT = "logged_in_layout.jsp";
+
+	public static final String ADMIN_LAYOUT = "admin_layout.jsp";
+
 	/**
 	 * Constructor.
 	 */

@@ -8,10 +8,8 @@
 
 <s:layout-definition>
 
-<s:layout-render name="/WEB-INF/web/common/common_layout.jsp">
-	<s:layout-component name="login">
-		${login }
-	</s:layout-component>
+<s:layout-render name="/WEB-INF/web/common/${actionBean.context.baseLayout}" >
+
 	<s:layout-component name="body">
 	
 		

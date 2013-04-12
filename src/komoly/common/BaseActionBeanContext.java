@@ -103,6 +103,18 @@ public class BaseActionBeanContext extends ActionBeanContext {
 		return (UserData) readFromSession(Constants.USER_NAME);
 	}
 
+	public String getBaseLayout() {
+		if (getUser() == null) {
+			return Constants.COMMON_LAYOUT;
+		} else if (getUser().getRole() == Role.LOGGED_IN_USER) {
+			return Constants.LOGGED_IN_LAYOUT;
+		} else if (getUser().getRole() == Role.ADMIN) {
+			return Constants.ADMIN_LAYOUT;
+		}
+
+		return Constants.COMMON_LAYOUT;
+	}
+
 	@SuppressWarnings("unchecked")
 	public void addToBasket(BookData bd) {
 		List<BookData> basketDataList = null;

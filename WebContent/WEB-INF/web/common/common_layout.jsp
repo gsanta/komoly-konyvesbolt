@@ -14,17 +14,17 @@
 		
 		<body>
 		<div id="fenticsik">
-			<s:link beanclass="komoly.action.AdminActionBean">
-		  			Admin
-		  	</s:link>
-			<s:link beanclass="komoly.action.BasketActionBean">
-		  			Kosár
-		  	</s:link>
-			<s:link beanclass="komoly.action.UserDataActionBean">
-		  			Adatok
-		  	</s:link>
+			
 			<s:layout-component name="login">
-				
+				<div id="login">
+					<s:form beanclass="komoly.action.LoginActionBean">
+						<span><s:label name="label.email" for="email" /></span>
+						<s:text id="email" name="email" />
+						<span><s:label name="label.password" for="password"/></span>
+						<s:password id="password" name="password" />
+						<s:submit name="login" />
+					</s:form>
+				</div>
 			</s:layout-component>
 		</div>
 		  <div id="container">

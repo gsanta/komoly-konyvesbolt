@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import komoly.bean.UserData;
 import komoly.dao.UserDao;
@@ -195,7 +196,8 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public boolean changeUserData(UserData userData, Role role) {
+	public boolean changeUserData(UserData userData, Role role,
+			List<String> errors) {
 
 		Connection conn = DatabaseHelper.getConnection();
 
@@ -245,6 +247,8 @@ public class UserDaoImpl implements UserDao {
 
 				if (rs.next() && rs.getInt(1) > 0) {
 					LOGGER.info("Mar van ilyen email cim!");
+
+					errors.add("Ez az email cím már foglalt!");
 					return false;
 				}
 

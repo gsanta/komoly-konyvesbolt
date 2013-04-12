@@ -8,14 +8,6 @@
 <c:set var="prefix" value="${actionBean.getClass().name}"/>
 
 <s:layout-render name="/WEB-INF/web/common/books_layout.jsp">
-	<s:layout-component name="login">
-		<div id="login">
-			<span>${actionBean.context.user.name }</span>
-			<s:form style="display:inline" beanclass="komoly.action.LoginActionBean">
-				<s:submit name="logout" value="Kijelentkezés"/>
-			</s:form>
-		</div>
-	</s:layout-component>
 	<s:layout-component name="bookList">
 		<c:forEach var="book" items="${actionBean.books}">
 			Cím: ${book.title }<br>

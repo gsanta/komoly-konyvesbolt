@@ -1,5 +1,8 @@
 package komoly.action;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import komoly.bean.UserData;
 import komoly.common.BaseActionBean;
 import komoly.dao.UserDao;
@@ -9,13 +12,24 @@ import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.validation.EmailTypeConverter;
+import net.sourceforge.stripes.validation.SimpleError;
+import net.sourceforge.stripes.validation.Validate;
+import net.sourceforge.stripes.validation.ValidateNestedProperties;
 
 public class UserDataActionBean extends BaseActionBean {
 
-	private static final String VIEW_USER = "/WEB-INF/web/userData.jsp";
+	private static final String VIEW_USER = "/WEB-INF/web/logged_in/user_data_logged_in.jsp";
 
 	private static final String VIEW_ADMIN = "/WEB-INF/web/adminData.jsp";
 
+	@ValidateNestedProperties({
+			@Validate(field = "email", required = true, on = "change", converter = EmailTypeConverter.class),
+			@Validate(field = "name", required = true, on = "change"),
+			@Validate(field = "irsz", required = true, on = "change"),
+			@Validate(field = "utca", required = true, on = "change"),
+			@Validate(field = "hazSzam", required = true, on = "change"),
+			@Validate(field = "varos", required = true, on = "change") })
 	private UserData userData;
 
 	@DefaultHandler
@@ -35,7 +49,16 @@ public class UserDataActionBean extends BaseActionBean {
 
 		System.out.println("nééééév: " + userData.getUtca());
 		userData.setId(getContext().getUser().getId());
-		userDao.changeUserData(userData, getContext().getUser().getRole());
+
+		List<String> errors = new ArrayList<String>();
+
+		if (userDao.changeUserData(userData, getContext().getUser().getRole(),
+				errors) == false) {
+			for (String e : errors) {
+				getContext().getValidationErrors().addGlobalError(
+						new SimpleError(e));
+			}
+		}
 
 		userData = userDao.getUserData(userData.getId(), userData.getRole());
 		if (userData != null) {
