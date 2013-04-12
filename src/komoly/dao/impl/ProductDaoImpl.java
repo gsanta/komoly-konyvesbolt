@@ -286,4 +286,68 @@ public class ProductDaoImpl implements ProductDao {
 			DatabaseHelper.close(conn);
 		}
 	}
+
+	public void addPDFBook(BookData bookData, String basePath) {
+		Connection conn = DatabaseHelper.getConnection();
+
+		PreparedStatement stm = null;
+		ResultSet rs = null;
+
+		try {
+
+			stm = conn.prepareStatement("select max(KONYV_ID) from KONYV");
+			rs = stm.executeQuery();
+
+			System.out.println("saaavePath: " + basePath + "file.jpg");
+
+			System.out.println(bookData.getImage().getContentType());
+			System.out.println(bookData.getImage().getFileName());
+
+			int newId = 0;
+
+			if (rs.next()) {
+				newId = rs.getInt(1) + 1;
+			}
+
+			DatabaseHelper.close(stm);
+
+			String ext = null;
+
+			if (bookData.getImage().getContentType().equals("image/jpeg")) {
+				ext = ".jpg";
+			}
+
+			bookData.getImage().save(
+					new File(basePath + "/book_pics/" + newId + ext));
+
+			bookData.getPdf().save(
+					new File(basePath + "/book_pics/" + newId + ext));
+
+			stm = conn
+					.prepareStatement("insert into KONYV (CIM,ADDED,PRICE,KIADO_ID,MUFAJ_ID,OLDALSZAM,KOTES,MERET,ISEBOOK,KONYV_ID,IMAGE_URL) values(?,to_date('04-SZEPT.-29','RR-MON-DD'),?,null,?,?,null,null,1,?,?)");
+
+			stm.setString(1, bookData.getTitle());
+			stm.setInt(2, bookData.getPrice());
+			stm.setInt(3, bookData.getMufajId());
+			stm.setInt(4, bookData.getPageNum());
+			stm.setInt(5, newId);
+
+			if (ext != null) {
+				stm.setString(6, newId + ext);
+			}
+
+			stm.executeUpdate();
+
+		} catch (SQLException e) {
+			LOGGER.error(e);
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			DatabaseHelper.close(rs);
+			DatabaseHelper.close(stm);
+			DatabaseHelper.close(conn);
+		}
+	}
 }

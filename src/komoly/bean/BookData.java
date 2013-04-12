@@ -28,7 +28,11 @@ public class BookData {
 
 	private FileBean image;
 
+	private FileBean pdf;
+
 	private String fileName = "placeholder.jpg";
+
+	private int count;
 
 	public int getId() {
 		return id;
@@ -132,6 +136,22 @@ public class BookData {
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+	public FileBean getPdf() {
+		return pdf;
+	}
+
+	public void setPdf(FileBean pdf) {
+		this.pdf = pdf;
 	}
 
 	@Override

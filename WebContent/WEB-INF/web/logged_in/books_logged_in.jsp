@@ -7,12 +7,6 @@
 <%@ include file="/WEB-INF/web/common/taglibs.jsp"%>
 <c:set var="prefix" value="${actionBean.getClass().name}"/>
 
-<script>
-	$(function() {
-		alert("ok")
-	})
-</script>
-
 <s:layout-render name="/WEB-INF/web/common/books_layout.jsp">
 	<s:layout-component name="login">
 		<div id="login">
@@ -36,6 +30,7 @@
 			<s:form beanclass="komoly.action.BooksActionBean">
 				<s:hidden name="basketData.id" value="${book.id }"/>
 				<s:hidden name="basketData.title" value="${book.title }"/>
+				<s:hidden name="basketData.price" value="${book.price }"/>
 				Kosárba<s:text name="basketData.count" size="2">1</s:text>
 				<s:submit name="toBasket" value="+" />
 			</s:form>

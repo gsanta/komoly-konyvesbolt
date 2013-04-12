@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import komoly.bean.BasketData;
+import komoly.bean.BookData;
 import komoly.bean.UserData;
 import komoly.utils.Constants;
 import komoly.utils.Role;
@@ -104,17 +104,17 @@ public class BaseActionBeanContext extends ActionBeanContext {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void addToBasket(BasketData bd) {
-		List<BasketData> basketDataList = null;
+	public void addToBasket(BookData bd) {
+		List<BookData> basketDataList = null;
 		if (readFromSession(Constants.BASKET_LIST) != null) {
-			basketDataList = (List<BasketData>) readFromSession(Constants.BASKET_LIST);
+			basketDataList = (List<BookData>) readFromSession(Constants.BASKET_LIST);
 		} else {
-			basketDataList = new ArrayList<BasketData>();
+			basketDataList = new ArrayList<BookData>();
 		}
 
 		boolean newItem = true;
 
-		for (BasketData data : basketDataList) {
+		for (BookData data : basketDataList) {
 			if (data.getId() == bd.getId()) {
 				newItem = false;
 
@@ -131,11 +131,11 @@ public class BaseActionBeanContext extends ActionBeanContext {
 
 	@SuppressWarnings("unchecked")
 	public void deleteFromBasket(int id) {
-		List<BasketData> basketDataList = null;
+		List<BookData> basketDataList = null;
 		if (readFromSession(Constants.BASKET_LIST) != null) {
-			basketDataList = (List<BasketData>) readFromSession(Constants.BASKET_LIST);
+			basketDataList = (List<BookData>) readFromSession(Constants.BASKET_LIST);
 		} else {
-			basketDataList = new ArrayList<BasketData>();
+			basketDataList = new ArrayList<BookData>();
 		}
 
 		for (int i = 0; i < basketDataList.size(); i++) {
@@ -147,11 +147,11 @@ public class BaseActionBeanContext extends ActionBeanContext {
 		addToSession(Constants.BASKET_LIST, basketDataList);
 	}
 
-	public List<BasketData> getBasket() {
+	public List<BookData> getBasket() {
 		if (readFromSession(Constants.BASKET_LIST) != null) {
-			return (List<BasketData>) readFromSession(Constants.BASKET_LIST);
+			return (List<BookData>) readFromSession(Constants.BASKET_LIST);
 		} else {
-			return new ArrayList<BasketData>();
+			return new ArrayList<BookData>();
 		}
 	}
 

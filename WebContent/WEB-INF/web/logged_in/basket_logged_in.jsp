@@ -29,6 +29,9 @@
 				</s:link>
 				<br>
 		</c:forEach>
+		Összesen:
+		${actionBean.allPrice } Ft <br>
+		<s:link beanclass="komoly.action.BasketActionBean" event="pay">Fizet</s:link>
 		<s:link beanclass="komoly.action.BasketActionBean" event="deleteAll" >
 			Mindet töröl
 		</s:link>

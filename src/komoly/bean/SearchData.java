@@ -4,15 +4,21 @@ public class SearchData {
 
 	private String title;
 
+	private boolean titleSearch;
+
 	private SelectData.ConcatenationOperator titleConcatenation;
 
-	private int length = -1;
+	private int length = 0;
+
+	private boolean lengthSearch;
 
 	private SelectData.RelationOperator lengthRelation;
 
 	private SelectData.ConcatenationOperator lengthConcatenation;
 
-	private int price = -1;
+	private int price = 0;
+
+	private boolean priceSearch;
 
 	private SelectData.RelationOperator priceRelation;
 
@@ -20,11 +26,15 @@ public class SearchData {
 
 	private int mufajId = -1;
 
+	private boolean mufajSearch;
+
 	private SelectData.RelationOperator mufajRelation;
 
 	private SelectData.ConcatenationOperator mufajConcatenation;
 
 	private int publisherId = -1;
+
+	private boolean publisherSearch;
 
 	private SelectData.RelationOperator publisherRelation;
 
@@ -147,4 +157,45 @@ public class SearchData {
 			SelectData.ConcatenationOperator titleConcatenation) {
 		this.titleConcatenation = titleConcatenation;
 	}
+
+	public boolean isTitleSearch() {
+		return titleSearch;
+	}
+
+	public void setTitleSearch(boolean titleSearch) {
+		this.titleSearch = titleSearch;
+	}
+
+	public boolean isLengthSearch() {
+		return lengthSearch;
+	}
+
+	public void setLengthSearch(boolean lengthSearch) {
+		this.lengthSearch = lengthSearch;
+	}
+
+	public boolean isPriceSearch() {
+		return priceSearch;
+	}
+
+	public void setPriceSearch(boolean priceSearch) {
+		this.priceSearch = priceSearch;
+	}
+
+	public boolean isMufajSearch() {
+		return mufajSearch;
+	}
+
+	public void setMufajSearch(boolean mufajSearch) {
+		this.mufajSearch = mufajSearch;
+	}
+
+	public boolean isPublisherSearch() {
+		return publisherSearch;
+	}
+
+	public void setPublisherSearch(boolean publisherSearch) {
+		this.publisherSearch = publisherSearch;
+	}
+
 }

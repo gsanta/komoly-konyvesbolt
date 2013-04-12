@@ -7,6 +7,16 @@ body {
 	padding:0;
 }
 
+.error {
+	background: red;
+}
+
+.errorDiv {
+	font-size: 0.8em;
+	color: red;
+	font-style: italic;
+}
+
 #container {
 	width: 1000px;
 	height: 100%;

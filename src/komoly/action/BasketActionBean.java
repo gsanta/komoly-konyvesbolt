@@ -2,7 +2,7 @@ package komoly.action;
 
 import java.util.List;
 
-import komoly.bean.BasketData;
+import komoly.bean.BookData;
 import komoly.common.BaseActionBean;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -41,8 +41,18 @@ public class BasketActionBean extends BaseActionBean {
 		return show();
 	}
 
-	public List<BasketData> getBasketList() {
+	public List<BookData> getBasketList() {
 		return getContext().getBasket();
+	}
+
+	public int getAllPrice() {
+		List<BookData> bookList = getContext().getBasket();
+
+		int price = 0;
+		for (BookData b : bookList) {
+			price += b.getPrice() * b.getCount();
+		}
+		return price;
 	}
 
 	public int getDeleteItemId() {

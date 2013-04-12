@@ -3,7 +3,6 @@ package komoly.action;
 import java.util.ArrayList;
 import java.util.List;
 
-import komoly.bean.BasketData;
 import komoly.bean.BookData;
 import komoly.bean.MufajData;
 import komoly.bean.PublisherData;
@@ -13,8 +12,11 @@ import komoly.common.BaseActionBean;
 import komoly.dao.ProductDao;
 import komoly.dao.impl.ProductDaoImpl;
 import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.validation.Validate;
+import net.sourceforge.stripes.validation.ValidateNestedProperties;
 
 import org.apache.log4j.Logger;
 
@@ -41,9 +43,12 @@ public class BooksActionBean extends BaseActionBean {
 
 	private List<MufajData> mufajs;
 
+	@ValidateNestedProperties({
+			@Validate(field = "price", minvalue = 1, on = "search"),
+			@Validate(field = "length", minvalue = 1, on = "search") })
 	private SearchData searchData = new SearchData();
 
-	private BasketData basketData = new BasketData();
+	private BookData basketData = new BookData();
 
 	private ProductDao productDao = new ProductDaoImpl();
 
@@ -57,6 +62,7 @@ public class BooksActionBean extends BaseActionBean {
 	 * @return
 	 */
 	@DefaultHandler
+	@DontValidate
 	public Resolution view() {
 
 		List<SelectData> selectDataList = new ArrayList<SelectData>();
@@ -103,15 +109,18 @@ public class BooksActionBean extends BaseActionBean {
 
 		//		LOGGER.info(length + "  " + price);
 
+		System.out.println("isTitleSearch: " + searchData.isTitleSearch());
 		List<SelectData> selectDataList = new ArrayList<SelectData>();
 
-		if (searchData.getTitle() != null) {
+		if (searchData.isTitleSearch()) {
+			//		if (searchData.getTitle() != null) {
 			selectDataList.add(new SelectData(SelectData.RelationOperator.LIKE,
 					searchData.getTitleConcatenation(), SelectData.Column.CIM,
 					searchData.getTitle()));
 		}
 
-		if (searchData.getMufajId() != -1) {
+		if (searchData.isMufajSearch()) {
+			//if (searchData.getMufajId() != -1) {
 			selectDataList.add(new SelectData(
 					SelectData.RelationOperator.EQUALS, searchData
 							.getMufajConcatenation(),
@@ -119,7 +128,8 @@ public class BooksActionBean extends BaseActionBean {
 							.getMufajId())));
 		}
 
-		if (searchData.getPublisherId() != -1) {
+		if (searchData.isPublisherSearch()) {
+			//if (searchData.getPublisherId() != -1) {
 			selectDataList.add(new SelectData(
 					SelectData.RelationOperator.EQUALS, searchData
 							.getPublisherConcatenation(),
@@ -127,14 +137,15 @@ public class BooksActionBean extends BaseActionBean {
 							.getPublisherId())));
 		}
 
-		if (searchData.getLength() != -1) {
+		if (searchData.isLengthSearch()) {
+			//if (searchData.getLength() != -1) {
 			selectDataList.add(new SelectData(searchData.getLengthRelation(),
 					searchData.getLengthConcatenation(),
 					SelectData.Column.OLDALSZAM, String.valueOf(searchData
 							.getLength())));
 		}
 
-		if (searchData.getPrice() != -1) {
+		if (searchData.isPriceSearch()) {
 			selectDataList.add(new SelectData(searchData.getPriceRelation(),
 					searchData.getPriceConcatenation(),
 					SelectData.Column.PRICE, String.valueOf(searchData
@@ -228,11 +239,11 @@ public class BooksActionBean extends BaseActionBean {
 		this.searchData = searchData;
 	}
 
-	public BasketData getBasketData() {
+	public BookData getBasketData() {
 		return basketData;
 	}
 
-	public void setBasketData(BasketData basketData) {
+	public void setBasketData(BookData basketData) {
 		this.basketData = basketData;
 	}
 

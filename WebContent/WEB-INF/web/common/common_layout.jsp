@@ -14,14 +14,33 @@
 		
 		<body>
 		<div id="fenticsik">
+			<s:link beanclass="komoly.action.AdminActionBean">
+		  			Admin
+		  	</s:link>
+			<s:link beanclass="komoly.action.BasketActionBean">
+		  			Kosár
+		  	</s:link>
+			<s:link beanclass="komoly.action.UserDataActionBean">
+		  			Adatok
+		  	</s:link>
 			<s:layout-component name="login">
 				
 			</s:layout-component>
 		</div>
 		  <div id="container">
 		  	<div id="header"> 
-		  	<img src="images/logo.png" alt="logo" />
-		  	<img src="images/logo2.png" alt="logo" />
+		  		<img src="images/logo.png" alt="logo" />
+		  		<img src="images/logo2.png" alt="logo" />
+		  		<br>
+		  		<s:link beanclass="komoly.action.HomeActionBean">
+		  			Főoldal
+		  		</s:link>
+		  		<s:link beanclass="komoly.action.BooksActionBean">
+		  			Könyvek
+		  		</s:link>
+		  		<s:link beanclass="komoly.action.OwnBookUploadActionBean">
+		  			Könyv feltöltés
+		  		</s:link>
 		  	</div>
 			<s:layout-component name="body"></s:layout-component>
 			

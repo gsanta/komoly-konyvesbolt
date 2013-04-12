@@ -6,12 +6,6 @@
 
 <%@ include file="/WEB-INF/web/common/taglibs.jsp"%>
 
-<script>
-	$(function() {
-		alert("ok")
-	})
-</script>
-
 <s:layout-render name="/WEB-INF/web/common/books_layout.jsp">
 	<s:layout-component name="login">
 		<div id="login">
