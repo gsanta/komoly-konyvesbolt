@@ -19,4 +19,6 @@ public interface UserDao {
 	UserData getUserData(int id, Role role);
 
 	boolean changeUserData(UserData userData, Role role, List<String> errors);
+
+	boolean register(UserData userData, Role role, List<String> errors);
 }

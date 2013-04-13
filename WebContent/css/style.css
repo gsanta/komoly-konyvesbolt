@@ -58,3 +58,8 @@ a:active  {color:#FFFFFF; text-decoration: none;}
 	width: inherit;
 	height: 100px;
 }
+
+.errorField {
+	font-size: 0.8em;
+	color: red;
+}

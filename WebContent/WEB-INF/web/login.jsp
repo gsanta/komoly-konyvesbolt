@@ -25,6 +25,11 @@
 			    </p>
 			  </div>
 			</div>
+			<div id="registmain">
+				<p>
+			    	<s:link beanclass="komoly.action.RegistrationActionBean">regisztráció</s:link>
+			    </p>
+			</div>
 
 		</s:form>
 	</s:layout-component>

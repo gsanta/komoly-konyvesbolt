@@ -11,6 +11,7 @@ import komoly.action.BooksActionBean;
 import komoly.action.HomeActionBean;
 import komoly.action.LoginActionBean;
 import komoly.action.OwnBookUploadActionBean;
+import komoly.action.RegistrationActionBean;
 import komoly.action.UserDataActionBean;
 import komoly.common.BaseActionBean;
 import komoly.common.BaseActionBeanContext;
@@ -77,6 +78,8 @@ public class LoginInterceptor implements Interceptor {
 		ALLOWED_ACTION_CLASSES_MAP.get(Role.VISITOR).add(LoginActionBean.class);
 		ALLOWED_ACTION_CLASSES_MAP.get(Role.VISITOR).add(HomeActionBean.class);
 		ALLOWED_ACTION_CLASSES_MAP.get(Role.VISITOR).add(BooksActionBean.class);
+		ALLOWED_ACTION_CLASSES_MAP.get(Role.VISITOR).add(
+				RegistrationActionBean.class);
 	}
 
 	/**

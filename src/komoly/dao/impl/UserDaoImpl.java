@@ -294,4 +294,155 @@ public class UserDaoImpl implements UserDao {
 
 		return true;
 	}
+
+	public boolean register(UserData userData, Role role, List<String> errors) {
+		Connection conn = DatabaseHelper.getConnection();
+
+		PreparedStatement stm = null;
+		ResultSet rs = null;
+
+		try {
+
+			if (role == Role.ADMIN) {
+				String queryEmail = "select count(*) from ADMIN EMAIL = ?";
+
+				stm = conn.prepareStatement(queryEmail);
+				stm.setString(1, userData.getEmail());
+
+				rs = stm.executeQuery();
+
+				if (rs.next()) {
+					LOGGER.info("Mar van ilyen email cim!");
+					return false;
+				}
+
+				DatabaseHelper.close(rs);
+				DatabaseHelper.close(stm);
+
+				/**
+				 * Ez még rossz!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				 */
+				String update = "insert into ADMIN set NEV = ? EMAIL = ? where ADMIN_ID = ?";
+
+				stm = conn.prepareStatement(update);
+				stm.setString(1, userData.getName());
+				stm.setString(2, userData.getEmail());
+				stm.setInt(3, userData.getId());
+
+				int rows = stm.executeUpdate();
+
+				if (rows == 0) {
+					return false;
+				}
+
+			} else if (role == Role.LOGGED_IN_USER) {
+				String queryEmail = "select count(*) from USERS where EMAIL = ?";
+
+				stm = conn.prepareStatement(queryEmail);
+				stm.setString(1, userData.getEmail());
+
+				rs = stm.executeQuery();
+
+				if (rs.next() && rs.getInt(1) > 0) {
+					LOGGER.info("Mar van ilyen email cim!");
+
+					errors.add("Ez az email cím már foglalt!");
+					return false;
+				}
+
+				DatabaseHelper.close(rs);
+				DatabaseHelper.close(stm);
+
+				String maxIdQuery = "select max(USER_ID) from USERS";
+
+				stm = conn.prepareStatement(maxIdQuery);
+				rs = stm.executeQuery();
+
+				MessageDigest md = null;
+
+				try {
+					md = MessageDigest.getInstance("MD5");
+				} catch (NoSuchAlgorithmException e) {
+					e.printStackTrace();
+				}
+
+				md.update(userData.getPassword().getBytes());
+
+				byte byteData[] = md.digest();
+
+				//convert the byte to hex format
+				StringBuffer sb = new StringBuffer();
+				for (int i = 0; i < byteData.length; i++) {
+					sb.append(Integer
+							.toString((byteData[i] & 0xff) + 0x100, 16)
+							.substring(1));
+				}
+
+				if (rs.next()) {
+
+					int maxId = rs.getInt(1) + 1;
+					String insert = "insert into USERS (USER_ID,NEV,EMAIL,PASSWORD,ORDERED_NUM,ISTORZSVASARLO) values(?,?,?,?,?,?)";
+
+					DatabaseHelper.close(rs);
+					DatabaseHelper.close(stm);
+					stm = conn.prepareStatement(insert);
+
+					stm.setInt(1, maxId);
+					stm.setString(2, userData.getName());
+					stm.setString(3, userData.getEmail());
+					stm.setString(4, sb.toString());
+					stm.setInt(5, 0);
+					stm.setInt(6, 0);
+
+					int rows = stm.executeUpdate();
+
+					DatabaseHelper.close(rs);
+					DatabaseHelper.close(stm);
+
+					String maxCimIdQuery = "select max(CIM_ID) from CIMEK";
+
+					stm = conn.prepareStatement(maxCimIdQuery);
+					rs = stm.executeQuery();
+
+					int maxCimId = 0;
+					if (rs.next()) {
+						maxCimId = rs.getInt(1) + 1;
+					} else {
+						throw new SQLException("baj van");
+					}
+
+					insert = "insert into CIMEK (CIM_ID,IRSZ,UTCA,HAZSZAM,USER_ID) values(?,?,?,?,?)";
+
+					DatabaseHelper.close(rs);
+					DatabaseHelper.close(stm);
+
+					stm = conn.prepareStatement(insert);
+					stm.setInt(1, maxCimId);
+					stm.setInt(2, userData.getIrsz());
+					stm.setString(3, userData.getUtca());
+					stm.setInt(4, userData.getHazSzam());
+					stm.setInt(5, maxId);
+
+					rows = stm.executeUpdate();
+
+					//város még hiányzik
+					if (rows == 0) {
+						return false;
+					}
+				} else {
+					errors.add("Ismeretlen hiba történt!");
+				}
+			}
+		} catch (SQLException e) {
+			LOGGER.error(e);
+			e.printStackTrace();
+			return false;
+		} finally {
+			DatabaseHelper.close(rs);
+			DatabaseHelper.close(stm);
+			DatabaseHelper.close(conn);
+		}
+
+		return true;
+	}
 }

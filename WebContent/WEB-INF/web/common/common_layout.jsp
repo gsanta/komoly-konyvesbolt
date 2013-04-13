@@ -18,8 +18,11 @@
 		<div id="fenticsik">
 			
 			<s:layout-component name="login">
+							    	
+				
 				<div id="login">
-					<s:form beanclass="komoly.action.LoginActionBean">
+					<span><s:link beanclass="komoly.action.RegistrationActionBean">regisztráció |</s:link></span>
+					<s:form style="display:inline" beanclass="komoly.action.LoginActionBean">
 						<span><s:label name="label.email" for="email" /></span>
 						<s:text id="email" name="email" />
 						<span><s:label name="label.password" for="password"/></span>

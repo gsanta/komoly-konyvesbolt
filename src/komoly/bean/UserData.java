@@ -22,6 +22,8 @@ public class UserData {
 
 	private String varos;
 
+	private String password;
+
 	public String getName() {
 		return name;
 	}
@@ -92,5 +94,13 @@ public class UserData {
 
 	public void setVaros(String varos) {
 		this.varos = varos;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }
