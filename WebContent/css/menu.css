@@ -1,0 +1,84 @@
+@CHARSET "UTF-8";
+nav ul
+{
+	padding: 0;
+	margin: 0;
+	list-style: none;  	
+}
+
+nav li
+{
+	float: left;
+}
+
+nav a
+{
+    float: left;
+    color: #eee;
+    margin: 0 5px;
+    padding: 3px;
+    text-decoration: none;
+    border: 1px solid #05734d;
+    font: bold 14px Arial, Helvetica; 	
+    background-color: #628B61;
+    background-image: -moz-linear-gradient(#54a76c, #0f683d);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#54a76c), to(#0f683d));    
+    background-image: -webkit-linear-gradient(#54a76c, #0f683d);
+    background-image: -o-linear-gradient(#54a76c, #0f683d);
+    background-image: -ms-linear-gradient(#54a76c, #0f683d);
+    background-image: linear-gradient(#54a76c, #0f683d);
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    text-shadow: 0 -1px 0 rgba(0,0,0,.8);    
+    -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3), 0 3px 0 rgba(0, 0, 0, 0.7), 0 2px 2px rgba(0, 0, 0, 0.5), 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3), 0 3px 0 rgba(0, 0, 0, 0.7), 0 2px 2px rgba(0, 0, 0, 0.5), 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3), 0 3px 0 rgba(0, 0, 0, 0.7), 0 2px 2px rgba(0, 0, 0, 0.5), 0 1px 0 rgba(255, 255, 255, 0.5) inset;	
+}
+
+nav a:hover
+{
+    background-color: #54a76c;
+    background-image: -moz-linear-gradient(#0f683d, #54a76c);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#0f683d), to(#54a76c));      
+    background-image: -webkit-linear-gradient(#0f683d, #54a76c);
+    background-image: -o-linear-gradient(#0f683d, #54a76c);
+    background-image: -ms-linear-gradient(#0f683d, #54a76c);
+    background-image: linear-gradient(#0f683d, #54a76c);
+}
+
+nav a:active
+{
+    background: #54a76c;
+    position: relative;
+    top: 2px;    
+    -moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.7) inset;
+    -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.7) inset;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.7) inset; 
+}
+
+nav span
+{
+    border: 1px dashed #92c4ab;
+    display: inline-block;
+    padding: 4px 15px;
+    cursor: pointer;	
+    background-color: #54a76c;
+    background-image: -moz-linear-gradient(#6db38f, #2f7752);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#6db38f), to(#2f7752));      
+    background-image: -webkit-linear-gradient(#9CB770, #2f7752);
+    background-image: -o-linear-gradient(#6db38f, #2f7752);
+    background-image: -ms-linear-gradient(#6db38f, #2f7752);
+    background-image: linear-gradient(#6db38f, #2f7752);
+}
+
+nav a:hover span
+{	
+    background-color: #54a76c;
+    background-image: -moz-linear-gradient(#2f7752, #6db38f);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#2f7752), to(#6db38f));      
+    background-image: -webkit-linear-gradient(#2f7752, #6db38f);
+    background-image: -o-linear-gradient(#2f7752, #6db38f);
+    background-image: -ms-linear-gradient(#2f7752, #6db38f);
+    background-image: linear-gradient(#2f7752, #6db38f);
+}
