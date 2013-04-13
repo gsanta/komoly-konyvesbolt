@@ -15,11 +15,11 @@ public class DatabaseHelper {
 	 */
 	private static final Logger LOGGER = Logger.getLogger(DatabaseHelper.class);
 
-	private static final String USER_NAME = "rigo";
+	private static final String USER_NAME = "root";
 
-	private static final String PASSWORD = "santag";
+	private static final String PASSWORD = "majomka";
 
-	private static final String SID = "xe";
+	private static final String SID = "orcl";
 
 	static {
 		try {

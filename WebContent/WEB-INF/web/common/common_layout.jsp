@@ -10,7 +10,8 @@
 			<link href='css/style.css' rel='stylesheet' type='text/css'>			
 			<link href='css/menu.css' rel='stylesheet' type='text/css'>
 			<link href='css/login.css' rel='stylesheet' type='text/css'>
-												
+			<link href='css/table.css' rel='stylesheet' type='text/css'>
+															
 			<script type="text/javascript" src="${contextPath}/js/jquery-1.7.1.js"></script>
   		</head>
 		
@@ -51,7 +52,12 @@
 			<s:layout-component name="body"></s:layout-component>
 			
 			<div id="footer"> 
-		  	Adatb alapú házi. 
+				<div id="foot"> 
+		  			<img src="images/book.png" alt="Books" />
+		  			<img src="images/movie.png" alt="Movies" />
+		  			<img src="images/music.png" alt="Music" />
+		  			Komoly könyvesbolt nem csak profiknak!
+		  		</div>
 		  	</div>
 		  </div>
 		</body>
