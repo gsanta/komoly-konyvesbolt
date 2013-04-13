@@ -23,6 +23,8 @@
 				<s:hidden name="basketData.id" value="${book.id }"/>
 				<s:hidden name="basketData.title" value="${book.title }"/>
 				<s:hidden name="basketData.price" value="${book.price }"/>
+				<s:hidden name="pagerId" value="${actionBean.books.get(0).getId() }"/>
+				<s:hidden name="direction" value="RIGHT"/>
 				Kosárba<s:text name="basketData.count" size="2">1</s:text>
 				<s:submit name="toBasket" value="+" />
 			</s:form>
@@ -30,6 +32,28 @@
 			
 			----------------------------<br><br>
 		</c:forEach>
+		
+			<c:choose>
+		<c:when test="${actionBean.prevData == true && fn:length(actionBean.books) > 0 }">
+			<s:link beanclass="komoly.action.BooksActionBean" event="changePage">
+				&lt;prev
+				<s:param name="pagerId" value="${actionBean.books.get(0).getId() }"></s:param>
+				<s:param name="direction" value="LEFT"></s:param>
+			</s:link>
+		</c:when>
+		<c:otherwise>&lt;prev</c:otherwise>
+	</c:choose>
+	
+	<c:choose>
+		<c:when test="${actionBean.nextData && fn:length(actionBean.books) > 0 }">
+			<s:link beanclass="komoly.action.BooksActionBean" event="changePage">
+				next&gt;
+				<s:param name="pagerId" value="${actionBean.books.get(fn:length(actionBean.books) - 1).getId() }"></s:param>
+				<s:param name="direction" value="RIGHT"></s:param>
+			</s:link>
+		</c:when>
+		<c:otherwise>next&gt;</c:otherwise>
+	</c:choose>
 	</s:layout-component>
 	
 </s:layout-render>

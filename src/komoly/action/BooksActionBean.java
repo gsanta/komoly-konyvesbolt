@@ -11,6 +11,8 @@ import komoly.bean.SelectData;
 import komoly.common.BaseActionBean;
 import komoly.dao.ProductDao;
 import komoly.dao.impl.ProductDaoImpl;
+import komoly.utils.Constants;
+import komoly.utils.Direction;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -54,6 +56,14 @@ public class BooksActionBean extends BaseActionBean {
 
 	private String bookPath = null;
 
+	private boolean prevData;
+
+	private boolean nextData;
+
+	private int pagerId;
+
+	private Direction direction;
+
 	private SelectData.RelationOperator dummyEquals = SelectData.RelationOperator.EQUALS;
 
 	/**
@@ -67,23 +77,71 @@ public class BooksActionBean extends BaseActionBean {
 
 		List<SelectData> selectDataList = new ArrayList<SelectData>();
 
-		selectDataList.add(new SelectData(SelectData.RelationOperator.EQUALS,
-				SelectData.ConcatenationOperator.AND,
-				SelectData.Column.ISEBOOK, "0"));
+		//		selectDataList.add(new SelectData(SelectData.RelationOperator.EQUALS,
+		//				SelectData.ConcatenationOperator.AND,
+		//				SelectData.Column.ISEBOOK, "0"));
+		//
+		//		selectDataList.add(new SelectData(
+		//				SelectData.RelationOperator.GREATER_THAN,
+		//				SelectData.ConcatenationOperator.OR, SelectData.Column.PRICE,
+		//				"100"));
+		//
+		//		selectDataList.add(new SelectData(
+		//				SelectData.RelationOperator.GREATER_THAN,
+		//				SelectData.ConcatenationOperator.OR,
+		//				SelectData.Column.OLDALSZAM, "600"));
 
-		selectDataList.add(new SelectData(
-				SelectData.RelationOperator.GREATER_THAN,
-				SelectData.ConcatenationOperator.OR, SelectData.Column.PRICE,
-				"100"));
+		books = productDao.select(selectDataList, Constants.SELECT_COUNT, 0,
+				Direction.RIGHT);
 
-		selectDataList.add(new SelectData(
-				SelectData.RelationOperator.GREATER_THAN,
-				SelectData.ConcatenationOperator.OR,
-				SelectData.Column.OLDALSZAM, "600"));
+		if (books.size() >= 1) {
+			prevData = productDao.hasPrevData(books.get(0).getId(),
+					selectDataList);
+		}
 
-		books = productDao.select(selectDataList, 0, 0);
+		if (books.size() >= 1) {
+
+			nextData = productDao.hasNextData(books.get(books.size() - 1)
+					.getId(), selectDataList);
+		}
 
 		LOGGER.info(books);
+
+		getContext().removeFromSession(Constants.SEARCH_DATA);
+
+		/**
+		 * logged in
+		 */
+		if (getContext().getUser() != null) {
+			return new ForwardResolution(VIEW_LOGGED_IN);
+		}
+
+		return new ForwardResolution(VIEW);
+	}
+
+	@DontValidate
+	public Resolution changePage() {
+		List<SelectData> selectDataList = new ArrayList<SelectData>();
+
+		if (getContext().readFromSession(Constants.SEARCH_DATA) != null) {
+			SearchData searchData = (SearchData) getContext().readFromSession(
+					Constants.SEARCH_DATA);
+			selectDataList = makeSelectDataListFromSearchData(searchData);
+		}
+
+		books = productDao.select(selectDataList, Constants.SELECT_COUNT,
+				pagerId, direction);
+
+		if (books.size() >= 1) {
+			prevData = productDao.hasPrevData(books.get(0).getId(),
+					selectDataList);
+		}
+
+		if (books.size() >= 1) {
+
+			nextData = productDao.hasNextData(books.get(books.size() - 1)
+					.getId(), selectDataList);
+		}
 
 		/**
 		 * logged in
@@ -110,49 +168,23 @@ public class BooksActionBean extends BaseActionBean {
 		//		LOGGER.info(length + "  " + price);
 
 		System.out.println("isTitleSearch: " + searchData.isTitleSearch());
-		List<SelectData> selectDataList = new ArrayList<SelectData>();
+		List<SelectData> selectDataList = makeSelectDataListFromSearchData(searchData);
 
-		if (searchData.isTitleSearch()) {
-			//		if (searchData.getTitle() != null) {
-			selectDataList.add(new SelectData(SelectData.RelationOperator.LIKE,
-					searchData.getTitleConcatenation(), SelectData.Column.CIM,
-					searchData.getTitle()));
+		books = productDao.select(selectDataList, Constants.SELECT_COUNT, 0,
+				Direction.RIGHT);
+
+		if (books.size() >= 1) {
+			prevData = productDao.hasPrevData(books.get(0).getId(),
+					selectDataList);
 		}
 
-		if (searchData.isMufajSearch()) {
-			//if (searchData.getMufajId() != -1) {
-			selectDataList.add(new SelectData(
-					SelectData.RelationOperator.EQUALS, searchData
-							.getMufajConcatenation(),
-					SelectData.Column.MUFAJ_ID, String.valueOf(searchData
-							.getMufajId())));
+		if (books.size() >= 1) {
+
+			nextData = productDao.hasNextData(books.get(books.size() - 1)
+					.getId(), selectDataList);
 		}
 
-		if (searchData.isPublisherSearch()) {
-			//if (searchData.getPublisherId() != -1) {
-			selectDataList.add(new SelectData(
-					SelectData.RelationOperator.EQUALS, searchData
-							.getPublisherConcatenation(),
-					SelectData.Column.KIADO_ID, String.valueOf(searchData
-							.getPublisherId())));
-		}
-
-		if (searchData.isLengthSearch()) {
-			//if (searchData.getLength() != -1) {
-			selectDataList.add(new SelectData(searchData.getLengthRelation(),
-					searchData.getLengthConcatenation(),
-					SelectData.Column.OLDALSZAM, String.valueOf(searchData
-							.getLength())));
-		}
-
-		if (searchData.isPriceSearch()) {
-			selectDataList.add(new SelectData(searchData.getPriceRelation(),
-					searchData.getPriceConcatenation(),
-					SelectData.Column.PRICE, String.valueOf(searchData
-							.getPrice())));
-		}
-
-		books = productDao.select(selectDataList, 0, 0);
+		getContext().addToSession(Constants.SEARCH_DATA, searchData);
 
 		LOGGER.info(books);
 
@@ -170,21 +202,25 @@ public class BooksActionBean extends BaseActionBean {
 
 		List<SelectData> selectDataList = new ArrayList<SelectData>();
 
-		selectDataList.add(new SelectData(SelectData.RelationOperator.EQUALS,
-				SelectData.ConcatenationOperator.AND,
-				SelectData.Column.ISEBOOK, "0"));
+		if (getContext().readFromSession(Constants.SEARCH_DATA) != null) {
+			SearchData searchData = (SearchData) getContext().readFromSession(
+					Constants.SEARCH_DATA);
+			selectDataList = makeSelectDataListFromSearchData(searchData);
+		}
 
-		selectDataList.add(new SelectData(
-				SelectData.RelationOperator.GREATER_THAN,
-				SelectData.ConcatenationOperator.OR, SelectData.Column.PRICE,
-				"100"));
+		books = productDao.select(selectDataList, Constants.SELECT_COUNT,
+				pagerId, Direction.RIGHT);
 
-		selectDataList.add(new SelectData(
-				SelectData.RelationOperator.GREATER_THAN,
-				SelectData.ConcatenationOperator.OR,
-				SelectData.Column.OLDALSZAM, "600"));
+		if (books.size() >= 1) {
+			prevData = productDao.hasPrevData(books.get(0).getId(),
+					selectDataList);
+		}
 
-		books = productDao.select(selectDataList, 0, 0);
+		if (books.size() >= 1) {
+
+			nextData = productDao.hasNextData(books.get(books.size() - 1)
+					.getId(), selectDataList);
+		}
 
 		getContext().addToBasket(basketData);
 
@@ -232,6 +268,10 @@ public class BooksActionBean extends BaseActionBean {
 	}
 
 	public SearchData getSearchData() {
+		if (getContext().readFromSession(Constants.SEARCH_DATA) != null) {
+			searchData = (SearchData) getContext().readFromSession(
+					Constants.SEARCH_DATA);
+		}
 		return searchData;
 	}
 
@@ -255,11 +295,91 @@ public class BooksActionBean extends BaseActionBean {
 		this.bookPath = bookPath;
 	}
 
+	public boolean isPrevData() {
+		return prevData;
+	}
+
+	public void setPrevData(boolean prevData) {
+		this.prevData = prevData;
+	}
+
+	public boolean isNextData() {
+		return nextData;
+	}
+
+	public void setNextData(boolean nextData) {
+		this.nextData = nextData;
+	}
+
+	public int getPagerId() {
+		return pagerId;
+	}
+
+	public void setPagerId(int pagerId) {
+		this.pagerId = pagerId;
+	}
+
+	public Direction getDirection() {
+		return direction;
+	}
+
+	public void setDirection(Direction direction) {
+		this.direction = direction;
+	}
+
 	public SelectData.RelationOperator getDummyEquals() {
 		return dummyEquals;
 	}
 
 	public void setDummyEquals(SelectData.RelationOperator dummyEquals) {
 		this.dummyEquals = dummyEquals;
+	}
+
+	private List<SelectData> makeSelectDataListFromSearchData(
+			SearchData searchData) {
+
+		List<SelectData> selectDataList = new ArrayList<SelectData>();
+
+		if (searchData.isTitleSearch()) {
+			//		if (searchData.getTitle() != null) {
+			selectDataList.add(new SelectData(SelectData.RelationOperator.LIKE,
+					searchData.getTitleConcatenation(), SelectData.Column.CIM,
+					searchData.getTitle()));
+		}
+
+		if (searchData.isMufajSearch()) {
+			//if (searchData.getMufajId() != -1) {
+			selectDataList.add(new SelectData(
+					SelectData.RelationOperator.EQUALS, searchData
+							.getMufajConcatenation(),
+					SelectData.Column.MUFAJ_ID, String.valueOf(searchData
+							.getMufajId())));
+		}
+
+		if (searchData.isPublisherSearch()) {
+			//if (searchData.getPublisherId() != -1) {
+			selectDataList.add(new SelectData(
+					SelectData.RelationOperator.EQUALS, searchData
+							.getPublisherConcatenation(),
+					SelectData.Column.KIADO_ID, String.valueOf(searchData
+							.getPublisherId())));
+		}
+
+		if (searchData.isLengthSearch()) {
+			//if (searchData.getLength() != -1) {
+			selectDataList.add(new SelectData(searchData.getLengthRelation(),
+					searchData.getLengthConcatenation(),
+					SelectData.Column.OLDALSZAM, String.valueOf(searchData
+							.getLength())));
+		}
+
+		if (searchData.isPriceSearch()) {
+			selectDataList.add(new SelectData(searchData.getPriceRelation(),
+					searchData.getPriceConcatenation(),
+					SelectData.Column.PRICE, String.valueOf(searchData
+							.getPrice())));
+		}
+
+		return selectDataList;
 	}
 }

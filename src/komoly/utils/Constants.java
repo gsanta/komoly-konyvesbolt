@@ -25,6 +25,10 @@ public final class Constants {
 
 	public static final String ADMIN_LAYOUT = "admin_layout.jsp";
 
+	public static final int SELECT_COUNT = 3;
+
+	public static final String SEARCH_DATA = "SEARCH_DATA";
+
 	/**
 	 * Constructor.
 	 */

@@ -17,6 +17,7 @@ import komoly.bean.PublisherData;
 import komoly.bean.SelectData;
 import komoly.dao.ProductDao;
 import komoly.utils.DatabaseHelper;
+import komoly.utils.Direction;
 
 import org.apache.log4j.Logger;
 
@@ -28,95 +29,46 @@ public class ProductDaoImpl implements ProductDao {
 	private final Logger LOGGER = Logger.getLogger(ProductDaoImpl.class);
 
 	public List<BookData> select(List<SelectData> selectDataList,
-			int selectCount, int lastId) {
+			int selectCount, int lastId, Direction direction) {
 
 		List<BookData> bookList = new ArrayList<BookData>();
-
-		String query = "select * from KONYV, KIADO, MUFAJOK ";
-
-		Collections.sort(selectDataList, new Comparator<SelectData>() {
-
-			@Override
-			public int compare(SelectData o1, SelectData o2) {
-				if (o1.getConcatenationOperator() == SelectData.ConcatenationOperator.OR) {
-					return -1;
-				} else {
-					return 1;
-				}
-			}
-
-		});
-
-		LOGGER.info(selectDataList);
-
-		boolean elso = true;
-
-		int i = 0;
-		int length = selectDataList.size();
-
-		while (i < length
-				&& selectDataList.get(i).getConcatenationOperator() == SelectData.ConcatenationOperator.OR) {
-
-			boolean string = (selectDataList.get(i).getRelationOperator() == SelectData.RelationOperator.LIKE);
-
-			if (elso == true) {
-				query += "where ( "
-						+ selectDataList.get(i).getColumn().toString() + " "
-						+ selectDataList.get(i).getRelationOperator() + " ";
-
-				query += "?";
-
-				elso = false;
-			} else {
-				query += " " + selectDataList.get(i).getColumn().toString()
-						+ " " + selectDataList.get(i).getRelationOperator()
-						+ " ";
-
-				query += "?";
-
-			}
-
-			i++;
-
-			if (length == i
-					|| selectDataList.get(i).getConcatenationOperator() != SelectData.ConcatenationOperator.OR) {
-				query += ")";
-			} else {
-				query += " or ";
-			}
-		}
-
-		if (i == 0) {
-			query += " where ";
-		}
-
-		while (i < length) {
-
-			if (i != 0) {
-				query += " and ";
-			}
-
-			boolean string = (selectDataList.get(i).getRelationOperator() == SelectData.RelationOperator.LIKE);
-
-			query += selectDataList.get(i).getColumn().toString() + " "
-					+ selectDataList.get(i).getRelationOperator() + " ";
-
-			query += "?";
-
-			i++;
-		}
-
-		query += " and KONYV.KIADO_ID = KIADO.KIADO_ID and KONYV.MUFAJ_ID = MUFAJOK.MUFAJ_ID";
 
 		Connection conn = DatabaseHelper.getConnection();
 
 		PreparedStatement stm = null;
 		ResultSet rs = null;
 
+		String query = "select * from (select KONYV.KONYV_ID as KID, KONYV.CIM as C, PRICE as P, OLDALSZAM as OSZ, ISEBOOK as EB, KOTES as KO,"
+				+ "MERET as ME, MUFAJNEV as MNEV, NEV as N, IMAGE_URL as IURL from KONYV, KIADO, MUFAJOK ";
+
+		query += makeSearchQueryWhereClause(selectDataList);
+
+		if (selectDataList.size() > 0) {
+			query += " and ";
+		}
+
+		String directionString = "";
+		String orderString = "";
+		if (direction == Direction.LEFT) {
+			directionString = " < ";
+			orderString = " desc ";
+		} else {
+			directionString = " > ";
+			orderString = " asc ";
+		}
+
+		query += " KONYV.KIADO_ID = KIADO.KIADO_ID and KONYV.MUFAJ_ID = MUFAJOK.MUFAJ_ID and KONYV_ID"
+				+ directionString
+				+ "? order by KID "
+				+ orderString
+				+ ") where ROWNUM <= ? order by KID";
+
 		try {
 			stm = conn.prepareStatement(query);
 
-			for (i = 0; i < length; i++) {
+			int len = selectDataList.size();
+
+			for (int i = 0; i < len; i++) {
 
 				if (selectDataList.get(i).getColumn().getColumnType() == SelectData.COLUMN_TYPE.INT) {
 					stm.setInt(i + 1,
@@ -127,21 +79,24 @@ public class ProductDaoImpl implements ProductDao {
 				}
 			}
 
+			stm.setInt(len + 1, lastId);
+			stm.setInt(len + 2, selectCount);
+
 			LOGGER.info(query);
 			rs = stm.executeQuery();
 
 			while (rs.next()) {
 				BookData book = new BookData();
-				book.setId(rs.getInt("KONYV_ID"));
-				book.setTitle(rs.getString("CIM"));
-				book.setPrice(rs.getInt("PRICE"));
-				book.setPageNum(rs.getInt("OLDALSZAM"));
-				book.setEbook(rs.getBoolean("ISEBOOK"));
-				book.setKotes(rs.getString("KOTES"));
-				book.setMeret(rs.getString("MERET"));
-				book.setMufaj(rs.getString("MUFAJNEV"));
-				book.setKiado(rs.getString("NEV"));
-				book.setFileName(rs.getString("IMAGE_URL"));
+				book.setId(rs.getInt("KID"));
+				book.setTitle(rs.getString("C"));
+				book.setPrice(rs.getInt("P"));
+				book.setPageNum(rs.getInt("OSZ"));
+				book.setEbook(rs.getBoolean("EB"));
+				book.setKotes(rs.getString("KO"));
+				book.setMeret(rs.getString("ME"));
+				book.setMufaj(rs.getString("MNEV"));
+				book.setKiado(rs.getString("N"));
+				book.setFileName(rs.getString("IURL"));
 				bookList.add(book);
 			}
 
@@ -349,5 +304,197 @@ public class ProductDaoImpl implements ProductDao {
 			DatabaseHelper.close(stm);
 			DatabaseHelper.close(conn);
 		}
+	}
+
+	public boolean hasPrevData(int bookId, List<SelectData> selectDataList) {
+		Connection conn = DatabaseHelper.getConnection();
+
+		PreparedStatement stm = null;
+		ResultSet rs = null;
+
+		try {
+
+			String query = "select min(KONYV_ID) from KONYV, KIADO, MUFAJOK ";
+			query += makeSearchQueryWhereClause(selectDataList);
+
+			if (selectDataList.size() > 0) {
+				query += " and ";
+			}
+			query += " KONYV.KIADO_ID = KIADO.KIADO_ID and KONYV.MUFAJ_ID = MUFAJOK.MUFAJ_ID order by KONYV.KONYV_ID";
+
+			stm = conn.prepareStatement(query);
+
+			int len = selectDataList.size();
+
+			for (int i = 0; i < len; i++) {
+
+				if (selectDataList.get(i).getColumn().getColumnType() == SelectData.COLUMN_TYPE.INT) {
+					stm.setInt(i + 1,
+							Integer.valueOf(selectDataList.get(i).getValue()));
+				} else if (selectDataList.get(i).getColumn().getColumnType() == SelectData.COLUMN_TYPE.STRING) {
+					stm.setString(i + 1, "%" + selectDataList.get(i).getValue()
+							+ "%");
+				}
+			}
+
+			rs = stm.executeQuery();
+
+			int id = 0;
+			System.out.println("firstId: " + id + " currentId: " + bookId);
+			if (rs.next()) {
+				id = rs.getInt(1);
+			}
+
+			if (id < bookId) {
+				return true;
+			}
+
+		} catch (SQLException e) {
+			LOGGER.error(e);
+			e.printStackTrace();
+		} finally {
+			DatabaseHelper.close(rs);
+			DatabaseHelper.close(stm);
+			DatabaseHelper.close(conn);
+		}
+
+		return false;
+	}
+
+	public boolean hasNextData(int bookId, List<SelectData> selectDataList) {
+		Connection conn = DatabaseHelper.getConnection();
+
+		PreparedStatement stm = null;
+		ResultSet rs = null;
+
+		try {
+
+			String query = "select max(KONYV_ID) from KONYV, KIADO, MUFAJOK ";
+			query += makeSearchQueryWhereClause(selectDataList);
+
+			if (selectDataList.size() > 0) {
+				query += " and ";
+			}
+
+			query += " KONYV.KIADO_ID = KIADO.KIADO_ID and KONYV.MUFAJ_ID = MUFAJOK.MUFAJ_ID";
+
+			System.out.println("hasNextQuery: " + query);
+
+			stm = conn.prepareStatement(query);
+
+			int len = selectDataList.size();
+
+			for (int i = 0; i < len; i++) {
+
+				if (selectDataList.get(i).getColumn().getColumnType() == SelectData.COLUMN_TYPE.INT) {
+					stm.setInt(i + 1,
+							Integer.valueOf(selectDataList.get(i).getValue()));
+				} else if (selectDataList.get(i).getColumn().getColumnType() == SelectData.COLUMN_TYPE.STRING) {
+					stm.setString(i + 1, "%" + selectDataList.get(i).getValue()
+							+ "%");
+				}
+			}
+
+			rs = stm.executeQuery();
+
+			int id = 0;
+
+			if (rs.next()) {
+				id = rs.getInt(1);
+			}
+
+			System.out.println("lastId: " + id + " currentId: " + bookId);
+			if (id > bookId) {
+				return true;
+			}
+
+		} catch (SQLException e) {
+			LOGGER.error(e);
+			e.printStackTrace();
+		} finally {
+			DatabaseHelper.close(rs);
+			DatabaseHelper.close(stm);
+			DatabaseHelper.close(conn);
+		}
+
+		return false;
+	}
+
+	private String makeSearchQueryWhereClause(List<SelectData> selectDataList) {
+		String query = "";
+
+		Collections.sort(selectDataList, new Comparator<SelectData>() {
+
+			@Override
+			public int compare(SelectData o1, SelectData o2) {
+				if (o1.getConcatenationOperator() == SelectData.ConcatenationOperator.OR) {
+					return -1;
+				} else {
+					return 1;
+				}
+			}
+
+		});
+
+		LOGGER.info(selectDataList);
+
+		boolean elso = true;
+
+		int i = 0;
+		int length = selectDataList.size();
+
+		while (i < length
+				&& selectDataList.get(i).getConcatenationOperator() == SelectData.ConcatenationOperator.OR) {
+
+			boolean string = (selectDataList.get(i).getRelationOperator() == SelectData.RelationOperator.LIKE);
+
+			if (elso == true) {
+				query += "where ( "
+						+ selectDataList.get(i).getColumn().toString() + " "
+						+ selectDataList.get(i).getRelationOperator() + " ";
+
+				query += "?";
+
+				elso = false;
+			} else {
+				query += " " + selectDataList.get(i).getColumn().toString()
+						+ " " + selectDataList.get(i).getRelationOperator()
+						+ " ";
+
+				query += "?";
+
+			}
+
+			i++;
+
+			if (length == i
+					|| selectDataList.get(i).getConcatenationOperator() != SelectData.ConcatenationOperator.OR) {
+				query += ")";
+			} else {
+				query += " or ";
+			}
+		}
+
+		if (i == 0) {
+			query += " where ";
+		}
+
+		while (i < length) {
+
+			if (i != 0) {
+				query += " and ";
+			}
+
+			boolean string = (selectDataList.get(i).getRelationOperator() == SelectData.RelationOperator.LIKE);
+
+			query += selectDataList.get(i).getColumn().toString() + " "
+					+ selectDataList.get(i).getRelationOperator() + " ";
+
+			query += "?";
+
+			i++;
+		}
+
+		return query;
 	}
 }

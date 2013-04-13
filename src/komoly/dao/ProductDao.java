@@ -6,11 +6,12 @@ import komoly.bean.BookData;
 import komoly.bean.MufajData;
 import komoly.bean.PublisherData;
 import komoly.bean.SelectData;
+import komoly.utils.Direction;
 
 public interface ProductDao {
 
 	List<BookData> select(List<SelectData> selectDataList, int selectCount,
-			int lastId);
+			int lastId, Direction direction);
 
 	/**
 	 * Get al publishers
@@ -24,4 +25,8 @@ public interface ProductDao {
 	void addBook(BookData bookData, String basePath);
 
 	void addPDFBook(BookData bookData, String basePath);
+
+	boolean hasPrevData(int bookId, List<SelectData> selectDataList);
+
+	boolean hasNextData(int bookId, List<SelectData> selectDataList);
 }
