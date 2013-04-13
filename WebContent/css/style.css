@@ -1,0 +1,97 @@
+@CHARSET "UTF-8";
+
+body {
+	background: url("../images/beige_paper.png") repeat #e9e9e9;
+	font-family: 'Noto Sans', sans-serif;
+	margin:0; 
+	padding:0;
+}
+
+.error {
+	background: red;
+}
+
+.errorDiv {
+	font-size: 0.8em;
+	color: red;
+	font-style: italic;
+}
+
+#container {
+	box-shadow: 0 10px 7px 6px #6f8b94;
+	border:2px dashed #c0d7de;
+	width: 1000px;
+	height: 100%;
+	background-color: #d4e7ed;
+	margin: 0 auto;
+	padding: 0px;
+	top:0;
+}
+
+#fenticsik{
+	width:100%;
+	background-color: #000000;
+	height: 30px;	
+}
+a:link    {color:#FFFFFF; text-decoration: none; }
+a:visited {color:#FFFFFF; text-decoration: none;}
+a:hover   {color:#FFFFFF; text-decoration: none;}
+a:active  {color:#FFFFFF; text-decoration: none;} 
+
+
+#login {
+	float:right;
+	margin-right: 100px;
+}
+
+#fenticsik span {
+	font-size: 0.8em;
+	color: white;
+}
+
+#header {
+	width: inherit;
+	height: 200px;
+}	
+
+#footer {
+	margin-top: 40px;
+	width: inherit;
+<<<<<<< HEAD
+	height: 100px;
+}
+
+.errorField {
+	font-size: 0.8em;
+	color: red;
+}
+=======
+	height: 100%;
+}
+
+#foot {
+	width: 620px;
+	margin: 0 auto;
+}
+
+#login input
+{
+	font-family:verdana;
+	font-size:14px;
+	color:grey;
+	width:150px;
+    border: 3px solid #ebe6e2;
+    border-radius: 5px;
+}
+ 
+#login button
+{
+	clear:both;
+	background:#CCCCCC;
+	color:#FFFFFF;
+	font-size:14px; 
+	border: 3px solid #ebe6e2;
+    border-radius: 5px;
+}
+ 
+>>>>>>> branch 'master' of https://github.com/gsanta/komoly-konyvesbolt.git
