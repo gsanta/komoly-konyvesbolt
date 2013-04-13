@@ -23,6 +23,8 @@
 			      <s:password id="password" name="password" />
 			      <s:submit name="login" />
 			    </p>
+			    
+			   <s:link beanclass="komoly.action.HomeActionBean"> Regisztráció </s:link>
 			  </div>
 			</div>
 
