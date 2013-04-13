@@ -37,7 +37,7 @@
                             <strong> Ár:</strong>
                         </td>
                         <td>
-                           ${book.price }
+                           ${book.price } Ft
                         </td>
                     </tr>
                   <tr>

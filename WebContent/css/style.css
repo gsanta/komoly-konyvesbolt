@@ -56,16 +56,14 @@ a:active  {color:#FFFFFF; text-decoration: none;}
 
 #footer {
 	margin-top: 40px;
+	padding-bottom: 50px;
 	width: inherit;
-<<<<<<< HEAD
-	height: 100px;
+	height: 250px;
 }
 
 .errorField {
 	font-size: 0.8em;
 	color: red;
-}
-=======
 	height: 100%;
 }
 
@@ -94,4 +92,25 @@ a:active  {color:#FFFFFF; text-decoration: none;}
     border-radius: 5px;
 }
  
->>>>>>> branch 'master' of https://github.com/gsanta/komoly-konyvesbolt.git
+ #kpanel,#kerszoveg
+{
+	width:700px;
+	margin: 0 auto;
+	padding:10px;
+	text-align:center;
+	background-color:#e5eecc;
+	border:solid 1px #c3c3c3;
+}
+#kpanel
+{
+	padding:20px;
+	display:none;
+}
+ 
+ .alsoszoveg {
+ 	color: #2e7c55;
+ 	font-size: 13px;
+ 	margin: 0 auto;
+ 	text-align: left;
+ 	margin-left: 100px;
+ }

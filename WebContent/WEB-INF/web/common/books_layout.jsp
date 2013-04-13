@@ -18,11 +18,9 @@
 			<div class="errorDiv">
 				<s:errors />
 			</div>
-			* Kötelező : Ennek szerepelnie kell a keresésben<br>
-			* Valamelyik : Ezekből legalább egynek kell szerepelnie a keresésben<br>
-			* Ha -1 az értéke valamelyiknek, akkor nem fog szerepelni a keresésben<br>
-			---------------------------------------<br><br>
+			<div id="kerszoveg">Kereső</div>
 			
+		<div id="kpanel">
 			<table>
 				<tr>
 					<td>
@@ -134,6 +132,13 @@
 			</table>
 		</s:form>	
 		
+			<p class="alsoszoveg"> 
+			* Kötelező : Ennek szerepelnie kell a keresésben<br>
+			* Valamelyik : Ezekből legalább egynek kell szerepelnie a keresésben<br>
+			* Ha -1 az értéke valamelyiknek, akkor nem fog szerepelni a keresésben<br>
+			</p>
+		</div>
+		
 		${bookList }
 		<script>
 
@@ -171,6 +176,8 @@
 			})
 		})
 		</script>
+		
+	
 	</s:layout-component>
 	
 </s:layout-render>

@@ -10,19 +10,38 @@
 <s:layout-render name="/WEB-INF/web/common/${actionBean.context.baseLayout}">
 	
 	<s:layout-component name="body">
-		<c:forEach var="item" items="${actionBean.basketList}">
-				${item.title } Mennyiség: ${item.count }
-				<s:link beanclass="komoly.action.BasketActionBean" event="deleteItem" >
+		<div class="konyv" >
+			<table>
+			<tr>
+				 <td>Megnevezés </td>
+				 <td>Mennyiség </td>
+				 <td>Törlés </td>
+			</tr>
+			<c:forEach var="item" items="${actionBean.basketList}">
+			<tr>
+				<td>${item.title }</td>	
+				<td>${item.count } db</td>
+				<td>
+					<s:link beanclass="komoly.action.BasketActionBean" event="deleteItem" >
 					<s:param name="deleteItemId" value="${ item.id}"></s:param>
-					töröl
-				</s:link>
-				<br>
-		</c:forEach>
-		Összesen:
-		${actionBean.allPrice } Ft <br>
-		<s:link beanclass="komoly.action.BasketActionBean" event="pay">Fizet</s:link>
-		<s:link beanclass="komoly.action.BasketActionBean" event="deleteAll" >
+					töröl	</s:link>
+				</td>
+			</tr>
+					</c:forEach>
+			</table>
+		</div>
+		 <br />  <br />
+		<div class="konyv" >
+			<table>
+			<tr>
+			<td> Összesen:  ${actionBean.allPrice } Ft </td>
+			<td><s:link beanclass="komoly.action.BasketActionBean" event="pay">Fizet</s:link></td>
+			<td> 		<s:link beanclass="komoly.action.BasketActionBean" event="deleteAll" >
 			Mindet töröl
-		</s:link>
+		</s:link></td>	
+			</tr>
+			</table>
+		</div>
+
 	</s:layout-component>
 </s:layout-render>

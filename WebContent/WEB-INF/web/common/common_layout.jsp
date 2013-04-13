@@ -6,13 +6,22 @@
 	<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 	<html>
 		<head>
+			<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
 			<link href='http://fonts.googleapis.com/css?family=Noto+Sans&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
 			<link href='css/style.css' rel='stylesheet' type='text/css'>			
 			<link href='css/menu.css' rel='stylesheet' type='text/css'>
 			<link href='css/login.css' rel='stylesheet' type='text/css'>
 			<link href='css/table.css' rel='stylesheet' type='text/css'>
 															
-			<script type="text/javascript" src="${contextPath}/js/jquery-1.7.1.js"></script>
+			<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+			<script> 
+				$(document).ready(function(){
+				  $("#kerszoveg").click(function(){
+				    $("#kpanel").slideToggle("slow");
+				  });
+				});
+			</script>
+
   		</head>
 		
 		<body>
@@ -22,7 +31,7 @@
 							    	
 				
 				<div id="login">
-					<span><s:link beanclass="komoly.action.RegistrationActionBean">regisztráció |</s:link></span>
+					<span><s:link beanclass="komoly.action.RegistrationActionBean">Regisztráció |</s:link></span>
 					<s:form style="display:inline" beanclass="komoly.action.LoginActionBean">
 						<span><s:label name="label.email" for="email" /></span>
 						<s:text id="email" name="email" />
@@ -43,8 +52,6 @@
 						<li><s:link beanclass="komoly.action.HomeActionBean"><span>Főoldal</span></s:link></li>
 						<li><s:link beanclass="komoly.action.BooksActionBean"><span>Könyvek</span></s:link></li>
 						<li><s:link beanclass="komoly.action.OwnBookUploadActionBean"><span>Könyv feltöltése</span></s:link></li>	
-						<li><s:link beanclass="komoly.action.UserDataActionBean"><span>Adatok</span></s:link></li>	
-
 					</ul>
 				</nav>
 

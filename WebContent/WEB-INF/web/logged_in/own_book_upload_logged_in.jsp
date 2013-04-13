@@ -25,7 +25,11 @@
 			<div class="errorDiv">
 				<s:errors></s:errors>
 			</div>
+		<div class="konyv">
 			<table>
+				<tr>
+					<td colspan="2">Könyv feltöltése</td>
+				</tr>
 				<tr>
 					<td>Cím:</td>
 					<td><s:text id="title" name="book.title" /></td>
@@ -69,6 +73,7 @@
 					</td>
 				</tr>
 			</table>
+		</div>
 		</s:form>
 	</s:layout-component>
 </s:layout-render>

@@ -24,14 +24,10 @@
 			      <s:submit name="login" />
 			    </p>
 			    
-			   <s:link beanclass="komoly.action.HomeActionBean"> Regisztráció </s:link>
+			   <s:link beanclass="komoly.action.RegistrationActionBean"> Regisztráció </s:link>
 			  </div>
 			</div>
-			<div id="registmain">
-				<p>
-			    	<s:link beanclass="komoly.action.RegistrationActionBean">regisztráció</s:link>
-			    </p>
-			</div>
+
 
 		</s:form>
 	</s:layout-component>

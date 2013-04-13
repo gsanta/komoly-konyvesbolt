@@ -12,7 +12,12 @@
 			<div class="errorDiv">
 				<s:errors globalErrorsOnly="true"/>
 			</div>
+			<div class="konyv">
 			<table>
+			<tr>
+					<td colspan="3"> Regisztráció
+					</td>
+				</tr>
 				<tr>
 					<td>
 						<s:label name="label.email" for="email" />
@@ -102,11 +107,12 @@
 					</td>
 				</tr>
 				<tr>
-					<td colspan="2">
-						<s:submit name="register" value="Regisztrálok"/>
+					<td colspan="3">
+						<p align="center"> <s:submit name="register" value="Regisztrálok"/> </p>
 					</td>
 				</tr>
 			</table>
+			</div>
 		</s:form>
 	</s:layout-component>
 </s:layout-render>

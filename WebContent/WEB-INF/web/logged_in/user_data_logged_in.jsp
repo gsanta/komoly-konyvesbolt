@@ -12,7 +12,13 @@
 			<div class="errorDiv">
 				<s:errors globalErrorsOnly="true"/>
 			</div>
+		<div class="konyv">
 			<table>
+			<tr>
+					<td colspan="3">
+						Adatok módosítása
+					</td>
+				</tr>
 				<tr>
 					<td>
 						<s:label name="label.email" for="email" />
@@ -85,6 +91,7 @@
 					</td>
 				</tr>
 			</table>
+			</div>
 		</s:form>
 	</s:layout-component>
 </s:layout-render>
