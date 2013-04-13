@@ -12,29 +12,20 @@
 			<div class="errorDiv">
 				<s:errors />
 			</div>
-			<table>
-				<tr>
-					<td>
-						<s:label name="label.email" for="email" />
-					</td>
-					<td>
-						<s:text id="email" name="email" />
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<s:label name="label.password" for="password"/>
-					</td>
-					<td>
-						<s:password id="password" name="password" />
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						<s:submit name="login" />
-					</td>
-				</tr>
-			</table>
+
+			<div id="loginmain">
+				<div id="inset">
+				<p class="loginsign">Bejelentkezés</p>
+			  	<p>
+			      <s:text id="email" name="email" />
+			    </p>
+			    <p>
+			      <s:password id="password" name="password" />
+			      <s:submit name="login" />
+			    </p>
+			  </div>
+			</div>
+
 		</s:form>
 	</s:layout-component>
 </s:layout-render>

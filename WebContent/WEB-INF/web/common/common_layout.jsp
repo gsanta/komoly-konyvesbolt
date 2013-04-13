@@ -8,7 +8,9 @@
 		<head>
 			<link href='http://fonts.googleapis.com/css?family=Noto+Sans&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
 			<link href='css/style.css' rel='stylesheet' type='text/css'>			
-			
+			<link href='css/menu.css' rel='stylesheet' type='text/css'>
+			<link href='css/login.css' rel='stylesheet' type='text/css'>
+												
 			<script type="text/javascript" src="${contextPath}/js/jquery-1.7.1.js"></script>
   		</head>
 		
@@ -32,15 +34,16 @@
 		  		<img src="images/logo.png" alt="logo" />
 		  		<img src="images/logo2.png" alt="logo" />
 		  		<br>
-		  		<s:link beanclass="komoly.action.HomeActionBean">
-		  			Főoldal
-		  		</s:link>
-		  		<s:link beanclass="komoly.action.BooksActionBean">
-		  			Könyvek
-		  		</s:link>
-		  		<s:link beanclass="komoly.action.OwnBookUploadActionBean">
-		  			Könyv feltöltés
-		  		</s:link>
+		  		<nav>
+					<ul>
+						<li><s:link beanclass="komoly.action.HomeActionBean"><span>Főoldal</span></s:link></li>
+						<li><s:link beanclass="komoly.action.BooksActionBean"><span>Könyvek</span></s:link></li>
+						<li><s:link beanclass="komoly.action.OwnBookUploadActionBean"><span>Könyv feltöltése</span></s:link></li>	
+						<li><s:link beanclass="komoly.action.UserDataActionBean"><span>Adatok</span></s:link></li>	
+
+					</ul>
+				</nav>
+
 		  	</div>
 			<s:layout-component name="body"></s:layout-component>
 			
