@@ -28,6 +28,8 @@ public final class Constants {
 	public static final int SELECT_COUNT = 3;
 
 	public static final String SEARCH_DATA = "SEARCH_DATA";
+	
+	public static final String COMMENT_LIST = "comment";
 
 	/**
 	 * Constructor.
