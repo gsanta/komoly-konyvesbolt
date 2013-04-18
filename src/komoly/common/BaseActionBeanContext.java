@@ -140,6 +140,20 @@ public class BaseActionBeanContext extends ActionBeanContext {
 
 		addToSession(Constants.BASKET_LIST, basketDataList);
 	}
+	public void deleteComm(int id){
+		List<CommentData> cdlist = null;
+		if (readFromSession(Constants.COMMENT_LIST) != null) {
+			cdlist = (List<CommentData>) readFromSession(Constants.COMMENT_LIST);
+		} else {
+			cdlist = new ArrayList<CommentData>();
+		}
+		
+		for (int j = 0; j<cdlist.size(); j++){
+			if (cdlist.get(j).getID() == id){
+				cdlist.remove(j);
+			}
+		}
+	}
 
 	@SuppressWarnings("unchecked")
 	public void deleteFromBasket(int id) {
