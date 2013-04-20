@@ -8,6 +8,7 @@ import java.util.Set;
 import komoly.action.AdminActionBean;
 import komoly.action.BasketActionBean;
 import komoly.action.BooksActionBean;
+import komoly.action.CommentsActionBean;
 import komoly.action.HomeActionBean;
 import komoly.action.LoginActionBean;
 import komoly.action.OwnBookUploadActionBean;
@@ -60,6 +61,9 @@ public class LoginInterceptor implements Interceptor {
 				OwnBookUploadActionBean.class);
 		ALLOWED_ACTION_CLASSES_MAP.get(Role.LOGGED_IN_USER).add(
 				BasketActionBean.class);
+
+		ALLOWED_ACTION_CLASSES_MAP.get(Role.LOGGED_IN_USER).add(
+				CommentsActionBean.class);
 
 		/**
 		 * Admins

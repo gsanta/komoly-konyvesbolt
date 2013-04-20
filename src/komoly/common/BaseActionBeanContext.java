@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import komoly.bean.BookData;
+import komoly.bean.CommentData;
 import komoly.bean.UserData;
 import komoly.utils.Constants;
 import komoly.utils.Role;
@@ -140,16 +141,17 @@ public class BaseActionBeanContext extends ActionBeanContext {
 
 		addToSession(Constants.BASKET_LIST, basketDataList);
 	}
-	public void deleteComm(int id){
+
+	public void deleteComm(int id) {
 		List<CommentData> cdlist = null;
 		if (readFromSession(Constants.COMMENT_LIST) != null) {
 			cdlist = (List<CommentData>) readFromSession(Constants.COMMENT_LIST);
 		} else {
 			cdlist = new ArrayList<CommentData>();
 		}
-		
-		for (int j = 0; j<cdlist.size(); j++){
-			if (cdlist.get(j).getID() == id){
+
+		for (int j = 0; j < cdlist.size(); j++) {
+			if (cdlist.get(j).getID() == id) {
 				cdlist.remove(j);
 			}
 		}

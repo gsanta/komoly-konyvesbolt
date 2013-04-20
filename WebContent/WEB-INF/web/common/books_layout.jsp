@@ -29,15 +29,36 @@
 						</s:checkbox> 
 					</td>
 					<td>
-						<s:select name="searchData.titleConcatenation" disabled="disabled">
-							<s:options-enumeration enum="komoly.bean.SelectData.ConcatenationOperator"/>						
-						</s:select> 
+						<c:choose>
+							<c:when test="${actionBean.searchData.titleSearch eq false }">
+								<s:select name="searchData.titleConcatenation" disabled="disabled">
+									<s:options-enumeration enum="komoly.bean.SelectData.ConcatenationOperator"/>						
+								</s:select> 
+							</c:when>
+							<c:otherwise>
+								<s:select name="searchData.titleConcatenation">
+									<s:options-enumeration enum="komoly.bean.SelectData.ConcatenationOperator"/>						
+								</s:select> 
+							</c:otherwise>
+						</c:choose>
+						
 					</td>
 					<td>
 						<s:label name="label.cim" for="cim"/>
 					</td>
 					<td>
-						<s:text id="cim" name="searchData.title" disabled="disabled"/>
+						<c:choose>
+							<c:when test="${actionBean.searchData.titleSearch eq false }">
+								<s:text id="cim" name="searchData.title" disabled="disabled"/>
+							</c:when>
+							<c:otherwise>
+								<s:text id="cim" name="searchData.title"/>
+							</c:otherwise>
+						</c:choose>
+						
+					</td>
+					<td>
+						 <s:errors field="searchData.title"/>
 					</td>
 				</tr>
 				<tr>
@@ -46,18 +67,43 @@
 						</s:checkbox> 
 					</td>
 					<td>
-						<s:select name="searchData.publisherConcatenation" disabled="disabled">
-							<s:options-enumeration enum="komoly.bean.SelectData.ConcatenationOperator"/>						
-						</s:select> 
+						 
+						
+						<c:choose>
+							<c:when test="${actionBean.searchData.publisherSearch eq false }">
+								<s:select name="searchData.publisherConcatenation" disabled="disabled">
+									<s:options-enumeration enum="komoly.bean.SelectData.ConcatenationOperator"/>						
+								</s:select>
+							</c:when>
+							<c:otherwise>
+								<s:select name="searchData.publisherConcatenation">
+									<s:options-enumeration enum="komoly.bean.SelectData.ConcatenationOperator"/>						
+								</s:select>
+							</c:otherwise>
+						</c:choose>
 					</td>
 					<td>
 						<s:label name="label.kiado" for="kiado" />
 					</td>
 					<td>
-						<s:select name="searchData.publisherId" disabled="disabled">
-							<s:option value="-1">Válassz...</s:option>
-							<s:options-collection collection="${actionBean.publishers}" value="id" label="name" />
-						</s:select>
+						<c:choose>
+							<c:when test="${actionBean.searchData.publisherSearch eq false }">
+								<s:select name="searchData.publisherId" disabled="disabled">
+									<s:option value="">Válassz...</s:option>
+									<s:options-collection collection="${actionBean.publishers}" value="id" label="name" />
+								</s:select>
+							</c:when>
+							<c:otherwise>
+								<s:select name="searchData.publisherId">
+									<s:option value="">Válassz...</s:option>
+									<s:options-collection collection="${actionBean.publishers}" value="id" label="name" />
+								</s:select>
+							</c:otherwise>
+						</c:choose>
+						
+					</td>
+					<td>
+						 <s:errors field="searchData.publisherId"/>
 					</td>
 				</tr>
 				<tr>
@@ -65,19 +111,41 @@
 						<s:checkbox name="searchData.mufajSearch" class="enableCheckBox">
 						</s:checkbox> 
 					</td>
-					<td>
-						<s:select name="searchData.mufajConcatenation" disabled="disabled">
-							<s:options-enumeration enum="komoly.bean.SelectData.ConcatenationOperator"/>						
-						</s:select> 
+					<td>						
+						<c:choose>
+							<c:when test="${actionBean.searchData.mufajSearch eq false }">
+								<s:select name="searchData.mufajConcatenation" disabled="disabled">
+									<s:options-enumeration enum="komoly.bean.SelectData.ConcatenationOperator"/>						
+								</s:select> 
+							</c:when>
+							<c:otherwise>
+								<s:select name="searchData.mufajConcatenation">
+									<s:options-enumeration enum="komoly.bean.SelectData.ConcatenationOperator"/>						
+								</s:select> 
+							</c:otherwise>
+						</c:choose>
 					</td>
 					<td>
 						<s:label name="label.mufaj" for="mufaj" />
 					</td>
 					<td>
-						<s:select name="searchData.mufajId" disabled="disabled">
-							<s:option value="-1">Válassz...</s:option>
-							<s:options-collection collection="${actionBean.mufajs}" value="id" label="name" />
-						</s:select>
+						<c:choose>
+							<c:when test="${actionBean.searchData.mufajSearch eq false }">
+								<s:select name="searchData.mufajId" disabled="disabled">
+									<s:option value="">Válassz...</s:option>
+									<s:options-collection collection="${actionBean.mufajs}" value="id" label="name" />
+								</s:select>
+							</c:when>
+							<c:otherwise>
+								<s:select name="searchData.mufajId" disabled="disabled">
+									<s:option value="">Válassz...</s:option>
+									<s:options-collection collection="${actionBean.mufajs}" value="id" label="name" />
+								</s:select>
+							</c:otherwise>
+						</c:choose>						
+					</td>
+					<td>
+						 <s:errors field="searchData.mufajId"/>
 					</td>
 				</tr>
 				<tr>
@@ -86,20 +154,50 @@
 						</s:checkbox> 
 					</td>
 					<td>
-						<s:select name="searchData.lengthConcatenation" disabled="disabled">
-							<s:options-enumeration enum="komoly.bean.SelectData.ConcatenationOperator"/>						
-						</s:select> 
+						
+						<c:choose>
+							<c:when test="${actionBean.searchData.lengthSearch eq false }">
+								<s:select name="searchData.lengthConcatenation" disabled="disabled">
+									<s:options-enumeration enum="komoly.bean.SelectData.ConcatenationOperator"/>						
+								</s:select> 
+							</c:when>
+							<c:otherwise>
+								<s:select name="searchData.lengthConcatenation">
+									<s:options-enumeration enum="komoly.bean.SelectData.ConcatenationOperator"/>						
+								</s:select>
+							</c:otherwise>
+						</c:choose>
+						
 					</td>
 					<td>
 						<s:label name="label.hossz" for="hossz" />
 					</td>
 					<td>
-						<s:text id="hossz" name="searchData.length" disabled="disabled"/>
+						<c:choose>
+							<c:when test="${actionBean.searchData.lengthSearch eq false }">
+								<s:text id="hossz" name="searchData.length" disabled="disabled"/>
+							</c:when>
+							<c:otherwise>
+								<s:text id="hossz" name="searchData.length"/>
+							</c:otherwise>
+						</c:choose>
 					</td>
 					<td>
-						&lt;<s:radio name="searchData.lengthRelation" value="LESS_THAN" disabled="disabled"/>
-						&gt;<s:radio name="searchData.lengthRelation" value="GREATER_THAN" disabled="disabled"/>
-						=<s:radio class="equals" name="searchData.lengthRelation" value="{actionBean.dummyEquals}" disabled="disabled"/>
+						<c:choose>
+							<c:when test="${actionBean.searchData.lengthSearch eq false }">
+								&lt;<s:radio name="searchData.lengthRelation" value="LESS_THAN" disabled="disabled"/>
+								&gt;<s:radio name="searchData.lengthRelation" value="GREATER_THAN" disabled="disabled"/>
+								=<s:radio class="equals" name="searchData.lengthRelation" value="EQUALS" disabled="disabled"/>
+							</c:when>
+							<c:otherwise>
+								&lt;<s:radio name="searchData.lengthRelation" value="LESS_THAN"/>
+								&gt;<s:radio name="searchData.lengthRelation" value="GREATER_THAN"/>
+								=<s:radio class="equals" name="searchData.lengthRelation" value="EQUALS"/>
+							</c:otherwise>
+						</c:choose>
+					</td>
+					<td>
+						 <s:errors field="searchData.length"/>
 					</td>
 				</tr>
 				<tr>
@@ -108,36 +206,71 @@
 						</s:checkbox> 
 					</td>
 					<td>
-						<s:select name="searchData.priceConcatenation" disabled="disabled">
-							<s:options-enumeration enum="komoly.bean.SelectData.ConcatenationOperator"/>						
-						</s:select> 
+					
+						<c:choose>
+							<c:when test="${actionBean.searchData.priceSearch eq false }">
+								<s:select name="searchData.priceConcatenation" disabled="disabled">
+									<s:options-enumeration enum="komoly.bean.SelectData.ConcatenationOperator"/>						
+								</s:select> 
+							</c:when>
+							<c:otherwise>
+								<s:select name="searchData.priceConcatenation">
+									<s:options-enumeration enum="komoly.bean.SelectData.ConcatenationOperator"/>						
+								</s:select> 
+							</c:otherwise>
+						</c:choose>
+						
 					</td>
 					<td>
 						<s:label name="label.ar" for="ar" />
 					</td>
 					<td>
-						<s:text id="ar" name="searchData.price" disabled="disabled"/>
+						
+						<c:choose>
+							<c:when test="${actionBean.searchData.priceSearch eq false }">
+								<s:text id="ar" name="searchData.price" disabled="disabled"/>
+							</c:when>
+							<c:otherwise>
+								<s:text id="ar" name="searchData.price"/>
+							</c:otherwise>
+						</c:choose>
 					</td>
 					<td>
-						&lt;<s:radio name="searchData.priceRelation" value="LESS_THAN" disabled="disabled"/>
-						&gt;<s:radio name="searchData.priceRelation" value="GREATER_THAN" disabled="disabled"/>
-						=<s:radio class="equals" name="searchData.priceRelation" value="EQUALS" checked="checked" disabled="disabled"/>
+						<c:choose>
+							<c:when test="${actionBean.searchData.priceSearch eq false }">
+								&lt;<s:radio name="searchData.priceRelation" value="LESS_THAN" disabled="disabled"/>
+								&gt;<s:radio name="searchData.priceRelation" value="GREATER_THAN" disabled="disabled"/>
+								=<s:radio class="equals" name="searchData.priceRelation" value="EQUALS" disabled="disabled"/>
+							</c:when>
+							<c:otherwise>
+								&lt;<s:radio name="searchData.priceRelation" value="LESS_THAN"/>
+								&gt;<s:radio name="searchData.priceRelation" value="GREATER_THAN"/>
+								=<s:radio class="equals" name="searchData.priceRelation" value="EQUALS"/>
+							</c:otherwise>
+						</c:choose>
+						
+					</td>
+					<td>
+						 <s:errors field="searchData.price"/>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="4">
-						<s:submit name="search" value="Keres" disabled="disabled"/>
+						<s:submit name="search" value="Keres"/>
 					</td>
 				</tr>
 			</table>
-		</s:form>	
-		
+			
 			<p class="alsoszoveg"> 
 			* Kötelező : Ennek szerepelnie kell a keresésben<br>
 			* Valamelyik : Ezekből legalább egynek kell szerepelnie a keresésben<br>
 			* Ha -1 az értéke valamelyiknek, akkor nem fog szerepelni a keresésben<br>
 			</p>
-		</div>
+			</div>
+		</s:form>	
+		
+			
+		
 		
 		${bookList }
 		<script>

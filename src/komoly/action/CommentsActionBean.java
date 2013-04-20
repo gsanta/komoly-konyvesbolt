@@ -1,42 +1,40 @@
 package komoly.action;
 
-import java.util.ArrayList;
 import java.util.List;
-import komoly.dao.CommentDao;
+
 import komoly.bean.CommentData;
 import komoly.common.BaseActionBean;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
-import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
-
-import org.apache.log4j.Logger;
 
 public class CommentsActionBean extends BaseActionBean {
 
-  static final String COMMENTS = "/WEB-INF/web/comments.jsp";
+	static final String COMMENTS = "/WEB-INF/web/comments.jsp";
 	static final String FORM = "/WEB-INF/web/form.jsp";
-	
-	public Resolution list(){
+
+	public Resolution list() {
 		return new ForwardResolution(COMMENTS);
 	}
-	
-	public Resolution form(){
+
+	@DefaultHandler
+	public Resolution form() {
 		if (getContext().getUser() != null) {
 			return new ForwardResolution(FORM);
-		} else return new ForwardResolution(COMMENTS);
+		} else
+			return new ForwardResolution(COMMENTS);
 	}
-	/*public Resolution save(){
-		
-			CommentData comment = getCommentData();
-			getCommentDao().save(comment);
-			
-			return new RedirectResolution(CommentsActionBean.class);
-			
-	}*/
-	
-	
-	
+
+	/*
+	 * public Resolution save(){
+	 * 
+	 * CommentData comment = getCommentData(); getCommentDao().save(comment);
+	 * 
+	 * return new RedirectResolution(CommentsActionBean.class);
+	 * 
+	 * }
+	 */
+
 	private List<CommentData> comments;
 	private int deleteitem;
 
@@ -54,8 +52,7 @@ public class CommentsActionBean extends BaseActionBean {
 
 		return list();
 	}
-	
-	
+
 	public List<CommentData> getComments() {
 		return comments;
 	}

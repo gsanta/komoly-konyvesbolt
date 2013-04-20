@@ -2,11 +2,11 @@
     pageEncoding="ISO-8859-1"%>
 <%@ include file="/WEB-INF/web/common/taglibs.jsp"%>
 
-<s:layout-render name="/WEB-INF/web/common/common_layout.jsp"
+<s:layout-render name="/WEB-INF/web/common/logged_in_layout.jsp"
   title="Contact Information">
   <s:layout-component name="body">
 
-    <s:form beanclass="stripesbook.action.ContactFormActionBean">
+    <s:form beanclass="komoly.action.CommentsActionBean">
       <table class="form">
         <tr>
           <td>Comment</td>
@@ -27,7 +27,7 @@
         <tr>
           <td>&nbsp;</td>
           <td>
-            <s:submit name="kuldes" value="KÃ¼ldÃ©s"/>
+            <s:submit name="kuldes" value="Küldés"/>
           </td>
         </tr>
       </table>

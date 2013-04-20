@@ -29,9 +29,9 @@
 		    <param-value>komoly.common.BaseActionBeanContext</param-value>
 	    </init-param>
 	    <init-param>
-	      	<param-name>PopulationStrategy.Class</param-name>
-	    	<param-value>komoly.utils.MyPopulationStrategy</param-value>
-	    </init-param>
+      		<param-name>PopulationStrategy.Class</param-name>
+      		<param-value>net.sourceforge.stripes.tag.BeanFirstPopulationStrategy</param-value>
+    	</init-param>
  	</filter>
 	
 	<filter-mapping>
