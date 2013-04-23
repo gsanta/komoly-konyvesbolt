@@ -64,6 +64,8 @@ public class BooksActionBean extends BaseActionBean {
 
 	private Direction direction;
 
+	private boolean[] test = { true };
+
 	private SelectData.RelationOperator dummyEquals = SelectData.RelationOperator.EQUALS;
 
 	/**
@@ -154,6 +156,8 @@ public class BooksActionBean extends BaseActionBean {
 	}
 
 	public Resolution search() {
+
+		System.out.println("searchenabled: " + searchData.getSearchEnabled());
 
 		LOGGER.info("title: " + searchData.getTitle());
 
@@ -327,12 +331,12 @@ public class BooksActionBean extends BaseActionBean {
 		this.direction = direction;
 	}
 
-	public SelectData.RelationOperator getDummyEquals() {
-		return dummyEquals;
+	public boolean[] getTest() {
+		return test;
 	}
 
-	public void setDummyEquals(SelectData.RelationOperator dummyEquals) {
-		this.dummyEquals = dummyEquals;
+	public void setTest(boolean[] test) {
+		this.test = test;
 	}
 
 	private List<SelectData> makeSelectDataListFromSearchData(

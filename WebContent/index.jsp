@@ -4,7 +4,9 @@
 <%@include file="/WEB-INF/web/common/taglibs.jsp"%>
 
 <s:url beanclass="komoly.action.HomeActionBean" var="loginURL" />
-	
+
 <script type="text/javascript">
 	window.location = '${loginURL}';
+	
+	  
 </script>

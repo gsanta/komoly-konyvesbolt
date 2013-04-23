@@ -20,7 +20,7 @@
                       
                     </tr>
                     <tr>
-                                       <th rowspan="7" width="200px"><img src="book_pics/${book.fileName}"/></th>
+                       <th rowspan="7" width="200px"><img src="book_pics/${book.fileName}"/></th>
                         <td >
                             <strong> Ár:</strong>
                         </td>
@@ -72,17 +72,25 @@
                     	<td>
                     	<strong> Kosárba helyezés </strong>
                     	</td>
-                    <td>
-                 			<s:form beanclass="komoly.action.BooksActionBean">
-							<s:hidden name="basketData.id" value="${book.id }"/>
-							<s:hidden name="basketData.title" value="${book.title }"/>
-							<s:hidden name="basketData.price" value="${book.price }"/>
-							<s:hidden name="pagerId" value="${actionBean.books.get(0).getId() }"/>
-							<s:hidden name="direction" value="RIGHT"/>
-							Kosárba<s:text name="basketData.count" size="2">1</s:text>
-							<s:submit name="toBasket" value="Kosárba" />
-						</s:form>
-                    </td>  
+	                    <td>
+	                 			<s:form beanclass="komoly.action.BooksActionBean">
+								<s:hidden name="basketData.id" value="${book.id }"/>
+								<s:hidden name="basketData.title" value="${book.title }"/>
+								<s:hidden name="basketData.price" value="${book.price }"/>
+								<s:hidden name="pagerId" value="${actionBean.books.get(0).getId() }"/>
+								<s:hidden name="direction" value="RIGHT"/>
+								Kosárba<s:text name="basketData.count" size="2">1</s:text>
+								<s:submit name="toBasket" value="Kosárba" />
+							</s:form>
+	                    </td>  
+                    </tr>
+                    <tr>
+                    	<td colspan="2">
+                    		<s:link beanclass="komoly.action.CommentsActionBean" event="list">
+                    			<s:param name="bookId" value="${book.id }"></s:param>
+                    			Hozzászólások megtekintése
+                    		</s:link>
+                    	</td>
                     </tr>
                 </table>
             </div>

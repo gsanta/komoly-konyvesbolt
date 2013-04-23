@@ -3,6 +3,7 @@ package komoly.dao;
 import java.util.List;
 
 import komoly.bean.BookData;
+import komoly.bean.CommentData;
 import komoly.bean.MufajData;
 import komoly.bean.PublisherData;
 import komoly.bean.SelectData;
@@ -29,4 +30,8 @@ public interface ProductDao {
 	boolean hasPrevData(int bookId, List<SelectData> selectDataList);
 
 	boolean hasNextData(int bookId, List<SelectData> selectDataList);
+
+	List<CommentData> getCommmentListByBookId(int bookId);
+
+	void addComment(CommentData commentData);
 }

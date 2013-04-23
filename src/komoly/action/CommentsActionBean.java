@@ -4,25 +4,48 @@ import java.util.List;
 
 import komoly.bean.CommentData;
 import komoly.common.BaseActionBean;
+import komoly.dao.ProductDao;
+import komoly.dao.impl.ProductDaoImpl;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
 
 public class CommentsActionBean extends BaseActionBean {
 
-	static final String COMMENTS = "/WEB-INF/web/comments.jsp";
-	static final String FORM = "/WEB-INF/web/form.jsp";
+	/**
+	 * Main view
+	 */
+	private static final String VIEW = "/WEB-INF/web/comments.jsp";
 
-	public Resolution list() {
-		return new ForwardResolution(COMMENTS);
-	}
+	/**
+	 * Logged in Main View
+	 */
+	private static final String VIEW_LOGGED_IN = "/WEB-INF/web/logged_in/comments_logged_in.jsp";
+
+	private ProductDao productDao = new ProductDaoImpl();
+
+	private int bookId;
+
+	private CommentData actComment = new CommentData();
 
 	@DefaultHandler
-	public Resolution form() {
+	public Resolution list() {
+		comments = productDao.getCommmentListByBookId(bookId);
+
 		if (getContext().getUser() != null) {
-			return new ForwardResolution(FORM);
+			return new ForwardResolution(VIEW_LOGGED_IN);
 		} else
-			return new ForwardResolution(COMMENTS);
+			return new ForwardResolution(VIEW);
+	}
+
+	public Resolution addComment() {
+
+		if (getContext().getUser() != null) {
+			actComment.setUserID(getContext().getUser().getId());
+			productDao.addComment(actComment);
+			return new ForwardResolution(VIEW_LOGGED_IN);
+		} else
+			return new ForwardResolution(VIEW);
 	}
 
 	/*
@@ -59,5 +82,21 @@ public class CommentsActionBean extends BaseActionBean {
 
 	public void setComments(List<CommentData> comments) {
 		this.comments = comments;
+	}
+
+	public int getBookId() {
+		return bookId;
+	}
+
+	public void setBookId(int bookId) {
+		this.bookId = bookId;
+	}
+
+	public CommentData getActComment() {
+		return actComment;
+	}
+
+	public void setActComment(CommentData actComment) {
+		this.actComment = actComment;
 	}
 }

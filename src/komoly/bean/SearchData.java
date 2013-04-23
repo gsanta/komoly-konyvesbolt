@@ -1,6 +1,11 @@
 package komoly.bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SearchData {
+
+	private List<String> searchEnabled = new ArrayList<String>();
 
 	private String title;
 
@@ -8,11 +13,13 @@ public class SearchData {
 
 	private SelectData.ConcatenationOperator titleConcatenation;
 
+	private boolean titleDisabled;
+
 	private int length = 0;
 
 	private boolean lengthSearch;
 
-	private SelectData.RelationOperator lengthRelation;
+	private SelectData.RelationOperator lengthRelation = SelectData.RelationOperator.EQUALS;
 
 	private SelectData.ConcatenationOperator lengthConcatenation;
 
@@ -20,7 +27,7 @@ public class SearchData {
 
 	private boolean priceSearch;
 
-	private SelectData.RelationOperator priceRelation;
+	private SelectData.RelationOperator priceRelation = SelectData.RelationOperator.EQUALS;
 
 	private SelectData.ConcatenationOperator priceConcatenation;
 
@@ -198,4 +205,47 @@ public class SearchData {
 		this.publisherSearch = publisherSearch;
 	}
 
+	public boolean isMufajDisabled() {
+		if (mufajId > 0) {
+			return false;
+		}
+		return true;
+	}
+
+	public boolean isPublisherDisabled() {
+		if (publisherId > 0) {
+			return false;
+		}
+		return true;
+	}
+
+	public boolean isPriceDisabled() {
+		if (price > 0) {
+			return false;
+		}
+		return true;
+	}
+
+	public boolean isLengthDisabled() {
+		if (length > 0) {
+			return false;
+		}
+		return true;
+	}
+
+	public boolean isTitleDisabled() {
+		if (title == null || title.equals("")) {
+			return true;
+		}
+		return false;
+	}
+
+	public List<String> getSearchEnabled() {
+		searchEnabled.add("price");
+		return searchEnabled;
+	}
+
+	public void setSearchEnabled(List<String> searchEnabled) {
+		this.searchEnabled = searchEnabled;
+	}
 }
