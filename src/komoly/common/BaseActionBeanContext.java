@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import komoly.bean.BookData;
 import komoly.bean.CommentData;
 import komoly.bean.UserData;
+import komoly.bean.RatingData;
 import komoly.utils.Constants;
 import komoly.utils.Role;
 import net.sourceforge.stripes.action.ActionBeanContext;
