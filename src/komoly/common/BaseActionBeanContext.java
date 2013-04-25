@@ -156,6 +156,22 @@ public class BaseActionBeanContext extends ActionBeanContext {
 			}
 		}
 	}
+	/*értékelés törlése*/
+	public void delRating(int id){
+		List<RatingData> rlist = null;
+		if (readFromSession(Constants.RATING_LIST) != null) {
+			rlist = (List<RatingData>) readFromSession(Constants.RATING_LIST);
+		} else {
+			rlist = new ArrayList<RatingData>();
+		}
+		
+		for (int k = 0; k<rlist.size(); k++){
+			if (rlist.get(k).getID() == id){
+				rlist.remove(k);
+			}
+		}
+	}
+	
 
 	@SuppressWarnings("unchecked")
 	public void deleteFromBasket(int id) {
