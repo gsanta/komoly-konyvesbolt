@@ -30,6 +30,8 @@ public final class Constants {
 	public static final String SEARCH_DATA = "SEARCH_DATA";
 	
 	public static final String COMMENT_LIST = "comment";
+	
+	public static final String RATING_LIST = "rating";
 
 	/**
 	 * Constructor.
