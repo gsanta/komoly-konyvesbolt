@@ -8,6 +8,7 @@ import komoly.dao.ProductDao;
 import komoly.dao.impl.ProductDaoImpl;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 
 public class CommentsActionBean extends BaseActionBean {
@@ -30,7 +31,10 @@ public class CommentsActionBean extends BaseActionBean {
 
 	@DefaultHandler
 	public Resolution list() {
+		System.out.println("bookId2: " + bookId);
 		comments = productDao.getCommmentListByBookId(bookId);
+
+		actComment.setBookID(bookId);
 
 		if (getContext().getUser() != null) {
 			return new ForwardResolution(VIEW_LOGGED_IN);
@@ -43,9 +47,12 @@ public class CommentsActionBean extends BaseActionBean {
 		if (getContext().getUser() != null) {
 			actComment.setUserID(getContext().getUser().getId());
 			productDao.addComment(actComment);
-			return new ForwardResolution(VIEW_LOGGED_IN);
+			System.out.println("addComment");
+			return new RedirectResolution("/Comments.action?list=&bookId="
+					+ actComment.getBookID());
 		} else
-			return new ForwardResolution(VIEW);
+			return new RedirectResolution("/Comments.action?list=&bookId="
+					+ actComment.getBookID());
 	}
 
 	/*

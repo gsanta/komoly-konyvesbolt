@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import komoly.bean.BookData;
@@ -501,13 +500,47 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	public List<CommentData> getCommmentListByBookId(int bookId) {
+		//		List<CommentData> commentDataList = new ArrayList<CommentData>();
+		//		commentDataList.add(new CommentData("Ez a könyv szar", new Date(), 1,
+		//				1, 1));
+		//		commentDataList.add(new CommentData("Ez a könyv szar tényleg szar",
+		//				new Date(), 2, 1, 2));
+		//		commentDataList.add(new CommentData("Ez a könyv szar tényleg szar",
+		//				new Date(), 1, 2, 3));
+		//		return commentDataList;
+		Connection conn = DatabaseHelper.getConnection();
+
+		PreparedStatement stm = null;
+		ResultSet rs = null;
+
 		List<CommentData> commentDataList = new ArrayList<CommentData>();
-		commentDataList.add(new CommentData("Ez a könyv szar", new Date(), 1,
-				1, 1));
-		commentDataList.add(new CommentData("Ez a könyv szar tényleg szar",
-				new Date(), 2, 1, 2));
-		commentDataList.add(new CommentData("Ez a könyv szar tényleg szar",
-				new Date(), 1, 2, 3));
+
+		try {
+
+			stm = conn
+					.prepareStatement("select CONTENT,CREATE_DATE,KOMMENT.USER_ID,COMMENT_ID,NEV from KOMMENT, USERS where USERS.USER_ID = KOMMENT.USER_ID AND BOOK_ID = ?");
+			stm.setInt(1, bookId);
+			rs = stm.executeQuery();
+
+			while (rs.next()) {
+				CommentData commentData = new CommentData();
+				commentData.setBookID(bookId);
+				commentData.setComment(rs.getString("CONTENT"));
+				commentData.setDate(rs.getDate("CREATE_DATE"));
+				commentData.setUserID(rs.getInt("USER_ID"));
+				commentData.setID(rs.getInt("COMMENT_ID"));
+				commentData.setUserName(rs.getString("NEV"));
+				commentDataList.add(commentData);
+			}
+		} catch (SQLException e) {
+			LOGGER.error(e);
+			e.printStackTrace();
+		} finally {
+			DatabaseHelper.close(rs);
+			DatabaseHelper.close(stm);
+			DatabaseHelper.close(conn);
+		}
+
 		return commentDataList;
 	}
 
@@ -519,7 +552,7 @@ public class ProductDaoImpl implements ProductDao {
 
 		try {
 
-			stm = conn.prepareStatement("select max(COMMENT_ID) from COMMENT");
+			stm = conn.prepareStatement("select max(COMMENT_ID) from KOMMENT");
 			rs = stm.executeQuery();
 
 			int newId = 0;
@@ -531,7 +564,7 @@ public class ProductDaoImpl implements ProductDao {
 			DatabaseHelper.close(stm);
 
 			stm = conn
-					.prepareStatement("insert into COMMENT (CONTENT,CREATE_DATE,USER_ID,BOOK_ID,COMMENT_ID) values(?,to_date('04-SZEPT.-29','RR-MON-DD'),?,?,?)");
+					.prepareStatement("insert into KOMMENT (CONTENT,CREATE_DATE,USER_ID,BOOK_ID,COMMENT_ID) values(?,to_date('04-SZEPT.-29','RR-MON-DD'),?,?,?)");
 
 			stm.setString(1, commentData.getComment());
 			stm.setInt(2, commentData.getUserID());

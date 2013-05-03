@@ -11,25 +11,18 @@
 <s:layout-render name="/WEB-INF/web/common/${actionBean.context.baseLayout}"
   title="Comment list">
   <s:layout-component name="body">
-  	<table>
-      <tr>
-        <th>Text</th>
-        <th>Date</th>
-        <th>ID</th>
-        <th>bookID</th>
-        <th>userID</th>
-      </tr>
-      <c:forEach var="comment" items="${actionBean.comments}">
-        <tr>
-          <td>${comment.comment}</td>
-          <td>${comment.date}</td>
-          <td>${comment.ID}</td>
-          <td>${comment.bookID}</td>
-          <td>${comment.userID}</td>
-        </tr>
-      </c:forEach>
-    </table>
+  	<c:forEach var="comment" items="${actionBean.comments}">
+	  	<div class="comment">
+			<div class="comment-header">${comment.userName} | ${comment.date}</div>  	
+	  		<div class="comment-body">
+	  			${comment.comment}
+	  		</div>
+	  	</div>
+  	</c:forEach>
+  	
     ${form }
+    
+    <s:link beanclass="komoly.action.BooksActionBean">vissza</s:link>
   </s:layout-component>
 </s:layout-render>
 </s:layout-definition>

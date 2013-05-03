@@ -9,7 +9,7 @@
   <s:layout-component name="form">
     
     <s:form beanclass="komoly.action.CommentsActionBean">
-    	<s:hidden name="actComment.bookID" value="${actionBean.bookId }"></s:hidden>
+    	<s:hidden name="actComment.bookID" value="${actionBean.bookId}"></s:hidden>
       <table class="form">
         <tr>
           <td>Comment</td>

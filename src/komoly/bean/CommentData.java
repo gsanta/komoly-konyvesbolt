@@ -9,6 +9,7 @@ public class CommentData {
 	private int userID;
 	private int bookID;
 	private int ID;
+	private String userName;
 
 	public CommentData(String comment, Date date, int userID, int bookID, int iD) {
 		super();
@@ -61,5 +62,13 @@ public class CommentData {
 
 	public void setID(int iD) {
 		ID = iD;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 }

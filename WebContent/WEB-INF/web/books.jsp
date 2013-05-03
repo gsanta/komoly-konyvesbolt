@@ -80,6 +80,14 @@
                            ${book.meret }
                         </td>
                     </tr>
+                    <tr>
+                    	<td colspan="2">
+                    		<s:link beanclass="komoly.action.CommentsActionBean" event="list">
+                    			<s:param name="bookId" value="${book.id }"></s:param>
+                    			Hozzászólások megtekintése
+                    		</s:link>
+                    	</td>
+                    </tr>
                 </table>
             </div>
 

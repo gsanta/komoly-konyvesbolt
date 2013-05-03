@@ -62,9 +62,6 @@ public class LoginInterceptor implements Interceptor {
 		ALLOWED_ACTION_CLASSES_MAP.get(Role.LOGGED_IN_USER).add(
 				BasketActionBean.class);
 
-		ALLOWED_ACTION_CLASSES_MAP.get(Role.LOGGED_IN_USER).add(
-				CommentsActionBean.class);
-
 		/**
 		 * Admins
 		 */
@@ -84,6 +81,9 @@ public class LoginInterceptor implements Interceptor {
 		ALLOWED_ACTION_CLASSES_MAP.get(Role.VISITOR).add(BooksActionBean.class);
 		ALLOWED_ACTION_CLASSES_MAP.get(Role.VISITOR).add(
 				RegistrationActionBean.class);
+
+		ALLOWED_ACTION_CLASSES_MAP.get(Role.VISITOR).add(
+				CommentsActionBean.class);
 	}
 
 	/**
