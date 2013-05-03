@@ -7,6 +7,8 @@
 <%@ include file="/WEB-INF/web/common/taglibs.jsp"%>
 <c:set var="prefix" value="${actionBean.getClass().name}"/>
 
+<s:layout-definition>
+
 <s:layout-render name="/WEB-INF/web/common/common_layout.jsp">
 	<s:layout-component name="login">
 		<s:link beanclass="komoly.action.AdminActionBean">
@@ -19,12 +21,9 @@
 	  			Adatok
 	  	</s:link>
 		<div id="login">
-			<s:form beanclass="komoly.action.LoginActionBean">
-				<span><s:label name="label.email" for="email" /></span>
-				<s:text id="email" name="email" />
-				<span><s:label name="label.password" for="password"/></span>
-				<s:password id="password" name="password" />
-				<s:submit name="login" />
+			<span>${actionBean.context.user.name }</span>
+			<s:form style="display:inline" beanclass="komoly.action.LoginActionBean">
+				<s:submit name="logout" value="Kijelentkezés"/>
 			</s:form>
 		</div>
 	</s:layout-component>
@@ -33,3 +32,4 @@
 		${body }
 	</s:layout-component>
 </s:layout-render>
+</s:layout-definition>

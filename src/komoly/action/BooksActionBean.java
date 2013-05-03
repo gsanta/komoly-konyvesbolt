@@ -16,6 +16,7 @@ import komoly.utils.Direction;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
@@ -44,6 +45,10 @@ public class BooksActionBean extends BaseActionBean {
 	private List<PublisherData> publishers;
 
 	private List<MufajData> mufajs;
+
+	private int rate;
+
+	private int bookId;
 
 	@ValidateNestedProperties({
 			@Validate(field = "price", minvalue = 1, on = "search"),
@@ -92,9 +97,10 @@ public class BooksActionBean extends BaseActionBean {
 		//				SelectData.RelationOperator.GREATER_THAN,
 		//				SelectData.ConcatenationOperator.OR,
 		//				SelectData.Column.OLDALSZAM, "600"));
-
+		int userId = getContext().getUser() != null ? getContext().getUser()
+				.getId() : -1;
 		books = productDao.select(selectDataList, Constants.SELECT_COUNT, 0,
-				Direction.RIGHT);
+				Direction.RIGHT, userId);
 
 		if (books.size() >= 1) {
 			prevData = productDao.hasPrevData(books.get(0).getId(),
@@ -131,8 +137,10 @@ public class BooksActionBean extends BaseActionBean {
 			selectDataList = makeSelectDataListFromSearchData(searchData);
 		}
 
+		int userId = getContext().getUser() != null ? getContext().getUser()
+				.getId() : -1;
 		books = productDao.select(selectDataList, Constants.SELECT_COUNT,
-				pagerId, direction);
+				pagerId, direction, userId);
 
 		if (books.size() >= 1) {
 			prevData = productDao.hasPrevData(books.get(0).getId(),
@@ -174,8 +182,10 @@ public class BooksActionBean extends BaseActionBean {
 		System.out.println("isTitleSearch: " + searchData.isTitleSearch());
 		List<SelectData> selectDataList = makeSelectDataListFromSearchData(searchData);
 
+		int userId = getContext().getUser() != null ? getContext().getUser()
+				.getId() : -1;
 		books = productDao.select(selectDataList, Constants.SELECT_COUNT, 0,
-				Direction.RIGHT);
+				Direction.RIGHT, userId);
 
 		if (books.size() >= 1) {
 			prevData = productDao.hasPrevData(books.get(0).getId(),
@@ -212,8 +222,10 @@ public class BooksActionBean extends BaseActionBean {
 			selectDataList = makeSelectDataListFromSearchData(searchData);
 		}
 
+		int userId = getContext().getUser() != null ? getContext().getUser()
+				.getId() : -1;
 		books = productDao.select(selectDataList, Constants.SELECT_COUNT,
-				pagerId, Direction.RIGHT);
+				pagerId, Direction.RIGHT, userId);
 
 		if (books.size() >= 1) {
 			prevData = productDao.hasPrevData(books.get(0).getId(),
@@ -235,6 +247,23 @@ public class BooksActionBean extends BaseActionBean {
 		 */
 		if (getContext().getUser() != null) {
 			return new ForwardResolution(VIEW_LOGGED_IN);
+		}
+
+		return new ForwardResolution(VIEW);
+	}
+
+	public Resolution rate() {
+
+		LOGGER.info("basket info: " + basketData.getId() + "  "
+				+ basketData.getTitle() + "  " + basketData.getCount());
+		/**
+		 * logged in
+		 */
+		if (getContext().getUser() != null) {
+			productDao.rate(bookId, getContext().getUser().getId(), rate);
+
+			//return new ForwardResolution(VIEW_LOGGED_IN);
+			return new RedirectResolution("/Books.action");
 		}
 
 		return new ForwardResolution(VIEW);
@@ -337,6 +366,22 @@ public class BooksActionBean extends BaseActionBean {
 
 	public void setTest(boolean[] test) {
 		this.test = test;
+	}
+
+	public int getRate() {
+		return rate;
+	}
+
+	public void setRate(int rate) {
+		this.rate = rate;
+	}
+
+	public int getBookId() {
+		return bookId;
+	}
+
+	public void setBookId(int bookId) {
+		this.bookId = bookId;
 	}
 
 	private List<SelectData> makeSelectDataListFromSearchData(

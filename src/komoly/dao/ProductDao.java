@@ -12,7 +12,7 @@ import komoly.utils.Direction;
 public interface ProductDao {
 
 	List<BookData> select(List<SelectData> selectDataList, int selectCount,
-			int lastId, Direction direction);
+			int lastId, Direction direction, int userId);
 
 	/**
 	 * Get al publishers
@@ -34,4 +34,6 @@ public interface ProductDao {
 	List<CommentData> getCommmentListByBookId(int bookId);
 
 	void addComment(CommentData commentData);
+
+	void rate(int bookId, int userId, int rate);
 }

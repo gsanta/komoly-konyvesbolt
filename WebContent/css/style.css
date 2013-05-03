@@ -114,3 +114,21 @@ a:active  {color:#FFFFFF; text-decoration: none;}
  	text-align: left;
  	margin-left: 100px;
  }
+ 
+.star {
+	height: 30px;
+ 	width: 30px;
+ 	float: left;
+}
+
+.star-off {
+	background: url("../images/star_black.png") top left no-repeat;
+}
+
+.star-on {
+	background: url("../images/star.png") top left no-repeat;
+}
+
+.hover-enabled:hover {
+	background: url("../images/star_hover.png") top left no-repeat;
+}

@@ -34,6 +34,12 @@ public class BookData {
 
 	private int count;
 
+	private boolean ratedByUser;
+
+	private int rating;
+
+	private int ratingCount;
+
 	public int getId() {
 		return id;
 	}
@@ -152,6 +158,30 @@ public class BookData {
 
 	public void setPdf(FileBean pdf) {
 		this.pdf = pdf;
+	}
+
+	public boolean isRatedByUser() {
+		return ratedByUser;
+	}
+
+	public void setRatedByUser(boolean ratedByUser) {
+		this.ratedByUser = ratedByUser;
+	}
+
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
+
+	public int getRatingCount() {
+		return ratingCount;
+	}
+
+	public void setRatingCount(int ratingCount) {
+		this.ratingCount = ratingCount;
 	}
 
 	@Override

@@ -30,7 +30,7 @@ public class ProductDaoImpl implements ProductDao {
 	private final Logger LOGGER = Logger.getLogger(ProductDaoImpl.class);
 
 	public List<BookData> select(List<SelectData> selectDataList,
-			int selectCount, int lastId, Direction direction) {
+			int selectCount, int lastId, Direction direction, int userId) {
 
 		List<BookData> bookList = new ArrayList<BookData>();
 
@@ -86,8 +86,37 @@ public class ProductDaoImpl implements ProductDao {
 			LOGGER.info(query);
 			rs = stm.executeQuery();
 
+			ResultSet rs2;
 			while (rs.next()) {
 				BookData book = new BookData();
+
+				stm = conn
+						.prepareStatement("select avg(RATING) as AVG, count(RATING) as COUNT from KONYV inner join RATING on KONYV.KONYV_ID = RATING.BOOK_ID where KONYV_ID = ?");
+				stm.setInt(1, rs.getInt("KID"));
+
+				rs2 = stm.executeQuery();
+
+				if (rs2.next()) {
+					book.setRating(Math.round(rs2.getFloat("AVG")));
+					book.setRatingCount(rs2.getInt("COUNT"));
+				} else {
+					book.setRating(0);
+					book.setRatingCount(0);
+				}
+
+				stm = conn
+						.prepareStatement("select KONYV_ID from KONYV inner join RATING on KONYV.KONYV_ID = RATING.BOOK_ID where KONYV_ID = ? and USER_ID = ?");
+				stm.setInt(1, rs.getInt("KID"));
+				stm.setInt(2, userId);
+
+				rs2 = stm.executeQuery();
+
+				if (rs2.next()) {
+					book.setRatedByUser(true);
+				} else {
+					book.setRatedByUser(false);
+				}
+
 				book.setId(rs.getInt("KID"));
 				book.setTitle(rs.getString("C"));
 				book.setPrice(rs.getInt("P"));
@@ -570,6 +599,33 @@ public class ProductDaoImpl implements ProductDao {
 			stm.setInt(2, commentData.getUserID());
 			stm.setInt(3, commentData.getBookID());
 			stm.setInt(4, newId);
+
+			stm.executeUpdate();
+
+		} catch (SQLException e) {
+			LOGGER.error(e);
+			e.printStackTrace();
+		} finally {
+			DatabaseHelper.close(rs);
+			DatabaseHelper.close(stm);
+			DatabaseHelper.close(conn);
+		}
+	}
+
+	public void rate(int bookId, int userId, int rate) {
+		Connection conn = DatabaseHelper.getConnection();
+
+		PreparedStatement stm = null;
+		ResultSet rs = null;
+
+		try {
+
+			stm = conn
+					.prepareStatement("insert into RATING (BOOK_ID,USER_ID,RATING) values(?,?,?)");
+
+			stm.setInt(1, bookId);
+			stm.setInt(2, userId);
+			stm.setInt(3, rate);
 
 			stm.executeUpdate();
 

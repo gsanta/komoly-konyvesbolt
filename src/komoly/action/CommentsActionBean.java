@@ -76,13 +76,6 @@ public class CommentsActionBean extends BaseActionBean {
 		this.deleteitem = deleteitem;
 	}
 
-	public Resolution deleteComment() {
-
-		getContext().deleteComm(deleteitem);
-
-		return list();
-	}
-
 	public List<CommentData> getComments() {
 		return comments;
 	}

@@ -82,6 +82,22 @@
                     </tr>
                     <tr>
                     	<td colspan="2">
+                    		Értékelés:
+                    		<c:forEach begin="1" end="5" var="i">
+                    			<c:choose>
+                    				<c:when test="${i <= book.rating }">
+                    					<div class="star star-on"></div>
+                    				</c:when>
+                    				<c:otherwise>
+                    					<div class="star star-off"></div>
+                    				</c:otherwise>
+                    			</c:choose>
+                    		</c:forEach>
+                    		szavazatok: ${book.ratingCount }
+                    	</td>
+                    </tr>
+                    <tr>
+                    	<td colspan="2">
                     		<s:link beanclass="komoly.action.CommentsActionBean" event="list">
                     			<s:param name="bookId" value="${book.id }"></s:param>
                     			Hozzászólások megtekintése

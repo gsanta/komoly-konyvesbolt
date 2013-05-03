@@ -69,6 +69,48 @@
                         </td>
                     </tr>
                     <tr>
+                    	<td colspan="2">
+                    		Értékelés:
+                    		
+                    		<c:choose>
+                   				<c:when test="${book.ratedByUser == true }">
+		                    		<c:forEach begin="1" end="5" var="i">
+		                    			<c:choose>
+		                    				<c:when test="${i <= book.rating }">
+		                    						<div class="star star-on"></div>
+		                    				</c:when>
+		                    				<c:otherwise>
+		                    						<div class="star star-off"></div>
+		                    				</c:otherwise>
+		                    			</c:choose>
+		                    		</c:forEach>
+		                    	</c:when>
+		                    	<c:otherwise>
+		                    		<c:forEach begin="1" end="5" var="i">
+		                    			<c:choose>
+		                    				<c:when test="${i <= book.rating }">
+		                    					<s:link beanclass="komoly.action.BooksActionBean" event="rate">
+		                    						<div class="star star-on hover-enabled"></div>
+		                    						<s:param name="bookId">${book.id }</s:param>
+		                    						<s:param name="rate">${i }</s:param>
+		                    					</s:link>
+		                    				</c:when>
+		                    				<c:otherwise>
+		                    					<s:link beanclass="komoly.action.BooksActionBean" event="rate">
+		                    						<div class="star star-off hover-enabled"></div>
+		                    						<s:param name="bookId">${book.id }</s:param>
+		                    						<s:param name="rate">${i }</s:param>
+		                    					</s:link>
+		                    				</c:otherwise>
+		                    			</c:choose>
+		                    		</c:forEach>
+		                    	</c:otherwise>
+                    		</c:choose>
+                    		
+                    		szavazatok: ${book.ratingCount }
+                    	</td>
+                    </tr>
+                    <tr>
                     	<td>
                     	<strong> Kosárba helyezés </strong>
                     	</td>
