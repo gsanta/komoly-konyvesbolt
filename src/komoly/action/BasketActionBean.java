@@ -4,8 +4,11 @@ import java.util.List;
 
 import komoly.bean.BookData;
 import komoly.common.BaseActionBean;
+import komoly.dao.ProductDao;
+import komoly.dao.impl.ProductDaoImpl;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 
 public class BasketActionBean extends BaseActionBean {
@@ -53,6 +56,17 @@ public class BasketActionBean extends BaseActionBean {
 			price += b.getPrice() * b.getCount();
 		}
 		return price;
+	}
+
+	public Resolution pay() {
+		List<BookData> bookList = getContext().getBasket();
+		ProductDao productDao = new ProductDaoImpl();
+		if (productDao.removeBooksFromShops(bookList, getContext().getUser()
+				.getId()) == true) {
+			getContext().clearBasket();
+		}
+		return new RedirectResolution(getClass());
+
 	}
 
 	public int getDeleteItemId() {

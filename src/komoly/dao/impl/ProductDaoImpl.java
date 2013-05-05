@@ -762,4 +762,80 @@ public class ProductDaoImpl implements ProductDao {
 
 		return data;
 	}
+
+	public boolean removeBooksFromShops(List<BookData> bookList, int userId) {
+
+		Connection conn = DatabaseHelper.getConnection();
+
+		PreparedStatement stm = null;
+		ResultSet rs = null;
+		boolean ret = true;
+		try {
+
+			for (BookData data : bookList) {
+				int db = -1;
+				stm = conn
+						.prepareStatement("select DARAB from KONYV_HOL where KONYV_ID = ? and BOLT_ID = ?");
+
+				stm.setInt(1, data.getId());
+				stm.setInt(2, data.getBoltId());
+
+				rs = stm.executeQuery();
+
+				if (rs.next()) {
+					db = rs.getInt("DARAB");
+				}
+
+				DatabaseHelper.close(rs);
+				DatabaseHelper.close(stm);
+
+				if (db >= data.getCount()) {
+					stm = conn
+							.prepareStatement("update KONYV_HOL set DARAB = ? where KONYV_ID = ? and BOLT_ID = ?");
+					stm.setInt(1, db - data.getCount());
+					stm.setInt(2, data.getId());
+					stm.setInt(3, data.getBoltId());
+
+					stm.executeUpdate();
+
+					DatabaseHelper.close(stm);
+
+					stm = conn
+							.prepareStatement("select max(VASARLAS_ID) from VASARLASOK");
+					rs = stm.executeQuery();
+
+					int newId = 1;
+
+					if (rs.next()) {
+						newId = rs.getInt(1) + 1;
+					}
+
+					DatabaseHelper.close(stm);
+
+					stm = conn
+							.prepareStatement("insert into VASARLASOK values(?,?,?,?,'',?,SYSDATE,0)");
+
+					stm.setInt(1, newId);
+					stm.setInt(2, userId);
+					stm.setInt(3, data.getId());
+					stm.setInt(4, data.getBoltId());
+					stm.setInt(5, data.getCount());
+					stm.executeUpdate();
+				} else {
+					ret = false;
+				}
+
+			}
+
+		} catch (SQLException e) {
+			LOGGER.error(e);
+			e.printStackTrace();
+		} finally {
+			DatabaseHelper.close(rs);
+			DatabaseHelper.close(stm);
+			DatabaseHelper.close(conn);
+		}
+
+		return ret;
+	}
 }

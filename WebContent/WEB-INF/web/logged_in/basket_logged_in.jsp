@@ -38,18 +38,7 @@
 			<td>
 				<s:link beanclass="komoly.action.BasketActionBean" event="pay">
 					Fizet
-					<c:forEach var="item" items="${actionBean.basketList}">
-						<s:param name=""></s:param>
-						<tr>
-							<td>${item.title }</td>	
-							<td>${item.count } db</td>
-							<td>
-								<s:link beanclass="komoly.action.BasketActionBean" event="deleteItem" >
-								<s:param name="deleteItemId" value="${ item.id}"></s:param>
-								töröl	</s:link>
-							</td>
-						</tr>
-					</c:forEach>
+					
 				</s:link>
 			</td>
 			<td> 		<s:link beanclass="komoly.action.BasketActionBean" event="deleteAll" >

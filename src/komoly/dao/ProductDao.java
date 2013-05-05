@@ -44,4 +44,6 @@ public interface ProductDao {
 
 	ShopAndBookData getShopById(int bookId, int shopId);
 
+	boolean removeBooksFromShops(List<BookData> bookList, int userId);
+
 }
