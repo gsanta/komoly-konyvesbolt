@@ -215,15 +215,16 @@ public class UserDaoImpl implements UserDao {
 
 				rs = stm.executeQuery();
 
-				if (rs.next()) {
+				if (rs.next() && rs.getInt(1) > 0) {
 					LOGGER.info("Mar van ilyen email cim!");
+					errors.add("Ez az email cím már foglalt!");
 					return false;
 				}
 
 				DatabaseHelper.close(rs);
 				DatabaseHelper.close(stm);
 
-				String update = "update ADMIN set NEV = ? EMAIL = ? where ADMIN_ID = ?";
+				String update = "update ADMIN set NEV = ?, EMAIL = ? where ADMIN_ID = ?";
 
 				stm = conn.prepareStatement(update);
 				stm.setString(1, userData.getName());

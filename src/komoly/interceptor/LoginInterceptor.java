@@ -69,7 +69,8 @@ public class LoginInterceptor implements Interceptor {
 				new HashSet<Class<? extends BaseActionBean>>());
 
 		ALLOWED_ACTION_CLASSES_MAP.get(Role.ADMIN).add(AdminActionBean.class);
-
+		ALLOWED_ACTION_CLASSES_MAP.get(Role.ADMIN)
+				.add(UserDataActionBean.class);
 		/**
 		 * Visitor
 		 */

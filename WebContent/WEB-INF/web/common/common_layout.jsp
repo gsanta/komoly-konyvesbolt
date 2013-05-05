@@ -47,14 +47,16 @@
 		  		<img src="images/logo.png" alt="logo" />
 		  		<img src="images/logo2.png" alt="logo" />
 		  		<br>
-		  		<nav>
-					<ul>
-						<li><s:link beanclass="komoly.action.HomeActionBean"><span>Főoldal</span></s:link></li>
-						<li><s:link beanclass="komoly.action.BooksActionBean"><span>Könyvek</span></s:link></li>
-						<li><s:link beanclass="komoly.action.OwnBookUploadActionBean"><span>Könyv feltöltése</span></s:link></li>	
-					</ul>
-				</nav>
-
+		  		<s:layout-component name="nav">
+		  			<nav>
+						<ul>
+							<li><s:link beanclass="komoly.action.HomeActionBean"><span>Főoldal</span></s:link></li>
+							<li><s:link beanclass="komoly.action.BooksActionBean"><span>Könyvek</span></s:link></li>
+							<li><s:link beanclass="komoly.action.OwnBookUploadActionBean"><span>Könyv feltöltése</span></s:link></li>	
+						</ul>
+					</nav>
+		  		</s:layout-component>
+		  		
 		  	</div>
 			<s:layout-component name="body"></s:layout-component>
 			

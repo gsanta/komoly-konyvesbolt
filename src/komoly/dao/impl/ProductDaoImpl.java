@@ -16,6 +16,7 @@ import komoly.bean.CommentData;
 import komoly.bean.MufajData;
 import komoly.bean.PublisherData;
 import komoly.bean.SelectData;
+import komoly.bean.ShopAndBookData;
 import komoly.dao.ProductDao;
 import komoly.utils.DatabaseHelper;
 import komoly.utils.Direction;
@@ -612,6 +613,51 @@ public class ProductDaoImpl implements ProductDao {
 		}
 	}
 
+	public BookData getBookById(int bookId) {
+		String query = "select KONYV.KONYV_ID as KID, KONYV.CIM as C, PRICE as P, OLDALSZAM as OSZ, ISEBOOK as EB, KOTES as KO,"
+				+ "MERET as ME, MUFAJNEV as MNEV, NEV as N, IMAGE_URL as IURL from KONYV, KIADO, MUFAJOK "
+				+ "where KONYV.KIADO_ID = KIADO.KIADO_ID and KONYV.MUFAJ_ID = MUFAJOK.MUFAJ_ID and KONYV_ID = ?";
+		Connection conn = DatabaseHelper.getConnection();
+
+		PreparedStatement stm = null;
+		ResultSet rs = null;
+
+		BookData book = null;
+
+		try {
+
+			stm = conn.prepareStatement(query);
+
+			stm.setInt(1, bookId);
+
+			rs = stm.executeQuery();
+
+			if (rs.next()) {
+				book = new BookData();
+				book.setId(rs.getInt("KID"));
+				book.setTitle(rs.getString("C"));
+				book.setPrice(rs.getInt("P"));
+				book.setPageNum(rs.getInt("OSZ"));
+				book.setEbook(rs.getBoolean("EB"));
+				book.setKotes(rs.getString("KO"));
+				book.setMeret(rs.getString("ME"));
+				book.setMufaj(rs.getString("MNEV"));
+				book.setKiado(rs.getString("N"));
+				book.setFileName(rs.getString("IURL"));
+			}
+
+		} catch (SQLException e) {
+			LOGGER.error(e);
+			e.printStackTrace();
+		} finally {
+			DatabaseHelper.close(rs);
+			DatabaseHelper.close(stm);
+			DatabaseHelper.close(conn);
+		}
+
+		return book;
+	}
+
 	public void rate(int bookId, int userId, int rate) {
 		Connection conn = DatabaseHelper.getConnection();
 
@@ -637,5 +683,83 @@ public class ProductDaoImpl implements ProductDao {
 			DatabaseHelper.close(stm);
 			DatabaseHelper.close(conn);
 		}
+	}
+
+	public List<ShopAndBookData> getShopListById(int bookId) {
+		Connection conn = DatabaseHelper.getConnection();
+
+		PreparedStatement stm = null;
+		ResultSet rs = null;
+
+		List<ShopAndBookData> shopAndBookDataList = new ArrayList<ShopAndBookData>();
+
+		try {
+
+			stm = conn
+					.prepareStatement("select NEV,KONYV_HOL.BOLT_ID as BOLT_ID,DARAB from KONYV_HOL inner join BOLT on "
+							+ "BOLT.BOLT_ID = KONYV_HOL.BOLT_ID where KONYV_ID = ?");
+
+			stm.setInt(1, bookId);
+
+			rs = stm.executeQuery();
+
+			while (rs.next()) {
+				ShopAndBookData data = new ShopAndBookData();
+				data.setBoltId(rs.getInt("BOLT_ID"));
+				data.setCount(rs.getInt("DARAB"));
+				data.setBoltName(rs.getString("NEV"));
+				data.setBookId(bookId);
+				shopAndBookDataList.add(data);
+			}
+
+		} catch (SQLException e) {
+			LOGGER.error(e);
+			e.printStackTrace();
+		} finally {
+			DatabaseHelper.close(rs);
+			DatabaseHelper.close(stm);
+			DatabaseHelper.close(conn);
+		}
+		System.out.println("konyvlista: " + shopAndBookDataList.size());
+		return shopAndBookDataList;
+	}
+
+	public ShopAndBookData getShopById(int bookId, int shopId) {
+		Connection conn = DatabaseHelper.getConnection();
+
+		PreparedStatement stm = null;
+		ResultSet rs = null;
+
+		ShopAndBookData data = null;
+
+		try {
+
+			stm = conn
+					.prepareStatement("select NEV,KONYV_HOL.BOLT_ID as BOLT_ID,DARAB from KONYV_HOL inner join BOLT on "
+							+ "BOLT.BOLT_ID = KONYV_HOL.BOLT_ID where KONYV_ID = ? and KONYV_HOL.BOLT_ID = ?");
+
+			stm.setInt(1, bookId);
+			stm.setInt(2, shopId);
+
+			rs = stm.executeQuery();
+
+			while (rs.next()) {
+				data = new ShopAndBookData();
+				data.setBoltId(rs.getInt("BOLT_ID"));
+				data.setCount(rs.getInt("DARAB"));
+				data.setBoltName(rs.getString("NEV"));
+				data.setBookId(bookId);
+			}
+
+		} catch (SQLException e) {
+			LOGGER.error(e);
+			e.printStackTrace();
+		} finally {
+			DatabaseHelper.close(rs);
+			DatabaseHelper.close(stm);
+			DatabaseHelper.close(conn);
+		}
+
+		return data;
 	}
 }

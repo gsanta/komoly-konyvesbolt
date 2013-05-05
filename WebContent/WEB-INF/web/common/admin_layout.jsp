@@ -14,9 +14,6 @@
 		<s:link beanclass="komoly.action.AdminActionBean">
 		  		Admin
 	  	</s:link>
-		<s:link beanclass="komoly.action.BasketActionBean">
-	  			Kosár
-	  	</s:link>
 		<s:link beanclass="komoly.action.UserDataActionBean">
 	  			Adatok
 	  	</s:link>
@@ -26,6 +23,15 @@
 				<s:submit name="logout" value="Kijelentkezés"/>
 			</s:form>
 		</div>
+	</s:layout-component>
+	
+	<s:layout-component name="nav">
+		<nav>
+			<ul>
+				<li><s:link beanclass="komoly.action.HomeActionBean"><span>Főoldal</span></s:link></li>
+				<li><s:link beanclass="komoly.action.BooksActionBean"><span>Könyvek</span></s:link></li>
+			</ul>
+		</nav>
 	</s:layout-component>
 	
 	<s:layout-component name="body">

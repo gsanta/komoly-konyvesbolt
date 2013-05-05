@@ -8,11 +8,13 @@ import komoly.bean.MufajData;
 import komoly.bean.PublisherData;
 import komoly.bean.SearchData;
 import komoly.bean.SelectData;
+import komoly.bean.ShopAndBookData;
 import komoly.common.BaseActionBean;
 import komoly.dao.ProductDao;
 import komoly.dao.impl.ProductDaoImpl;
 import komoly.utils.Constants;
 import komoly.utils.Direction;
+import komoly.utils.Role;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -20,6 +22,8 @@ import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
+import net.sourceforge.stripes.validation.ValidationErrors;
+import net.sourceforge.stripes.validation.ValidationMethod;
 
 import org.apache.log4j.Logger;
 
@@ -120,7 +124,8 @@ public class BooksActionBean extends BaseActionBean {
 		/**
 		 * logged in
 		 */
-		if (getContext().getUser() != null) {
+		if (getContext().getUser() != null
+				&& getContext().getRole() == Role.LOGGED_IN_USER) {
 			return new ForwardResolution(VIEW_LOGGED_IN);
 		}
 
@@ -156,7 +161,8 @@ public class BooksActionBean extends BaseActionBean {
 		/**
 		 * logged in
 		 */
-		if (getContext().getUser() != null) {
+		if (getContext().getUser() != null
+				&& getContext().getUser().getRole() == Role.LOGGED_IN_USER) {
 			return new ForwardResolution(VIEW_LOGGED_IN);
 		}
 
@@ -205,7 +211,8 @@ public class BooksActionBean extends BaseActionBean {
 		/**
 		 * logged in
 		 */
-		if (getContext().getUser() != null) {
+		if (getContext().getUser() != null
+				&& getContext().getUser().getRole() == Role.LOGGED_IN_USER) {
 			return new ForwardResolution(VIEW_LOGGED_IN);
 		}
 
@@ -245,7 +252,8 @@ public class BooksActionBean extends BaseActionBean {
 		/**
 		 * logged in
 		 */
-		if (getContext().getUser() != null) {
+		if (getContext().getUser() != null
+				&& getContext().getUser().getRole() == Role.LOGGED_IN_USER) {
 			return new ForwardResolution(VIEW_LOGGED_IN);
 		}
 
@@ -259,7 +267,8 @@ public class BooksActionBean extends BaseActionBean {
 		/**
 		 * logged in
 		 */
-		if (getContext().getUser() != null) {
+		if (getContext().getUser() != null
+				&& getContext().getUser().getRole() == Role.LOGGED_IN_USER) {
 			productDao.rate(bookId, getContext().getUser().getId(), rate);
 
 			//return new ForwardResolution(VIEW_LOGGED_IN);
@@ -430,5 +439,16 @@ public class BooksActionBean extends BaseActionBean {
 		}
 
 		return selectDataList;
+	}
+
+	@ValidationMethod(on = "toBasket")
+	public void validateBookCount(final ValidationErrors errors) {
+		ShopAndBookData data = productDao.getShopById(basketData.getId(),
+				basketData.getBoltId());
+
+		if (basketData.getCount() > data.getCount()) {
+			//			errors.addGlobalError(new SimpleError(
+			//					"Nincs ennyi könyv a boltban!"));
+		}
 	}
 }

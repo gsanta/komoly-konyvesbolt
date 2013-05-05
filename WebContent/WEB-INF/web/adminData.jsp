@@ -29,7 +29,7 @@
 				</tr>
 				<tr>
 					<td colspan="2">
-						<s:submit name="change" value="Elfogad"/>
+						<s:submit name="changeAdmin" value="Elfogad"/>
 					</td>
 				</tr>
 			</table>

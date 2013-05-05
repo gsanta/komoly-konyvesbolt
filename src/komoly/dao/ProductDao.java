@@ -7,6 +7,7 @@ import komoly.bean.CommentData;
 import komoly.bean.MufajData;
 import komoly.bean.PublisherData;
 import komoly.bean.SelectData;
+import komoly.bean.ShopAndBookData;
 import komoly.utils.Direction;
 
 public interface ProductDao {
@@ -33,7 +34,14 @@ public interface ProductDao {
 
 	List<CommentData> getCommmentListByBookId(int bookId);
 
+	BookData getBookById(int bookId);
+
 	void addComment(CommentData commentData);
 
 	void rate(int bookId, int userId, int rate);
+
+	List<ShopAndBookData> getShopListById(int bookId);
+
+	ShopAndBookData getShopById(int bookId, int shopId);
+
 }

@@ -8,6 +8,8 @@ public class BasketData {
 
 	private int count = 1;
 
+	private int boltId;
+
 	public int getId() {
 		return id;
 	}
@@ -31,4 +33,13 @@ public class BasketData {
 	public void setCount(int count) {
 		this.count = count;
 	}
+
+	public int getBoltId() {
+		return boltId;
+	}
+
+	public void setBoltId(int boltId) {
+		this.boltId = boltId;
+	}
+
 }

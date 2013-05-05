@@ -34,6 +34,8 @@ public class BookData {
 
 	private int count;
 
+	private int boltId;
+
 	private boolean ratedByUser;
 
 	private int rating;
@@ -182,6 +184,14 @@ public class BookData {
 
 	public void setRatingCount(int ratingCount) {
 		this.ratingCount = ratingCount;
+	}
+
+	public int getBoltId() {
+		return boltId;
+	}
+
+	public void setBoltId(int boltId) {
+		this.boltId = boltId;
 	}
 
 	@Override
