@@ -120,6 +120,18 @@ public class ProductDaoImpl implements ProductDao {
 					book.setRatedByUser(false);
 				}
 
+				stm = conn
+						.prepareStatement("select * from SZERZOK WHERE KONYV_ID = ?");
+				stm.setInt(1, rs.getInt("KID"));
+				rs2 = stm.executeQuery();
+
+				String szerzo = "";
+				while (rs2.next()) {
+					szerzo += rs2.getString("SZERZO") + " ";
+				}
+
+				book.setAuthor(szerzo);
+
 				book.setId(rs.getInt("KID"));
 				book.setTitle(rs.getString("C"));
 				book.setPrice(rs.getInt("P"));

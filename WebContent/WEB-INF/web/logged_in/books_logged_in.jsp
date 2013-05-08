@@ -36,6 +36,14 @@
                            ${book.kiado }
                         </td>
                     </tr>
+                    <tr>
+                        <td >
+                            <strong> Szerző:</strong>
+                        </td>
+                        <td>
+                           ${book.author }
+                        </td>
+                    </tr>
                   <tr>
                         <td >
                             <strong>Műfaj: </strong>
@@ -115,7 +123,7 @@
                     	<td colspan="2">
                     		<s:link beanclass="komoly.action.CommentsActionBean" event="list">
                     			<s:param name="bookId" value="${book.id }"></s:param>
-                    			Hozzászólások megtekintése
+                    			Részletek és vásárlás
                     		</s:link>
                     	</td>
                     </tr>

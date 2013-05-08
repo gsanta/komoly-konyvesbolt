@@ -6,6 +6,8 @@ public class BookData {
 
 	private int id;
 
+	private String author;
+
 	private String title;
 
 	private int price;
@@ -192,6 +194,14 @@ public class BookData {
 
 	public void setBoltId(int boltId) {
 		this.boltId = boltId;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 
 	@Override

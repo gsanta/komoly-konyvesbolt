@@ -48,6 +48,14 @@
                            ${book.kiado }
                         </td>
                     </tr>
+                    <tr>
+                        <td >
+                            <strong> Szerző:</strong>
+                        </td>
+                        <td>
+                           ${book.author }
+                        </td>
+                    </tr>
                   <tr>
                         <td >
                             <strong>Műfaj: </strong>
