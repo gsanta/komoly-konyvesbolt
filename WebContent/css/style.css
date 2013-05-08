@@ -132,3 +132,19 @@ a:active  {color:#FFFFFF; text-decoration: none;}
 .hover-enabled:hover {
 	background: url("../images/star_hover.png") top left no-repeat;
 }
+
+.comment-header {
+	background: lightgrey;
+}
+
+.comment-body {
+	border: 1px solid black;
+	padding: 5px;
+}
+
+.basket {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 5px;
+	background: lightgrey;
+}

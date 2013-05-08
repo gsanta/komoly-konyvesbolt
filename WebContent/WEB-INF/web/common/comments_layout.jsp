@@ -74,6 +74,7 @@
             </div>
     ${shops }
   	
+  	<h2>Hozzászólások:</h2>
   	<c:forEach var="comment" items="${actionBean.comments}">
 	  	<div class="comment">
 			<div class="comment-header">${comment.userName} | ${comment.date}</div>  	

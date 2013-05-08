@@ -10,7 +10,7 @@
   	<s:errors globalErrorsOnly="true"></s:errors>
 
   	<c:forEach var="shop" items="${actionBean.shopList }">
-  		<s:form beanclass="komoly.action.CommentsActionBean">
+  		<s:form beanclass="komoly.action.CommentsActionBean" class="basket">
 			<s:hidden name="book.id" value="${actionBean.book.id }"/>
 			<s:hidden name="book.title" value="${actionBean.book.title }"/>
 			<s:hidden name="book.price" value="${actionBean.book.price }"/>
