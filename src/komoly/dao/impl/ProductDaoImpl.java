@@ -615,7 +615,7 @@ public class ProductDaoImpl implements ProductDao {
 			DatabaseHelper.close(stm);
 
 			stm = conn
-					.prepareStatement("insert into KOMMENT (CONTENT,CREATE_DATE,USER_ID,BOOK_ID,COMMENT_ID) values(?,to_date('04-SZEPT.-29','RR-MON-DD'),?,?,?)");
+					.prepareStatement("insert into KOMMENT (CONTENT,CREATE_DATE,USER_ID,BOOK_ID,COMMENT_ID) values(?,SYSDATE,?,?,?)");
 
 			stm.setString(1, commentData.getComment());
 			stm.setInt(2, commentData.getUserID());
