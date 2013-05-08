@@ -8,7 +8,6 @@ import komoly.utils.Constants;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
-import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.validation.EmailTypeConverter;
@@ -80,7 +79,7 @@ public class LoginActionBean extends BaseActionBean {
 		if (getContext().getUser() != null) {
 			return new RedirectResolution(HomeActionBean.class);
 		}
-		return new ForwardResolution(VIEW);
+		return new RedirectResolution(HomeActionBean.class);
 	}
 
 	/**
