@@ -65,6 +65,8 @@ public class ProductDaoImpl implements ProductDao {
 				+ orderString
 				+ ") where ROWNUM <= ? order by KID";
 
+		System.out.println("queryyy: " + query);
+
 		try {
 			stm = conn.prepareStatement(query);
 
@@ -122,7 +124,8 @@ public class ProductDaoImpl implements ProductDao {
 				book.setTitle(rs.getString("C"));
 				book.setPrice(rs.getInt("P"));
 				book.setPageNum(rs.getInt("OSZ"));
-				book.setEbook(rs.getBoolean("EB"));
+				//book.setEbook(rs.getBoolean("EB"));
+				book.setEbook(false);
 				book.setKotes(rs.getString("KO"));
 				book.setMeret(rs.getString("ME"));
 				book.setMufaj(rs.getString("MNEV"));
@@ -301,16 +304,22 @@ public class ProductDaoImpl implements ProductDao {
 
 			if (bookData.getImage().getContentType().equals("image/jpeg")) {
 				ext = ".jpg";
+			} else if (bookData.getImage().getContentType().equals("image/png")) {
+				ext = ".png";
+			} else if (bookData.getImage().getContentType().equals("image/gif")) {
+				ext = ".gif";
 			}
+
+			System.out.println("basePath: " + basePath);
 
 			bookData.getImage().save(
 					new File(basePath + "/book_pics/" + newId + ext));
 
-			bookData.getPdf().save(
-					new File(basePath + "/book_pics/" + newId + ext));
+			//			bookData.getPdf().save(
+			//					new File(basePath + "/book_pics/" + newId + ext));
 
 			stm = conn
-					.prepareStatement("insert into KONYV (CIM,ADDED,PRICE,KIADO_ID,MUFAJ_ID,OLDALSZAM,KOTES,MERET,ISEBOOK,KONYV_ID,IMAGE_URL) values(?,to_date('04-SZEPT.-29','RR-MON-DD'),?,null,?,?,null,null,1,?,?)");
+					.prepareStatement("insert into KONYV (CIM,ADDED,PRICE,KIADO_ID,MUFAJ_ID,OLDALSZAM,KOTES,MERET,ISEBOOK,KONYV_ID,IMAGE_URL) values(?,to_date('04-SZEPT.-29','RR-MON-DD'),?,1,?,?,null,null,1,?,?)");
 
 			stm.setString(1, bookData.getTitle());
 			stm.setInt(2, bookData.getPrice());
